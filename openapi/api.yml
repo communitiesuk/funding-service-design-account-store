@@ -1,0 +1,60 @@
+openapi: "3.0.0"
+
+info:
+  description: Account store API for DLUHC Funding Service Design
+  version: "0.1.0"
+  title: Funding Service Design - Account store
+paths:
+  /account:
+    get:
+      summary: "Get the account ID associated with an email address."
+      description: "Given a GET request with the account id given as a query string we return a reponse containing the email address associated with the account id."
+      operationId: core.account.get_email
+      responses:
+        200:
+          description: The requested account exists, and its json and sent back as a response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+    post:
+      summary: "Post a new email - creating a json in the account store with a unique account id."
+      description: "Given an email as a query string an account_model json is created in the data store."
+      operationId: core.account.post_email
+      responses:
+        200:
+          description: "If the resource as successfully created then the created resource is sent back."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
+
+components:
+  schemas:
+    account:
+      type: object
+      properties:
+        id:
+          type: object
+          required:
+            - emailAddress
+          properties:
+            emailAddress:
+              type: string
+              pattern: '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
+              description: An email address.
+              example: "test@cool.com"
+            applications:
+              type: array
+              description: A list of application ids.
+              example: '[ { "id" : "fdghdfghd"}, {"id" : "fdfg-safg-4et"} ]'
+              items:
+                $ref: "#/components/schemas/application_item"
+
+    application_item:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the application - should be the same as the id in the application store.
+          example: "FEASFDFGDFG-45009029-sDFG3SDF"
