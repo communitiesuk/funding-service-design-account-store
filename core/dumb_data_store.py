@@ -10,7 +10,8 @@ class Borg:
 class dummmy_db_connection(Borg):
     """dummmy_db_connection A dummy db connection which implements
     some methods from the python redis library - but is actually
-    a python dictionary in memory.
+    a python dictionary in memory. To mirror a db connection all
+    instances of this point to the same state.
     """
 
     def __init__(self):
