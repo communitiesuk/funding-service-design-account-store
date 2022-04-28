@@ -9,7 +9,7 @@ paths:
     get:
       summary: "Get the account ID associated with an email address."
       description: "Given a GET request with the account id given as a query string we return a reponse containing the email address associated with the account id."
-      operationId: core.account.get_email
+      operationId: core.account.get_account_by_email
       responses:
         200:
           description: The requested account exists, and its json and sent back as a response.
@@ -20,7 +20,7 @@ paths:
     post:
       summary: "Post a new email - creating a json in the account store with a unique account id."
       description: "Given an email as a query string an account_model json is created in the data store."
-      operationId: core.account.post_email
+      operationId: core.account.post_account_by_email
       responses:
         200:
           description: "If the resource as successfully created then the created resource is sent back."
