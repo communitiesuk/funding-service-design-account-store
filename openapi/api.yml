@@ -55,21 +55,19 @@ components:
       type: object
       properties:
         id:
-          type: object
-          required:
-            - emailAddress
-          properties:
-            emailAddress:
-              type: string
-              pattern: '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
-              description: An email address.
-              example: "test@cool.com"
-            applications:
-              type: array
-              description: A list of application ids.
-              example: '[ { "id" : "fdghdfghd"}, {"id" : "fdfg-safg-4et"} ]'
-              items:
-                $ref: "#/components/schemas/application_item"
+          type: string
+          description: The unique id for the given account.
+        emailAddress:
+          type: string
+          pattern: '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
+          description: An email address.
+          example: "test@cool.com"
+        applications:
+          type: array
+          description: A list of application ids.
+          example: '[ { "id" : "fdghdfghd"}, {"id" : "fdfg-safg-4et"} ]'
+          items:
+            $ref: "#/components/schemas/application_item"
 
     application_item:
       type: object
