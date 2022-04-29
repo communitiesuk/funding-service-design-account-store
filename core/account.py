@@ -18,15 +18,27 @@ def get_account_by_email(email_address=None, account_id=None):
 
     if email_address and account_id:
 
+        if not db_connection.exists(account_id):
+
+            return 204
+
         return db_connection.get(account_id)
 
     if email_address:
+
+        if not db_connection.exists(f"email_{email_address}"):
+
+            return 204
 
         account_id = db_connection.get(f"email_{email_address}")
 
         return db_connection.get(account_id)
 
     if account_id:
+
+        if not db_connection.exists(account_id):
+
+            return 204
 
         return db_connection.get(account_id)
 

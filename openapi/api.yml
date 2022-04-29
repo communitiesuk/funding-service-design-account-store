@@ -30,6 +30,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/account'
+        204:
+          description: "The requested account doesn't exist."
     post:
       summary: "Post a new email - creating a json in the account store with a unique account id."
       description: "Given an email as a query string an account_model json is created in the data store."
@@ -48,6 +50,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/account'
+        409:
+          description: "This email account has already been used to create an account"
 
 components:
   schemas:
