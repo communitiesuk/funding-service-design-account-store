@@ -1,4 +1,5 @@
 import shortuuid
+from connexion import NoContent
 from core.dumb_data_store import dummmy_db_connection
 
 if True:
@@ -20,7 +21,7 @@ def get_account_by_email(email_address=None, account_id=None):
 
         if not db_connection.exists(account_id):
 
-            return 204
+            return NoContent, 204
 
         return db_connection.get(account_id)
 
@@ -28,7 +29,7 @@ def get_account_by_email(email_address=None, account_id=None):
 
         if not db_connection.exists(f"email_{email_address}"):
 
-            return 204
+            return NoContent, 204
 
         account_id = db_connection.get(f"email_{email_address}")
 
@@ -38,7 +39,7 @@ def get_account_by_email(email_address=None, account_id=None):
 
         if not db_connection.exists(account_id):
 
-            return 204
+            return NoContent, 204
 
         return db_connection.get(account_id)
 
