@@ -1,14 +1,7 @@
 import shortuuid
-from connexion import NoContent
-from core.dumb_data_store import dummmy_db_connection
-
-if True:
-
-    db_connection = dummmy_db_connection()
-
-else:
-
-    db_connection = "a real connection"
+from core.data_operations.account_data import check_exists_then_get
+from core.data_operations.account_data import get_data_by_email
+from core.db.db_connection import db_connection
 
 
 def get_account_by_email(email_address=None, account_id=None):
@@ -17,31 +10,13 @@ def get_account_by_email(email_address=None, account_id=None):
 
         return 404
 
-    if email_address and account_id:
+    if (email_address and account_id) or account_id:
 
-        if not db_connection.exists(account_id):
+        return check_exists_then_get(account_id)
 
-            return NoContent, 204
+    if email_address and not account_id:
 
-        return db_connection.get(account_id)
-
-    if email_address:
-
-        if not db_connection.exists(f"email_{email_address}"):
-
-            return NoContent, 204
-
-        account_id = db_connection.get(f"email_{email_address}")
-
-        return db_connection.get(account_id)
-
-    if account_id:
-
-        if not db_connection.exists(account_id):
-
-            return NoContent, 204
-
-        return db_connection.get(account_id)
+        return get_data_by_email(email_address)
 
 
 def post_account_by_email(email_address):
