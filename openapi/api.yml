@@ -34,6 +34,13 @@ paths:
       summary: "Post a new email - creating a json in the account store with a unique account id."
       description: "Given an email as a query string an account_model json is created in the data store."
       operationId: core.account.post_account_by_email
+      parameters:
+      - name: email_address
+        in: query
+        description: "The email being used for the account creation."
+        required: true
+        schema:
+          type: string
       responses:
         200:
           description: "If the resource as successfully created then the created resource is sent back."

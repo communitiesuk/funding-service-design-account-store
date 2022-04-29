@@ -24,6 +24,10 @@ class dummmy_db_connection(Borg):
 
         return "OK"
 
+    def exists(self, key):
+
+        return key in self.store.keys()
+
     def get(self, key):
 
         return self.store[key]

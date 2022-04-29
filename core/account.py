@@ -1,3 +1,4 @@
+import shortuuid
 from core.dumb_data_store import dummmy_db_connection
 
 if True:
@@ -17,23 +18,37 @@ def get_account_by_email(email_address=None, account_id=None):
 
     if email_address and account_id:
 
-        print("both given")
-
-        return 200
+        return db_connection.get(account_id)
 
     if email_address:
 
-        print("email given")
+        account_id = db_connection.get(f"email_{email_address}")
 
-        return 200
+        return db_connection.get(account_id)
 
     if account_id:
 
-        print("account id given")
-
-        return 200
+        return db_connection.get(account_id)
 
 
-def post_account_by_email():
+def post_account_by_email(email_address):
 
-    print("post account worked")
+    if db_connection.exists(f"email_{email_address}"):
+
+        return 409
+
+    else:
+
+        new_account_id = shortuuid.uuid()
+
+        db_connection.set(f"email_{email_address}", new_account_id)
+
+        new_account_json = {
+            "account_id": new_account_id,
+            "email_address": email_address,
+            "applications": [],
+        }
+
+        db_connection.set(new_account_id, new_account_json)
+
+        return new_account_json
