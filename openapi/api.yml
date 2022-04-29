@@ -10,6 +10,19 @@ paths:
       summary: "Get the account ID associated with an email address."
       description: "Given a GET request with the account id given as a query string we return a reponse containing the email address associated with the account id."
       operationId: core.account.get_account_by_email
+      parameters:
+        - name: email_address
+          in: query
+          description: "The email being used for the account id look up, if both account_id and email_address is given then the look up will use the account_id instead"
+          required: false
+          schema:
+            type: string
+        - name: account_id
+          in: query
+          description: "The account id being used for the account id look up, if both account_id and email_address is given then the look up will use the account_id instead."
+          required: false
+          schema:
+            type: string
       responses:
         200:
           description: The requested account exists, and its json and sent back as a response.
