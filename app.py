@@ -1,3 +1,6 @@
+"""
+This file is the entry point for flask run.
+"""
 import connexion
 from flask import Flask
 
