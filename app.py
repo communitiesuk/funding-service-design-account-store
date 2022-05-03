@@ -13,6 +13,3 @@ def create_app() -> Flask:
     connexion_app.add_api("api.yml")
 
     return flask_app
-
-
-app = create_app()

@@ -6,6 +6,7 @@ click==8.1.2
 clickclick==20.10.2
 connexion==2.13.0
 Flask==2.1.1
+gunicorn==20.1.0
 idna==3.3
 inflection==0.5.1
 iniconfig==1.1.1
@@ -25,6 +26,7 @@ pytest==7.1.2
 pytest-sugar==0.9.4
 PyYAML==6.0
 requests==2.27.1
+shortuuid==1.0.8
 swagger-ui-bundle==0.0.9
 termcolor==1.1.0
 tomli==2.0.1

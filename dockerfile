@@ -1,12 +1,11 @@
-FROM alpine:latest
-
-RUN apk update
-RUN apk add py-pip
-RUN apk add --no-cache python3-dev
-RUN pip install --upgrade pip
+FROM python:3.10-slim-bullseye
 
 WORKDIR /app
-COPY . /app
+COPY requirements.txt requirements.txt
 RUN pip --no-cache-dir install --ignore-installed distlib -r requirements.txt
+RUN pip install gunicorn
+COPY . .
 
-CMD ["flask", "run", "--host=0.0.0.0"]
+EXPOSE 8080
+
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "app:create_app()"]
