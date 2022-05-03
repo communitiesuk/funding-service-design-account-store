@@ -7,9 +7,9 @@ info:
 paths:
   /account:
     get:
-      summary: "Get the account ID associated with an email address."
-      description: "Given a GET request with the account id given as a query string we return a reponse containing the email address associated with the account id."
-      operationId: core.account.get_account_by_email
+      summary: "Return the account data given the account email address or account id."
+      description: "Given a GET request with the account id or email address given as a query string we return a reponse containing the data associated with the account."
+      operationId: core.account.get_account
       parameters:
         - name: email_address
           in: query

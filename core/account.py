@@ -4,7 +4,7 @@ from core.data_operations.account_data import get_data_by_email
 from core.db.db_connection import db_connection
 
 
-def get_account_by_email(email_address=None, account_id=None):
+def get_account(email_address=None, account_id=None):
 
     if email_address is None and account_id is None:
 
