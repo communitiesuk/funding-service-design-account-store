@@ -8,7 +8,7 @@ def get_account(email_address=None, account_id=None):
 
     if email_address is None and account_id is None:
 
-        return 404
+        return "", 404
 
     if (email_address and account_id) or account_id:
 
