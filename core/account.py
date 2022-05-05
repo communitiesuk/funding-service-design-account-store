@@ -23,7 +23,7 @@ def post_account_by_email(email_address):
 
     if db_connection.exists(f"email_{email_address}"):
 
-        return 409
+        return "An account with that email already exists", 409
 
     else:
 
