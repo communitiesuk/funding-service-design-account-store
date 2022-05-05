@@ -1,3 +1,6 @@
+"""
+Contains test configuration.
+"""
 import pytest
 from core.app import create_app
 

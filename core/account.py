@@ -1,3 +1,6 @@
+"""
+Contains the functions directly used by the openapi spec.
+"""
 import shortuuid
 from core.data_operations.account_data import check_exists_then_get
 from core.data_operations.account_data import get_data_by_email

@@ -39,6 +39,11 @@ Enter the virtual environment as described above, then:
 
     flask run
 
+# Docker
+You can run this api using a docker container. To build a image run the following command:
+
+    docker build -t fsd_account_store .
+
 # Pipelines
 
 Place brief descriptions of Pipelines here

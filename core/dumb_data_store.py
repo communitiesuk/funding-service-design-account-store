@@ -1,3 +1,8 @@
+"""
+Contains a dummy db connection to use with our api.
+"""
+
+
 class Borg:
     """Allows shared state, similar to singleton."""
 

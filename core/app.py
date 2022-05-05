@@ -1,3 +1,6 @@
+"""
+Constructs the flask app using the typical create_app function.
+"""
 import connexion
 from flask import Flask
 from utils.definitions import get_project_root

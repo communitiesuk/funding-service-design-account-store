@@ -1,3 +1,6 @@
+"""
+Tests the GET and POST functionality of our api.
+"""
 import ast
 from typing import Tuple
 
