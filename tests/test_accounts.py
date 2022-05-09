@@ -12,6 +12,15 @@ from requests import PreparedRequest
 @pytest.mark.usefixtures("client_class")
 class TestAccounts:
     def test_new_post(self):
+        """test_new_post Creates a random email address and posts it
+         to the account store,then checks that the email address
+        exists in the account store.
+
+        GIVEN The flask test client
+        WHEN an email is submitted
+        THEN we expect that the email exists in the account store.
+
+        """
 
         status_code, response_data = self.post_email_and_return_data(
             "ram@harry-styles-fanclub.org"
