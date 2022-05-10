@@ -7,8 +7,8 @@ info:
 paths:
   /account:
     get:
-      summary: "Return the account data given the account email address or account id."
-      description: "Given a GET request with the account id or email address given as a query string we return a reponse containing the data associated with the account."
+      summary: "Return the account data for the given email address or account id."
+      description: "Given the account id or email address we return the json associated with the account, given the account exists."
       operationId: core.account.get_account
       parameters:
         - name: email_address
@@ -25,7 +25,7 @@ paths:
             type: string
       responses:
         200:
-          description: The requested account exists, and its json and sent back as a response.
+          description: The requested account exists, and the accounts json payload is returned.
           content:
             application/json:
               schema:
@@ -33,8 +33,8 @@ paths:
         204:
           description: "The requested account doesn't exist."
     post:
-      summary: "Post a new email - creating a json in the account store with a unique account id."
-      description: "Given an email as a query string an account_model json is created in the data store."
+      summary: "Post a new email, creating an new account with a unique account id in the account store."
+      description: "Given an email we create a correponding account json in the account store."
       operationId: core.account.post_account_by_email
       parameters:
       - name: email_address
@@ -45,7 +45,7 @@ paths:
           type: string
       responses:
         200:
-          description: "If the resource as successfully created then the created resource is sent back."
+          description: "If the resource is successfully created then the created resource is returned."
           content:
             application/json:
               schema:

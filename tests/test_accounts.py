@@ -27,11 +27,8 @@ class TestAccounts:
         )
 
         assert status_code == 200
-
         assert "account_id" in response_data.keys()
-
         assert "applications" in response_data.keys()
-
         assert response_data["email_address"] == "ram@harry-styles-fanclub.org"
 
     def test_double_post_returns_409(self):
@@ -39,15 +36,11 @@ class TestAccounts:
         params = {"email_address": "ram2@harry-styles-fanclub.org"}
 
         req = PreparedRequest()
-
         root_url = request.root_url
-
         url = root_url + "account"
-
         req.prepare_url(url, params)
 
         response1 = self.client.post(req.url)
-
         response2 = self.client.post(req.url)
 
         assert response1.status_code == 200
@@ -65,21 +58,15 @@ class TestAccounts:
         email_response_data = self.get_and_return_data(
             email_address=email
         ).data
-
         account_response_data = self.get_and_return_data(
             account_id=account_id
         ).data
-
         email_dict = ast.literal_eval(email_response_data.decode("utf-8"))
-
         account_dict = ast.literal_eval(account_response_data.decode("utf-8"))
 
         assert email_response_data == account_response_data
-
         assert email_dict["account_id"] == account_id
-
         assert account_dict["email_address"] == email
-
         assert (
             account_dict["email_address"]
             == email_dict["email_address"]
@@ -97,23 +84,17 @@ class TestAccounts:
     def get_and_return_data(self, email_address=None, account_id=None):
 
         if email_address is None and account_id is None:
-
             raise TypeError("Atleast 1 argument must be given.")
 
         if email_address is not None and account_id is not None:
-
             raise TypeError("Only one kwarg can be given.")
 
         raw_params = {"email_address": email_address, "account_id": account_id}
 
         params = {k: v for k, v in raw_params.items() if v is not None}
-
         req = PreparedRequest()
-
         root_url = request.root_url
-
         url = root_url + "account"
-
         req.prepare_url(url, params)
 
         response = self.client.get(req.url)
@@ -125,17 +106,12 @@ class TestAccounts:
     ) -> Tuple[int, dict]:
 
         params = {"email_address": email_address}
-
         req = PreparedRequest()
-
         root_url = request.root_url
-
         url = root_url + "account"
-
         req.prepare_url(url, params)
 
         response = self.client.post(req.url)
-
         post_response_data = response.data
 
         # turns the bytestring into a python dictionary.

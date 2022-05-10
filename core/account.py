@@ -25,18 +25,13 @@ def get_account(
         dict, int
     """
 
-    # print(f"email : {email_address} + account_id {account_id}")
-
     if email_address is None and account_id is None:
-
         return "", 404
 
     if (email_address and account_id) or account_id:
-
         return check_exists_then_get(account_id)
 
     if email_address and account_id is None:
-
         return get_data_by_email(email_address)
 
 
@@ -56,21 +51,16 @@ def post_account_by_email(email_address: str) -> Tuple[dict, int]:
     """
 
     if db_connection.exists(f"email_{email_address}"):
-
         return "An account with that email already exists", 409
 
     else:
-
         new_account_id = shortuuid.uuid()
-
         db_connection.set(f"email_{email_address}", new_account_id)
-
         new_account_json = {
             "account_id": new_account_id,
             "email_address": email_address,
             "applications": [],
         }
-
         db_connection.set(new_account_id, new_account_json)
 
         return new_account_json
