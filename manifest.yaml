@@ -1,5 +1,5 @@
 applications:
-- name: funding-service-design-fund-account-store-dev
+- name: funding-service-design-account-store-dev
   memory: 64M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
@@ -8,7 +8,7 @@ applications:
     FUND_STORE_API_HOST: https://funding-service-design-fund-store-dev.london.cloudapps.digital
     ROUND_STORE_API_HOST: https://funding-service-design-round-store-dev.london.cloudapps.digital
 
-- name: funding-service-design-fund-account-store-test
+- name: funding-service-design-account-store-test
   memory: 64M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
