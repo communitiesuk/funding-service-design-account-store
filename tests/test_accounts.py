@@ -23,17 +23,17 @@ class TestAccounts:
         """
 
         status_code, response_data = self.post_email_and_return_data(
-            "ram@harry-styles-fanclub.org"
+            "test@delete_me.org"
         )
 
         assert status_code == 200
         assert "account_id" in response_data.keys()
         assert "applications" in response_data.keys()
-        assert response_data["email_address"] == "ram@harry-styles-fanclub.org"
+        assert response_data["email_address"] == "test@delete_me.org"
 
     def test_double_post_returns_409(self):
 
-        params = {"email_address": "ram2@harry-styles-fanclub.org"}
+        params = {"email_address": "test2@delete_me.org"}
 
         req = PreparedRequest()
         root_url = request.root_url
@@ -49,7 +49,7 @@ class TestAccounts:
     def test_get_methods_work(self):
 
         _, response_dict = self.post_email_and_return_data(
-            "ram400@harry-styles-fanclub.org"
+            "test3@delete_me.org"
         )
 
         email = response_dict["email_address"]
@@ -70,13 +70,13 @@ class TestAccounts:
         assert (
             account_dict["email_address"]
             == email_dict["email_address"]
-            == "ram400@harry-styles-fanclub.org"
+            == "test3@delete_me.org"
         )
 
     def get_to_non_existing_resource_returns_204(self):
 
         response = self.get_and_return_data(
-            email_address="ram40000@harry-stylees-fanclub.org"
+            email_address="dfgdfjg@sdjlkjsf.org"
         )
 
         assert response.status_code == 204
