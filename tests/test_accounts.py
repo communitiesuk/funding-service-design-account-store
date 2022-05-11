@@ -27,7 +27,7 @@ class TestAccounts:
             self.client, "test@delete_me.org"
         )
 
-        assert status_code == 200
+        assert status_code == 201
         assert "account_id" in response_data.keys()
         assert "applications" in response_data.keys()
         assert response_data["email_address"] == "test@delete_me.org"
@@ -44,7 +44,7 @@ class TestAccounts:
         response1 = self.client.post(req.url)
         response2 = self.client.post(req.url)
 
-        assert response1.status_code == 200
+        assert response1.status_code == 201
         assert response2.status_code == 409
 
     def test_get_methods_work(self):
@@ -87,4 +87,4 @@ class TestAccounts:
             self.client, email_address="dfgdfjg@sdjlkjsf.org"
         )
 
-        assert response.status_code == 204
+        assert response.status_code == 404
