@@ -2,11 +2,12 @@
 Tests the GET and POST functionality of our api.
 """
 import ast
-from typing import Tuple
 
 import pytest
 from flask import request
 from requests import PreparedRequest
+from tests.helpers import get_and_return_data
+from tests.helpers import post_email_and_return_data
 
 
 @pytest.mark.usefixtures("client_class")
@@ -22,8 +23,8 @@ class TestAccounts:
 
         """
 
-        status_code, response_data = self.post_email_and_return_data(
-            "test@delete_me.org"
+        status_code, response_data = post_email_and_return_data(
+            self.client, "test@delete_me.org"
         )
 
         assert status_code == 200
@@ -47,19 +48,26 @@ class TestAccounts:
         assert response2.status_code == 409
 
     def test_get_methods_work(self):
+        """
+        GIVEN An instance of our API
+        WHEN Several get requests of
+         various VALID forms are made
+        THEN we except them all to yield a
+        200 status code back (they succeed).
+        """
 
-        _, response_dict = self.post_email_and_return_data(
-            "test3@delete_me.org"
+        _, response_dict = post_email_and_return_data(
+            self.client, email_address="test3@delete_me.org"
         )
 
         email = response_dict["email_address"]
         account_id = response_dict["account_id"]
 
-        email_response_data = self.get_and_return_data(
-            email_address=email
+        email_response_data = get_and_return_data(
+            self.client, email_address=email
         ).data
-        account_response_data = self.get_and_return_data(
-            account_id=account_id
+        account_response_data = get_and_return_data(
+            self.client, account_id=account_id
         ).data
         email_dict = ast.literal_eval(email_response_data.decode("utf-8"))
         account_dict = ast.literal_eval(account_response_data.decode("utf-8"))
@@ -73,48 +81,10 @@ class TestAccounts:
             == "test3@delete_me.org"
         )
 
-    def get_to_non_existing_resource_returns_204(self):
+    def test_get_to_non_existing_resource_returns_204(self):
 
-        response = self.get_and_return_data(
-            email_address="dfgdfjg@sdjlkjsf.org"
+        response = get_and_return_data(
+            self.client, email_address="dfgdfjg@sdjlkjsf.org"
         )
 
         assert response.status_code == 204
-
-    def get_and_return_data(self, email_address=None, account_id=None):
-
-        if email_address is None and account_id is None:
-            raise TypeError("Atleast 1 argument must be given.")
-
-        if email_address is not None and account_id is not None:
-            raise TypeError("Only one kwarg can be given.")
-
-        raw_params = {"email_address": email_address, "account_id": account_id}
-
-        params = {k: v for k, v in raw_params.items() if v is not None}
-        req = PreparedRequest()
-        root_url = request.root_url
-        url = root_url + "account"
-        req.prepare_url(url, params)
-
-        response = self.client.get(req.url)
-
-        return response
-
-    def post_email_and_return_data(
-        self, email_address: str
-    ) -> Tuple[int, dict]:
-
-        params = {"email_address": email_address}
-        req = PreparedRequest()
-        root_url = request.root_url
-        url = root_url + "account"
-        req.prepare_url(url, params)
-
-        response = self.client.post(req.url)
-        post_response_data = response.data
-
-        # turns the bytestring into a python dictionary.
-        response_dict = ast.literal_eval(post_response_data.decode("utf-8"))
-
-        return response.status_code, response_dict

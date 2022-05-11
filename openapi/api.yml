@@ -8,7 +8,7 @@ paths:
   /account:
     get:
       summary: "Return the account data for the given email address or account id."
-      description: "Given the account id or email address we return the json associated with the account, given the account exists."
+      description: "Given an account id or email address, return the json associated with the account, or 404 if none is found."
       operationId: core.account.get_account
       parameters:
         - name: email_address
@@ -19,7 +19,7 @@ paths:
             type: string
         - name: account_id
           in: query
-          description: "The account id being used for the account id look up, if both account_id and email_address is given then the look up will use the account_id instead."
+          description: "The account id to be looked up, if both account_id and email_address is given then the look up will use the account_id instead."
           required: false
           schema:
             type: string
@@ -30,7 +30,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/account'
-        204:
+        404:
           description: "The requested account doesn't exist."
     post:
       summary: "Post a new email, creating an new account with a unique account id in the account store."
@@ -44,14 +44,14 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        201:
           description: "If the resource is successfully created then the created resource is returned."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/account'
         409:
-          description: "This email account has already been used to create an account"
+          description: "This email address has already been used to create an account"
 
 components:
   schemas:

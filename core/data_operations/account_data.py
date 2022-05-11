@@ -18,7 +18,7 @@ def check_exists_then_get(key: str) -> Tuple[dict, int]:
     try:
         return db_connection.get(key)
     except KeyError:
-        return NoContent, 204
+        return NoContent, 404
 
 
 def get_data_by_email(email: str) -> Tuple[dict, int]:
@@ -28,7 +28,7 @@ def get_data_by_email(email: str) -> Tuple[dict, int]:
         email (str): An email given a str.
 
     Returns:
-        A tuple with content and a status code. s
+        A tuple with content and a status code.
     """
 
     address_id = check_exists_then_get(f"email_{email}")

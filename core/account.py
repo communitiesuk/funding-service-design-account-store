@@ -63,4 +63,4 @@ def post_account_by_email(email_address: str) -> Tuple[dict, int]:
         }
         db_connection.set(new_account_id, new_account_json)
 
-        return new_account_json
+        return new_account_json, 201
