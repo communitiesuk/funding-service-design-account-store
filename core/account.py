@@ -25,14 +25,14 @@ def get_account(
         dict, int
     """
 
-    if email_address is None and account_id is None:
-        raise TypeError("Get account needs atleast 1 argument.")
-
     if account_id:
         return check_exists_then_get(account_id)
 
-    if email_address:
+    elif email_address:
         return get_data_by_email(email_address)
+
+    else:
+        raise TypeError("Get account needs atleast 1 argument.")
 
 
 def post_account_by_email(email_address: str) -> Tuple[dict, int]:
