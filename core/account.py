@@ -26,12 +26,12 @@ def get_account(
     """
 
     if email_address is None and account_id is None:
-        return "", 404
+        raise TypeError("Get account needs atleast 1 argument.")
 
-    if (email_address and account_id) or account_id:
+    if account_id:
         return check_exists_then_get(account_id)
 
-    if email_address and account_id is None:
+    if email_address:
         return get_data_by_email(email_address)
 
 

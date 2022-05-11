@@ -15,11 +15,10 @@ def check_exists_then_get(key: str) -> Tuple[dict, int]:
         A tuple with content and a status code.
     """
 
-    if not db_connection.exists(key):
-
+    try:
+        return db_connection.get(key)
+    except KeyError:
         return NoContent, 204
-
-    return db_connection.get(key)
 
 
 def get_data_by_email(email: str) -> Tuple[dict, int]:
