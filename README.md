@@ -12,6 +12,8 @@ Repo for the funding service design account store.
 
 Built with Flask + Connexion.
 
+Takes a email address and creates/returns a corresponding payload of account json.
+
 ## Prerequisites
 - python ^= 3.10
 
