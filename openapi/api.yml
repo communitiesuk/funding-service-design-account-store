@@ -34,7 +34,7 @@ paths:
           description: "The requested account doesn't exist."
     post:
       summary: "Post a new email, creating an new account with a unique account id in the account store."
-      description: "Given an email we create a correponding account json in the account store."
+      description: "Given an email we create a corresponding account object  in the account store."
       operationId: core.account.post_account_by_email
       parameters:
       - name: email_address
