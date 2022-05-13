@@ -8,7 +8,7 @@ paths:
   /account:
     get:
       summary: "Return the account data for the given email address or account id."
-      description: "Given an account id or email address, return the json associated with the account, or 404 if none is found."
+      description: "Given an account id or email address, return the json associated with the account, or 404 if none are found."
       operationId: core.account.get_account
       parameters:
         - name: email_address
