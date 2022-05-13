@@ -27,10 +27,8 @@ def get_account(
 
     if account_id:
         return check_exists_then_get(account_id)
-
     elif email_address:
         return get_data_by_email(email_address)
-
     else:
         raise TypeError("Get account needs atleast 1 argument.")
 
@@ -52,7 +50,6 @@ def post_account_by_email(email_address: str) -> Tuple[dict, int]:
 
     if db_connection.exists(f"email_{email_address}"):
         return "An account with that email already exists", 409
-
     else:
         new_account_id = shortuuid.uuid()
         db_connection.set(f"email_{email_address}", new_account_id)
