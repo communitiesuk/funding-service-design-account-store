@@ -13,13 +13,13 @@ paths:
       parameters:
         - name: email_address
           in: query
-          description: "The email being used for the account id look up, if both account_id and email_address is given then the look up will use the account_id instead"
+          description: "The email is used for the account id lookup, if both account_id and email_address are given then the lookup will use the account_id instead."
           required: false
           schema:
             type: string
         - name: account_id
           in: query
-          description: "The account id to be looked up, if both account_id and email_address is given then the look up will use the account_id instead."
+          description: "The account id is to be looked up, if both account_id and email_address are given then the look up will use the account_id instead"
           required: false
           schema:
             type: string
@@ -34,12 +34,12 @@ paths:
           description: "The requested account doesn't exist."
     post:
       summary: "Post a new email, creating an new account with a unique account id in the account store."
-      description: "Given an email we create a corresponding account object  in the account store."
+      description: "Given an email, we create a corresponding account object in the account store."
       operationId: core.account.post_account_by_email
       parameters:
       - name: email_address
         in: query
-        description: "The email being used for the account creation."
+        description: "The email is being used for the account creation."
         required: true
         schema:
           type: string
