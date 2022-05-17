@@ -38,7 +38,7 @@ class TestAccounts:
 
         req = PreparedRequest()
         root_url = request.root_url
-        url = root_url + "account"
+        url = root_url + "accounts"
         req.prepare_url(url, params)
 
         response1 = self.client.post(req.url)
