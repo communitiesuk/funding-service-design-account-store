@@ -5,7 +5,7 @@ info:
   version: "0.1.0"
   title: Funding Service Design - Account store
 paths:
-  /account:
+  /accounts:
     get:
       summary: "Return the account data for the given email address or account id."
       description: "Given an account id or email address, return the json associated with the account, or 404 if none are found."
