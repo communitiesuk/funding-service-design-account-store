@@ -40,7 +40,10 @@ Clone the repository
 ### Install dependencies
 From the top-level directory enter the command to install pip and the dependencies of the project
 
-    python3 -m pip install --upgrade pip && pip install -r requirements.txt
+    python3 -m pip install --upgrade pip && pip install -r requirements-dev.txt
+
+### Install pre-commit hooks
+    pre-commit install
 
 ## How to use
 Enter the virtual environment as described above, then:
