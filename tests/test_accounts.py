@@ -36,13 +36,11 @@ class TestAccounts:
 
         params = {"email_address": "test2@delete_me.org"}
 
-        req = PreparedRequest()
         root_url = request.root_url
-        url = root_url + "account"
-        req.prepare_url(url, params)
+        url = root_url + "accounts"
 
-        response1 = self.client.post(req.url)
-        response2 = self.client.post(req.url)
+        response1 = self.client.post(url, json=params)
+        response2 = self.client.post(url, json=params)
 
         assert response1.status_code == 201
         assert response2.status_code == 409

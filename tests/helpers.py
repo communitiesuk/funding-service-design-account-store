@@ -18,7 +18,7 @@ def get_and_return_data(client, email_address=None, account_id=None):
     params = {k: v for k, v in raw_params.items() if v is not None}
     req = PreparedRequest()
     root_url = request.root_url
-    url = root_url + "account"
+    url = root_url + "accounts"
     req.prepare_url(url, params)
 
     response = client.get(req.url)
@@ -29,12 +29,10 @@ def get_and_return_data(client, email_address=None, account_id=None):
 def post_email_and_return_data(client, email_address: str) -> Tuple[int, dict]:
 
     params = {"email_address": email_address}
-    req = PreparedRequest()
     root_url = request.root_url
-    url = root_url + "account"
-    req.prepare_url(url, params)
+    url = root_url + "accounts"
 
-    response = client.post(req.url)
+    response = client.post(url, json=params)
     post_response_data = response.data
 
     # turns the bytestring into a python dictionary.

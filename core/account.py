@@ -2,6 +2,7 @@
 Contains the functions directly used by the openapi spec.
 """
 from typing import Tuple
+from flask import request
 
 import shortuuid
 from core.data_operations.account_data import check_exists_then_get
@@ -33,7 +34,7 @@ def get_account(
         raise TypeError("Get account needs atleast 1 argument.")
 
 
-def post_account_by_email(email_address: str) -> Tuple[dict, int]:
+def post_account_by_email() -> Tuple[dict, int]:
     """post_account_by_email Given an email address creates a new account in the
     db.
 
@@ -41,23 +42,26 @@ def post_account_by_email(email_address: str) -> Tuple[dict, int]:
      is returned,
     otherwise a 200 is returned.
 
-    Args:
+    Json Args:
         email_address (str): An valid email given as a string.
 
     Returns:
         Returns a dictionary(json) along with a status code.
     """
-
-    if db_connection.exists(f"email_{email_address}"):
-        return "An account with that email already exists", 409
+    email_address = request.json.get("email_address")
+    if not email_address:
+        return {"error": "email_address is required"}, 400
     else:
-        new_account_id = shortuuid.uuid()
-        db_connection.set(f"email_{email_address}", new_account_id)
-        new_account_json = {
-            "account_id": new_account_id,
-            "email_address": email_address,
-            "applications": [],
-        }
-        db_connection.set(new_account_id, new_account_json)
+        if db_connection.exists(f"email_{email_address}"):
+            return "An account with that email already exists", 409
+        else:
+            new_account_id = shortuuid.uuid()
+            db_connection.set(f"email_{email_address}", new_account_id)
+            new_account_json = {
+                "account_id": new_account_id,
+                "email_address": email_address,
+                "applications": [],
+            }
+            db_connection.set(new_account_id, new_account_json)
 
-        return new_account_json, 201
+            return new_account_json, 201
