@@ -1,0 +1,25 @@
+#-----------------------------------
+#   FSD Utils
+#-----------------------------------
+https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.8.tar.gz
+requests
+
+#-----------------------------------
+#   Flask Version
+#-----------------------------------
+Flask==2.1.1
+
+#-----------------------------------
+#   Database
+#-----------------------------------
+SQLAlchemy
+Flask-SQLAlchemy
+Flask-Migrate
+
+#-----------------------------------
+#   Connexion APIs
+#-----------------------------------
+connexion
+swagger-ui-bundle
+openapi-spec-validator
+prance

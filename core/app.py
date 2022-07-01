@@ -3,23 +3,26 @@ Constructs the flask app using the typical create_app function.
 """
 import connexion
 from flask import Flask
-from utils.definitions import get_project_root
+from config import Config
 
-project_root_path = str(get_project_root())
+from fsd_utils.logging import logging
 
 
 def create_app() -> Flask:
 
-    options = {"swagger_url": "/"}
-
+    connexion_options = {"swagger_url": "/"}
     connexion_app = connexion.FlaskApp(
         __name__,
-        specification_dir=project_root_path + "/openapi/",
-        options=options,
+        specification_dir=Config.FLASK_ROOT + "/openapi/",
+        options=connexion_options,
     )
+    connexion_app.add_api(Config.FLASK_ROOT + "/openapi/api.yml")
 
+    # Configure Flask App
     flask_app = connexion_app.app
+    flask_app.config.from_object("config.Config")
 
-    connexion_app.add_api(project_root_path + "/openapi/api.yml")
+    # Initialise logging
+    logging.init_app(flask_app)
 
     return flask_app
