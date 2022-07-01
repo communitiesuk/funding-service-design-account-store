@@ -105,6 +105,8 @@ ruamel-yaml-clib==0.2.6
     # via ruamel-yaml
 semver==2.13.0
     # via prance
+shortuuid==1.0.8
+    # via -r requirements.in
 six==1.16.0
     # via prance
 sqlalchemy==1.4.39
@@ -123,5 +125,3 @@ werkzeug==2.1.2
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
-
-shortuuid==1.0.8

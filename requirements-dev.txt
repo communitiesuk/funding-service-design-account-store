@@ -285,6 +285,8 @@ semver==2.13.0
     # via
     #   -r requirements.txt
     #   prance
+shortuuid==1.0.8
+    # via -r requirements.txt
 six==1.16.0
     # via
     #   -r requirements.txt
@@ -346,4 +348,3 @@ wsproto==1.1.0
 # The following packages are considered to be unsafe in a requirements file:
 # pip
 # setuptools
-shortuuid==1.0.8

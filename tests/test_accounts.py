@@ -5,7 +5,6 @@ import ast
 
 import pytest
 from flask import request
-from requests import PreparedRequest
 from tests.helpers import get_and_return_data
 from tests.helpers import post_email_and_return_data
 
