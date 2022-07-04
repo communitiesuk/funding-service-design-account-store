@@ -17,8 +17,6 @@ class DefaultConfig(object):
     # Logging
     FSD_LOG_LEVEL = logging.WARNING
 
-    """
-    Database
-    """
+    # Database
     SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
