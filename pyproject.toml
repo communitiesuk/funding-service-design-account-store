@@ -1,0 +1,10 @@
+[package]
+name = "funding-service-design-account-store"
+version = "0.1.1"
+description = "The funding service design account store for the DLUHC."
+authors = ["DLUHC"]
+license = "MIT License"
+
+[tool.black]
+line-length = 79
+experimental-string-processing = 1

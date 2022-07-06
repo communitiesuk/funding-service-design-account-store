@@ -12,7 +12,7 @@ def create_app() -> Flask:
 
     connexion_options = {"swagger_url": "/"}
     connexion_app = connexion.FlaskApp(
-        __name__,
+        "Account Store",
         specification_dir=Config.FLASK_ROOT + "/openapi/",
         options=connexion_options,
     )
