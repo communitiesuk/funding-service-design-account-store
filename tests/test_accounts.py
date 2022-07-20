@@ -3,13 +3,11 @@ Tests the GET and POST functionality of our api.
 """
 import ast
 
-import pytest
 from flask import request
 from tests.helpers import get_and_return_data
 from tests.helpers import post_email_and_return_data
 
 
-@pytest.mark.usefixtures("client_class")
 class TestAccounts:
     def test_new_post(self):
         """test_new_post Creates a random email address and posts it
