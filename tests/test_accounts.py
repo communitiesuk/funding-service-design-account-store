@@ -1,8 +1,6 @@
 """
 Tests the GET and POST functionality of our api.
 """
-import json
-
 from tests.helpers import get_and_return_data
 from tests.helpers import post_email_and_return_data
 
@@ -58,14 +56,18 @@ class TestAccounts:
 
         email_response_data = get_and_return_data(
             flask_test_client, email_address=email
-        ).data
+        )
         account_response_data = get_and_return_data(
             flask_test_client, account_id=account_id
-        ).data
-        email_dict = json.load(email_response_data)
-        account_dict = json.load(account_response_data)
+        )
 
-        assert email_response_data == account_response_data
+        email_dict = email_response_data.json
+        account_dict = account_response_data.json
+
+        print(email_response_data.json)
+        print(account_response_data.json)
+
+        assert email_response_data.json == account_response_data.json
         assert email_dict["account_id"] == account_id
         assert account_dict["email_address"] == email
         assert (

@@ -26,6 +26,8 @@ def get_account(
     Returns:
         dict, int
     """
+    print(account_id)
+    print(email_address)
 
     if account_id:
         return check_exists_then_get(account_id)
@@ -71,6 +73,7 @@ def post_account_by_email() -> Tuple[dict, int]:
                 return new_account_json, 201
             except sqlalchemy.IntegrityError:
                 db.rollback()
+                return "Integrity Error", 500
         else:
             return "An account with that email already exists", 409
 

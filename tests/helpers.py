@@ -1,4 +1,3 @@
-import ast
 from typing import Tuple
 
 
@@ -17,6 +16,8 @@ def get_and_return_data(client, email_address=None, account_id=None):
 
     response = client.get(url, query_string=params)
 
+    print(response)
+
     return response
 
 
@@ -26,9 +27,5 @@ def post_email_and_return_data(client, email_address: str) -> Tuple[int, dict]:
     url = "/accounts"
 
     response = client.post(url, json=params)
-    post_response_data = response.data
 
-    # turns the bytestring into a python dictionary.
-    response_dict = ast.literal_eval(post_response_data.decode("utf-8"))
-
-    return response.status_code, response_dict
+    return response.status_code, response.json

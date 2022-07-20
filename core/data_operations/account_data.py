@@ -18,7 +18,14 @@ def check_exists_then_get(account_id: str) -> Tuple[dict, int]:
     """
 
     try:
-        db.session.query(Account).filter(Account.id == account_id).one()
+        account = (
+            db.session.query(Account).filter(Account.id == account_id).one()
+        )
+        return {
+            "account_id": account.id,
+            "email_address": account.email,
+            "applications": [],
+        }
     except sqlalchemy.exc.NoResultFound:
         return NoContent, 404
 
@@ -34,6 +41,13 @@ def get_data_by_email(email: str) -> Tuple[dict, int]:
     """
 
     try:
-        db.session.query(Account).filter(Account.email == email).one()
+        account = (
+            db.session.query(Account).filter(Account.email == email).one()
+        )
+        return {
+            "account_id": account.id,
+            "email_address": account.email,
+            "applications": [],
+        }
     except sqlalchemy.exc.NoResultFound:
         return NoContent, 404
