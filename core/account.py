@@ -54,7 +54,7 @@ def post_account_by_email() -> Tuple[dict, int]:
         return {"error": "email_address is required"}, 400
     else:
         email_exists = bool(
-            db.session.query.filter_by(Account.email == email_address).first()
+            db.session.query.filter(Account.email == email_address).first()
         )
         if not email_exists:
             try:
