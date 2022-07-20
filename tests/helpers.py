@@ -1,8 +1,6 @@
 import ast
 from typing import Tuple
 
-from requests import PreparedRequest
-
 
 def get_and_return_data(client, email_address=None, account_id=None):
 
@@ -15,11 +13,9 @@ def get_and_return_data(client, email_address=None, account_id=None):
     raw_params = {"email_address": email_address, "account_id": account_id}
 
     params = {k: v for k, v in raw_params.items() if v is not None}
-    req = PreparedRequest()
     url = "/accounts"
-    req.prepare_url(url, params)
 
-    response = client.get(req.url)
+    response = client.get(url, query_string=params)
 
     return response
 
@@ -27,7 +23,7 @@ def get_and_return_data(client, email_address=None, account_id=None):
 def post_email_and_return_data(client, email_address: str) -> Tuple[int, dict]:
 
     params = {"email_address": email_address}
-    url = "accounts"
+    url = "/accounts"
 
     response = client.post(url, json=params)
     post_response_data = response.data

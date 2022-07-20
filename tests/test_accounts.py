@@ -3,7 +3,6 @@ Tests the GET and POST functionality of our api.
 """
 import ast
 
-from flask import request
 from tests.helpers import get_and_return_data
 from tests.helpers import post_email_and_return_data
 
@@ -33,8 +32,7 @@ class TestAccounts:
 
         params = {"email_address": "test2@delete_me.org"}
 
-        root_url = request.root_url
-        url = root_url + "accounts"
+        url = "/accounts"
 
         response1 = flask_test_client.post(url, json=params)
         response2 = flask_test_client.post(url, json=params)
