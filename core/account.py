@@ -2,12 +2,12 @@
 Contains the functions directly used by the openapi spec.
 """
 from typing import Tuple
-from flask import request
 
 import shortuuid
 from core.data_operations.account_data import check_exists_then_get
 from core.data_operations.account_data import get_data_by_email
 from core.db.db_connection import db_connection
+from flask import request
 
 
 def get_account(
