@@ -1,0 +1,11 @@
+---
+applications:
+- name: funding-service-design-assessment-store-test
+  memory: 64M
+  buildpacks:
+  - https://github.com/cloudfoundry/python-buildpack.git
+  command: scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/gunicorn/devtest.py
+  env:
+    FLASK_ENV: test
+  services:
+    - funding-service-design-account-store-db
