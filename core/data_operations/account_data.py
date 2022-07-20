@@ -1,10 +1,12 @@
 from typing import Tuple
 
+import sqlalchemy
 from connexion import NoContent
-from core.db.db_connection import db_connection
+from db import db
+from db.models import account
 
 
-def check_exists_then_get(key: str) -> Tuple[dict, int]:
+def check_exists_then_get(account_id: str) -> Tuple[dict, int]:
     """check_exists_then_get Checks that the key exists in the db
      and returns a value if so.
 
@@ -16,8 +18,8 @@ def check_exists_then_get(key: str) -> Tuple[dict, int]:
     """
 
     try:
-        return db_connection.get(key)
-    except KeyError:
+        db.session.query(account).filter(account.id == account_id).one()
+    except sqlalchemy.exc.NoResultFound:
         return NoContent, 404
 
 
@@ -31,6 +33,7 @@ def get_data_by_email(email: str) -> Tuple[dict, int]:
         A tuple with content and a status code.
     """
 
-    address_id = check_exists_then_get(f"email_{email}")
-
-    return check_exists_then_get(address_id)
+    try:
+        db.session.query(account).filter(account.email == email).one()
+    except sqlalchemy.exc.NoResultFound:
+        return NoContent, 404
