@@ -5,7 +5,6 @@ import ast
 
 import pytest
 from flask import request
-from requests import PreparedRequest
 from tests.helpers import get_and_return_data
 from tests.helpers import post_email_and_return_data
 
@@ -36,13 +35,11 @@ class TestAccounts:
 
         params = {"email_address": "test2@delete_me.org"}
 
-        req = PreparedRequest()
         root_url = request.root_url
         url = root_url + "accounts"
-        req.prepare_url(url, params)
 
-        response1 = self.client.post(req.url)
-        response2 = self.client.post(req.url)
+        response1 = self.client.post(url, json=params)
+        response2 = self.client.post(url, json=params)
 
         assert response1.status_code == 201
         assert response2.status_code == 409

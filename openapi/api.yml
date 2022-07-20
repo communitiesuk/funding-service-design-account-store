@@ -36,13 +36,15 @@ paths:
       summary: "Post a new email, creating an new account with a unique account id in the account store."
       description: "Given an email, we create a corresponding account object in the account store."
       operationId: core.account.post_account_by_email
-      parameters:
-      - name: email_address
-        in: query
-        description: "The email is being used for the account creation."
+      requestBody:
+        description: Account creation parameters
         required: true
-        schema:
-          type: string
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/accountCreate'
+            example:
+              email_address: 'a@example.com'
       responses:
         201:
           description: "If the resource is successfully created then the created resource is returned."
@@ -55,13 +57,18 @@ paths:
 
 components:
   schemas:
+    accountCreate:
+      type: object
+      properties:
+        email_address:
+          type: string
     account:
       type: object
       properties:
         id:
           type: string
           description: The unique id for the given account.
-        emailAddress:
+        email_address:
           type: string
           pattern: '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
           description: An email address.
