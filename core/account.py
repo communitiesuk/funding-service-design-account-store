@@ -7,7 +7,7 @@ import sqlalchemy
 from core.data_operations.account_data import check_exists_then_get
 from core.data_operations.account_data import get_data_by_email
 from db import db
-from db.models import account
+from db.models.account import Account
 from flask import request
 
 
@@ -54,11 +54,11 @@ def post_account_by_email() -> Tuple[dict, int]:
         return {"error": "email_address is required"}, 400
     else:
         email_exists = bool(
-            db.session.query.filter_by(account.email == email_address).first()
+            db.session.query.filter_by(Account.email == email_address).first()
         )
         if not email_exists:
             try:
-                new_account = account(email=email_address)
+                new_account = Account(email=email_address)
                 db.session.add(new_account)
                 db.session.commit()
                 new_account_json = {
@@ -71,3 +71,11 @@ def post_account_by_email() -> Tuple[dict, int]:
                 db.rollback()
         else:
             return "An account with that email already exists", 409
+
+
+# def post_application_to_account():
+
+#     application_id = request.json.get("application_id")
+#     account_id = request.json.get("account_id")
+
+#     pass

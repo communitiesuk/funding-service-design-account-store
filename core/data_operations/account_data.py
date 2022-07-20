@@ -3,7 +3,7 @@ from typing import Tuple
 import sqlalchemy
 from connexion import NoContent
 from db import db
-from db.models import account
+from db.models.account import Account
 
 
 def check_exists_then_get(account_id: str) -> Tuple[dict, int]:
@@ -18,7 +18,7 @@ def check_exists_then_get(account_id: str) -> Tuple[dict, int]:
     """
 
     try:
-        db.session.query(account).filter(account.id == account_id).one()
+        db.session.query(Account).filter(Account.id == account_id).one()
     except sqlalchemy.exc.NoResultFound:
         return NoContent, 404
 
@@ -34,6 +34,6 @@ def get_data_by_email(email: str) -> Tuple[dict, int]:
     """
 
     try:
-        db.session.query(account).filter(account.email == email).one()
+        db.session.query(Account).filter(Account.email == email).one()
     except sqlalchemy.exc.NoResultFound:
         return NoContent, 404
