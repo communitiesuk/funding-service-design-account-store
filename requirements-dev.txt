@@ -291,6 +291,7 @@ six==1.16.0
     # via
     #   -r requirements.txt
     #   prance
+    #   sqlalchemy-utils
     #   tenacity
     #   virtualenv
 smmap==5.0.0
@@ -304,6 +305,9 @@ sqlalchemy==1.4.39
     #   -r requirements.txt
     #   alembic
     #   flask-sqlalchemy
+    #   sqlalchemy-utils
+sqlalchemy-utils==0.38.2
+    # via -r requirements.txt
 stevedore==3.5.0
     # via bandit
 swagger-ui-bundle==0.0.9
@@ -344,7 +348,7 @@ wheel==0.37.1
     # via pip-tools
 wsproto==1.1.0
     # via trio-websocket
-sqlalchemy-utils==0.38.2
+
 # The following packages are considered to be unsafe in a requirements file:
 # pip
 # setuptools
