@@ -58,7 +58,7 @@ class TestAccounts:
 
         email_response_data = get_and_return_data(
             flask_test_client, email_address=email
-        ).json
+        ).data
         account_response_data = get_and_return_data(
             flask_test_client, account_id=account_id
         ).data
