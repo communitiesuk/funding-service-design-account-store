@@ -2,24 +2,42 @@
 Constructs the flask app using the typical create_app function.
 """
 import connexion
+from connexion.resolver import MethodViewResolver
 from flask import Flask
-from utils.definitions import get_project_root
-
-project_root_path = str(get_project_root())
+from fsd_utils.logging import logging
+from openapi.utils import get_bundled_specs
 
 
 def create_app() -> Flask:
 
-    options = {"swagger_url": "/"}
-
+    connexion_options = {
+        "swagger_url": "/",
+    }
     connexion_app = connexion.FlaskApp(
-        __name__,
-        specification_dir=project_root_path + "/openapi/",
-        options=options,
+        __name__, specification_dir="openapi/", options=connexion_options
+    )
+    connexion_app.add_api(
+        get_bundled_specs("/openapi/api.yml"),
+        validate_responses=True,
+        resolver=MethodViewResolver("api"),
     )
 
     flask_app = connexion_app.app
+    flask_app.config.from_object("config.Config")
 
-    connexion_app.add_api(project_root_path + "/openapi/api.yml")
+    # Initialise logging
+    logging.init_app(flask_app)
+
+    from db import db, migrate
+
+    # Bind SQLAlchemy ORM to Flask app
+    db.init_app(flask_app)
+    # Bind Flask-Migrate db utilities to Flask app
+    migrate.init_app(
+        flask_app, db, directory="db/migrations", render_as_batch=True
+    )
 
     return flask_app
+
+
+app = create_app()
