@@ -2,9 +2,8 @@
 Constructs the flask app using the typical create_app function.
 """
 import connexion
-from flask import Flask
 from config import Config
-
+from flask import Flask
 from fsd_utils.logging import logging
 
 
@@ -25,4 +24,16 @@ def create_app() -> Flask:
     # Initialise logging
     logging.init_app(flask_app)
 
+    from db import db, migrate
+
+    # Bind SQLAlchemy ORM to Flask app
+    db.init_app(flask_app)
+    # Bind Flask-Migrate db utilities to Flask app
+    migrate.init_app(
+        flask_app, db, directory="db/migrations", render_as_batch=True
+    )
+
     return flask_app
+
+
+app = create_app()
