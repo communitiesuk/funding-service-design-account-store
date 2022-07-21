@@ -8,11 +8,11 @@ on:
 
 jobs:
   test_and_deploy:
-    uses: communitiesuk/funding-design-service-workflows/.github/workflows/deploy.yml@main
+    uses: communitiesuk/funding-design-service-workflows/.github/workflows/deploy.yml@bau-db-prop-name
     with:
       app_name: ${{ github.event.repository.name }}
       api: true
-      db: true
+      upgrade_db: true
     secrets:
       CF_API: ${{secrets.CF_API}}
       CF_ORG: ${{secrets.CF_ORG}}
