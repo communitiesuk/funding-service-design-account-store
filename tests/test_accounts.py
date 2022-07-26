@@ -64,9 +64,6 @@ class TestAccounts:
         email_dict = email_response_data.json
         account_dict = account_response_data.json
 
-        print(email_response_data.json)
-        print(account_response_data.json)
-
         assert email_response_data.json == account_response_data.json
         assert email_dict["account_id"] == account_id
         assert account_dict["email_address"] == email
