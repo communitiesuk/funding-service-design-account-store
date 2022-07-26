@@ -1,5 +1,5 @@
 applications:
-- name: funding-service-design-assessment-store
+- name: funding-service-design-account-store-dev
   memory: 64M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
@@ -10,7 +10,7 @@ applications:
   services:
     - logit-ssl-drain
 
-- name: funding-service-design-assessment-store-test
+- name: funding-service-design-account-store-test
   memory: 64M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
