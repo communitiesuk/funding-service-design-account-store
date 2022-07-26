@@ -16,8 +16,6 @@ def get_and_return_data(client, email_address=None, account_id=None):
 
     response = client.get(url, query_string=params)
 
-    print(response)
-
     return response
 
 
