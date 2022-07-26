@@ -73,7 +73,7 @@ class TestAccounts:
             == "test3@delete_me.org"
         )
 
-    def test_get_to_non_existing_resource_returns_204(self, flask_test_client):
+    def test_get_to_non_existing_resource_returns_404(self, flask_test_client):
 
         response = get_and_return_data(
             flask_test_client, email_address="dfgdfjg@sdjlkjsf.org"
