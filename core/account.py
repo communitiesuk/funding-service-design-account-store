@@ -2,12 +2,13 @@
 Contains the functions directly used by the openapi spec.
 """
 from typing import Tuple
-from flask import request
 
-import shortuuid
+import sqlalchemy
 from core.data_operations.account_data import check_exists_then_get
 from core.data_operations.account_data import get_data_by_email
-from core.db.db_connection import db_connection
+from db import db
+from db.models.account import Account
+from flask import request
 
 
 def get_account(
@@ -40,7 +41,7 @@ def post_account_by_email() -> Tuple[dict, int]:
 
     If an account with this email address already exists then a 409
      is returned,
-    otherwise a 200 is returned.
+    otherwise a 201 is returned.
 
     Json Args:
         email_address (str): An valid email given as a string.
@@ -52,16 +53,24 @@ def post_account_by_email() -> Tuple[dict, int]:
     if not email_address:
         return {"error": "email_address is required"}, 400
     else:
-        if db_connection.exists(f"email_{email_address}"):
-            return "An account with that email already exists", 409
+        email_exists = bool(
+            db.session.query(Account)
+            .filter(Account.email == email_address)
+            .first()
+        )
+        if not email_exists:
+            try:
+                new_account = Account(email=email_address)
+                db.session.add(new_account)
+                db.session.commit()
+                new_account_json = {
+                    "account_id": new_account.id,
+                    "email_address": email_address,
+                    "applications": [],
+                }
+                return new_account_json, 201
+            except sqlalchemy.IntegrityError:
+                db.rollback()
+                return "Integrity Error", 500
         else:
-            new_account_id = shortuuid.uuid()
-            db_connection.set(f"email_{email_address}", new_account_id)
-            new_account_json = {
-                "account_id": new_account_id,
-                "email_address": email_address,
-                "applications": [],
-            }
-            db_connection.set(new_account_id, new_account_json)
-
-            return new_account_json, 201
+            return "An account with that email already exists", 409

@@ -3,13 +3,20 @@ applications:
   memory: 64M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
-  command: flask run --host 0.0.0.0 --port 8080
+  command: gunicorn wsgi:app -c run/devtest.py
   env:
-    FUND_STORE_API_HOST: https://funding-service-design-fund-store-dev.london.cloudapps.digital
-    ROUND_STORE_API_HOST: https://funding-service-design-round-store-dev.london.cloudapps.digital
+    FLASK_ENV: dev
+    FLASK_DEBUG: 1
+  services:
+    - logit-ssl-drain
 
 - name: funding-service-design-account-store-test
   memory: 64M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
-  command: flask run --host 0.0.0.0 --port 8080
+  command: scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/devtest.py
+  env:
+    FLASK_ENV: test
+  services:
+    - funding-service-design-account-store-db
+    - logit-ssl-drain

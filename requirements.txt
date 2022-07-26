@@ -108,12 +108,17 @@ semver==2.13.0
 shortuuid==1.0.8
     # via -r requirements.in
 six==1.16.0
-    # via prance
+    # via
+    #   prance
+    #   sqlalchemy-utils
 sqlalchemy==1.4.39
     # via
     #   -r requirements.in
     #   alembic
     #   flask-sqlalchemy
+    #   sqlalchemy-utils
+sqlalchemy-utils==0.38.2
+    # via -r requirements.in
 swagger-ui-bundle==0.0.9
     # via -r requirements.in
 urllib3==1.26.9
