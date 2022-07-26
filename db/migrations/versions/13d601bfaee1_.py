@@ -26,7 +26,7 @@ def upgrade():
             sqlalchemy_utils.types.uuid.UUIDType(binary=False),
             nullable=False,
         ),
-        sa.Column("email", sa.String(), nullable=False),
+        sa.Column("email", sa.String(length=255), nullable=False),
         sa.PrimaryKeyConstraint("id", "email", name=op.f("pk_account")),
     )
     # ### end Alembic commands ###
