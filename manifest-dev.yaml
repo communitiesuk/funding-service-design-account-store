@@ -8,3 +8,5 @@ applications:
   env:
     FLASK_ENV: dev
     FLASK_DEBUG: 1
+  services:
+    - logit-ssl-drain

@@ -9,3 +9,4 @@ applications:
     FLASK_ENV: test
   services:
     - funding-service-design-account-store-db
+    - logit-ssl-drain
