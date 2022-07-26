@@ -1,6 +1,6 @@
 ---
 applications:
-- name: funding-service-design-assessment-store-dev
+- name: funding-service-design-assessment-store
   memory: 64M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
