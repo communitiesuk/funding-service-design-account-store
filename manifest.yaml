@@ -14,7 +14,7 @@ applications:
   memory: 64M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
-  command: chmod a+x scripts/run_migrations_paas.py && scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/devtest.py
+  command: scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/devtest.py
   env:
     FLASK_ENV: test
   services:
