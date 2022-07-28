@@ -21,6 +21,7 @@ SQLAlchemy
 Flask-SQLAlchemy
 Flask-Migrate
 sqlalchemy_utils
+psycopg2
 
 #-----------------------------------
 #   Connexion APIs
