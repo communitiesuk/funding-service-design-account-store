@@ -39,7 +39,7 @@ jobs:
         run: source .venv/bin/activate && python build.py
         
       - name : copy packages
-        run: mkdir ./local_packages/ cp -a .venv/lib/python/site-packages ./local_packages
+        run: mkdir ./local_packages/ && cp -a .venv/lib/*/site-packages/. ./local_packages
 
       - name: Archive Release
         uses: thedoctor0/zip-release@main
