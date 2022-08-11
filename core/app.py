@@ -3,11 +3,14 @@ Constructs the flask app using the typical create_app function.
 """
 import connexion
 from config import Config
-from flask import Flask
+from flask import Blueprint, Flask
 from fsd_utils.logging import logging
+from flask import request
 
 
 def create_app() -> Flask:
+    healthcheck = Blueprint('healthcheck', __name__)
+
 
     connexion_options = {"swagger_url": "/"}
     connexion_app = connexion.FlaskApp(
@@ -32,6 +35,14 @@ def create_app() -> Flask:
     migrate.init_app(
         flask_app, db, directory="db/migrations", render_as_batch=True
     )
+    @healthcheck.route('/healthcheck')
+    def show():
+        if request.args.get("database"):
+            db.session.execute('SELECT * from foo')
+        return 'OK', 200
+
+    with flask_app.app_context():
+        flask_app.register_blueprint(healthcheck)
 
     return flask_app
 
