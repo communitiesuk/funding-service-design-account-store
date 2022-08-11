@@ -3,7 +3,7 @@ Constructs the flask app using the typical create_app function.
 """
 import connexion
 from config import Config
-from flask import Blueprint, Flask
+from flask import Blueprint, Flask, current_app
 from fsd_utils.logging import logging
 from flask import request
 
@@ -37,9 +37,13 @@ def create_app() -> Flask:
     )
     @healthcheck.route('/healthcheck')
     def show():
-        if request.args.get("database"):
-            db.session.execute('SELECT * from foo')
-        return 'OK', 200
+        try:
+            if request.args.get("database"):
+                db.session.execute('SELECT 1')
+            return 'OK', 200
+        except:
+            current_app.logger.exception("Healthcheck failed on db call")
+            return 'Fail', 500
 
     with flask_app.app_context():
         flask_app.register_blueprint(healthcheck)
