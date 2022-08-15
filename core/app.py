@@ -37,13 +37,10 @@ def create_app() -> Flask:
 
     # Add healthchecks to flask_app
     health = Healthcheck(flask_app)
-    health.add_check(check_running)
+    health.add_check(Healthcheck.check_running)
     health.add_check(check_db)
 
     return flask_app
-
-def check_running():
-    return True, "OK"
 
 def check_db():
     db.session.execute("SELECT 1")

@@ -27,4 +27,11 @@ class Healthcheck(object):
     def add_check(self, check_func):
         self.checks.append(check_func)
 
+    @classmethod
+    def check_running(cls):
+        if(current_app):
+            return True, "OK"
+        else:
+            return False, "Fail"
+
     
