@@ -7,7 +7,7 @@ from flask import Blueprint, Flask, current_app
 from fsd_utils.logging import logging
 from flask import request
 
-from healthcheck import Healthcheck
+from healthcheck import Healthcheck, DbChecker, FlaskRunningChecker
 from db import db, migrate
 
 
@@ -37,13 +37,10 @@ def create_app() -> Flask:
 
     # Add healthchecks to flask_app
     health = Healthcheck(flask_app)
-    health.add_check(Healthcheck.check_running)
-    health.add_check(check_db)
+    health.add_check(FlaskRunningChecker())
+    health.add_check(DbChecker(db))
 
     return flask_app
 
-def check_db():
-    db.session.execute("SELECT 1")
-    return True, "OK"
 
 app = create_app()
