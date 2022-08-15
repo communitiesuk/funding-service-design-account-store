@@ -5,7 +5,6 @@ class Healthcheck(object):
 
     def __init__(self, app):
         self.flask_app = app
-
         self.flask_app.add_url_rule("/healthcheck", view_func=self.healthcheck_view)
         self.checks = []
 
@@ -15,7 +14,7 @@ class Healthcheck(object):
         for func in self.checks:
             try:
                 result = func()
-                # current_app.logger.debug(f"Check {func.__name__} returned {result}")
+                current_app.logger.debug(f"Check {func.__name__} returned {result}")
                 response["checks"].append({func.__name__ : result[1]})
                 if result[0] == False:
                     responseCode = 500
