@@ -43,10 +43,10 @@ def create_app() -> Flask:
     return flask_app
 
 def check_running():
-    return "OK"
+    return True, "OK"
 
 def check_db():
     db.session.execute("SELECT 1")
-    return "OK"
+    return True, "OK"
 
 app = create_app()
