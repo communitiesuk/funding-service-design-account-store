@@ -90,7 +90,7 @@ flask-sqlalchemy==2.5.1
     # via
     #   -r requirements.txt
     #   flask-migrate
-funding-service-design-utils @ git+https://github.com/communitiesuk/funding-service-design-utils.git@fs-1306-healthchecks
+funding-service-design-utils @ https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.12.tar.gz
     # via -r requirements.txt
 gitdb==4.0.9
     # via gitpython
