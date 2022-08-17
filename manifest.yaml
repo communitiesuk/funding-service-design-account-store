@@ -9,8 +9,8 @@ applications:
     FLASK_DEBUG: 1
   services:
     - logit-ssl-drain
-  health-check-http-endpoint: /healthcheck
-  health-check-type: http
+  # health-check-http-endpoint: /healthcheck
+  # health-check-type: http
 
 - name: funding-service-design-account-store-test
   memory: 64M
