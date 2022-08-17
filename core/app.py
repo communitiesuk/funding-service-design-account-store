@@ -3,9 +3,8 @@ Constructs the flask app using the typical create_app function.
 """
 import connexion
 from config import Config
-from flask import Blueprint, Flask, current_app
+from flask import Flask
 from fsd_utils.logging import logging
-from flask import request
 
 from fsd_utils.healthchecks.healthcheck import Healthcheck
 from fsd_utils.healthchecks.checkers import DbChecker, FlaskRunningChecker
