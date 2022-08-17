@@ -6,9 +6,12 @@ from config import Config
 from flask import Flask
 from fsd_utils.logging import logging
 
+from fsd_utils.healthchecks.healthcheck import Healthcheck
+from fsd_utils.healthchecks.checkers import DbChecker, FlaskRunningChecker
+from db import db, migrate
+
 
 def create_app() -> Flask:
-
     connexion_options = {"swagger_url": "/"}
     connexion_app = connexion.FlaskApp(
         __name__,
@@ -24,7 +27,6 @@ def create_app() -> Flask:
     # Initialise logging
     logging.init_app(flask_app)
 
-    from db import db, migrate
 
     # Bind SQLAlchemy ORM to Flask app
     db.init_app(flask_app)
@@ -32,6 +34,11 @@ def create_app() -> Flask:
     migrate.init_app(
         flask_app, db, directory="db/migrations", render_as_batch=True
     )
+
+    # Add healthchecks to flask_app
+    health = Healthcheck(flask_app)
+    health.add_check(FlaskRunningChecker())
+    health.add_check(DbChecker(db))
 
     return flask_app
 
