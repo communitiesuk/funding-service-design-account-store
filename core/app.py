@@ -37,9 +37,9 @@ def create_app() -> Flask:
     )
 
     # Add healthchecks to flask_app
-    # health = Healthcheck(flask_app)
-    # health.add_check(FlaskRunningChecker())
-    # health.add_check(DbChecker(db))
+    health = Healthcheck(flask_app)
+    health.add_check(FlaskRunningChecker())
+    health.add_check(DbChecker(db))
 
     return flask_app
 
