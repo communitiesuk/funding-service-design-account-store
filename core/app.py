@@ -7,7 +7,8 @@ from flask import Blueprint, Flask, current_app
 from fsd_utils.logging import logging
 from flask import request
 
-from healthcheck import Healthcheck, DbChecker, FlaskRunningChecker
+from fsd_utils.healthchecks.healthcheck import Healthcheck
+from fsd_utils.healthchecks.checkers import DbChecker, FlaskRunningChecker
 from db import db, migrate
 
 
