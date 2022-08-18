@@ -1,7 +1,7 @@
 # flake8: noqa
 from os import environ
 
-FLASK_ENV = environ.get("FLASK_ENV")
+FLASK_ENV = environ.get("FLASK_ENV", "default")
 
 match FLASK_ENV:
     case "development":
