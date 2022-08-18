@@ -1,6 +1,6 @@
 applications:
 - name: funding-service-design-account-store-dev
-  memory: 128M
+  memory: 1024M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: gunicorn wsgi:app -c run/devtest.py
@@ -13,7 +13,7 @@ applications:
   health-check-type: http
 
 - name: funding-service-design-account-store-test
-  memory: 128M
+  memory: 1024M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/devtest.py
