@@ -3,7 +3,7 @@ applications:
   memory: 1024M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
-  command: gunicorn wsgi:app -c run/devtest.py
+  command: gunicorn wsgi:app -c run/gunicorn/devtest.py
   env:
     FLASK_ENV: dev
     FLASK_DEBUG: 1
@@ -16,7 +16,7 @@ applications:
   memory: 1024M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
-  command: scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/devtest.py
+  command: scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/gunicorn/devtest.py
   env:
     FLASK_ENV: test
   services:
