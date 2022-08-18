@@ -1,5 +1,6 @@
 """Flask Local Development Environment Configuration."""
 import logging
+from os import environ
 from os import path
 
 from config.envs.default import DefaultConfig as Config
@@ -17,7 +18,7 @@ class UnitTestConfig(Config):
 
     # Database
     SQLITE_DB_NAME = "test_sqlite.db"
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + path.join(
-        Config.FLASK_ROOT, SQLITE_DB_NAME
-    )
+    SQLALCHEMY_DATABASE_URI = environ.get(
+        "DATABASE_URL"
+    ) or "sqlite:///" + path.join(Config.FLASK_ROOT, "sqlite.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
