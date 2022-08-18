@@ -1,6 +1,6 @@
 applications:
 - name: funding-service-design-account-store-dev
-  memory: 64M
+  memory: 128M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: gunicorn wsgi:app -c run/devtest.py
@@ -9,9 +9,11 @@ applications:
     FLASK_DEBUG: 1
   services:
     - logit-ssl-drain
+  health-check-http-endpoint: /healthcheck
+  health-check-type: http
 
 - name: funding-service-design-account-store-test
-  memory: 64M
+  memory: 128M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/devtest.py
@@ -20,3 +22,5 @@ applications:
   services:
     - funding-service-design-account-store-db
     - logit-ssl-drain
+  health-check-http-endpoint: /healthcheck
+  health-check-type: http
