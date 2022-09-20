@@ -8,6 +8,8 @@ alembic==1.8.0
     # via flask-migrate
 attrs==21.4.0
     # via jsonschema
+babel==2.10.3
+    # via flask-babel
 certifi==2022.6.15
     # via requests
 cffi==1.15.1
@@ -32,16 +34,19 @@ flask==2.1.1
     # via
     #   -r requirements.in
     #   connexion
+    #   flask-babel
     #   flask-migrate
     #   flask-sqlalchemy
     #   funding-service-design-utils
+flask-babel==2.0.0
+    # via funding-service-design-utils
 flask-migrate==3.1.0
     # via -r requirements.in
 flask-sqlalchemy==2.5.1
     # via
     #   -r requirements.in
     #   flask-migrate
-funding-service-design-utils @ https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.12.tar.gz
+funding-service-design-utils==1.0.0
     # via -r requirements.in
 gunicorn==20.1.0
     # via funding-service-design-utils
@@ -49,6 +54,8 @@ idna==3.3
     # via requests
 inflection==0.5.1
     # via connexion
+invoke==1.7.1
+    # via -r requirements.in
 itsdangerous==2.1.2
     # via
     #   connexion
@@ -56,6 +63,7 @@ itsdangerous==2.1.2
 jinja2==3.1.2
     # via
     #   flask
+    #   flask-babel
     #   swagger-ui-bundle
 jsonschema==4.6.0
     # via
@@ -93,7 +101,10 @@ python-dotenv==0.20.0
 python-json-logger==2.0.2
     # via funding-service-design-utils
 pytz==2022.1
-    # via funding-service-design-utils
+    # via
+    #   babel
+    #   flask-babel
+    #   funding-service-design-utils
 pyyaml==6.0
     # via
     #   clickclick
