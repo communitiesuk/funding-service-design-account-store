@@ -54,7 +54,12 @@ def get_data_by_email(email: str, as_json: bool = True) -> Tuple[dict, int]:
         A tuple with content and a status code.
     """
 
-    account = db.session.query(Account).filter(Account.email == email).one()
-    account_id = account.account_id
+    try:
+        account = (
+            db.session.query(Account).filter(Account.email == email).one()
+        )
+        account_id = account.id
+    except sqlalchemy.exc.NoResultFound:
+        return NoContent, 404
 
     return check_account_exists_then_return(account_id, as_json)
