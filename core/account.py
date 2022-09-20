@@ -85,7 +85,7 @@ def register_app():
 
     if not account_id and email_address:
         account = get_data_by_email(email_address, as_json=True)
-        account_id = account.id
+        account_id = account["account_id"]
     try:
         new_app_account_row = AccountApplicationRelationship(
             account_id=account_id, application_id=app_id
