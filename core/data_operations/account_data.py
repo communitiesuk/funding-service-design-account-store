@@ -4,9 +4,12 @@ import sqlalchemy
 from connexion import NoContent
 from db import db
 from db.models.account import Account
+from db.models.applications import AccountApplicationRelationship
 
 
-def check_exists_then_get(account_id: str) -> Tuple[dict, int]:
+def check_account_exists_then_return(
+    account_id: str, as_json: bool = True
+) -> Tuple[dict, int]:
     """check_exists_then_get Checks that the key exists in the db
      and returns a value if so.
 
@@ -21,16 +24,27 @@ def check_exists_then_get(account_id: str) -> Tuple[dict, int]:
         account = (
             db.session.query(Account).filter(Account.id == account_id).one()
         )
-        return {
-            "account_id": account.id,
-            "email_address": account.email,
-            "applications": [],
-        }
+        application_id_rows = (
+            db.session.query(AccountApplicationRelationship)
+            .filter(AccountApplicationRelationship.account_id == account_id)
+            .all()
+        )
+
+        if as_json:
+            return {
+                "account_id": account.id,
+                "email_address": account.email,
+                "applications": [
+                    row.application_id for row in application_id_rows
+                ],
+            }
+        else:
+            return account
     except sqlalchemy.exc.NoResultFound:
         return NoContent, 404
 
 
-def get_data_by_email(email: str) -> Tuple[dict, int]:
+def get_data_by_email(email: str, as_json: bool = True) -> Tuple[dict, int]:
     """get_data_by_email Allows you to fetch account by its email.
 
     Args:
@@ -40,14 +54,7 @@ def get_data_by_email(email: str) -> Tuple[dict, int]:
         A tuple with content and a status code.
     """
 
-    try:
-        account = (
-            db.session.query(Account).filter(Account.email == email).one()
-        )
-        return {
-            "account_id": account.id,
-            "email_address": account.email,
-            "applications": [],
-        }
-    except sqlalchemy.exc.NoResultFound:
-        return NoContent, 404
+    account = db.session.query(Account).filter(Account.email == email).one()
+    account_id = account.account_id
+
+    return check_account_exists_then_return(account_id, as_json)
