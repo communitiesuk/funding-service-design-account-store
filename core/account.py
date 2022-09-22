@@ -86,6 +86,7 @@ def register_app():
     if not account_id and email_address:
         account = get_data_by_email(email_address, as_json=True)
         account_id = account["account_id"]
+
     try:
         new_app_account_row = AccountApplicationRelationship(
             account_id=account_id, application_id=app_id
@@ -93,7 +94,9 @@ def register_app():
 
         db.session.add(new_app_account_row)
         db.session.commit()
+
         return check_account_exists_then_return(account_id)
+
     except Exception as e:
         db.rollback()
         return {"code": 500, "message": str(e)}
