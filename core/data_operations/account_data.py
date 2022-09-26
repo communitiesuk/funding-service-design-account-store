@@ -4,7 +4,6 @@ import sqlalchemy
 from connexion import NoContent
 from db import db
 from db.models.account import Account
-from db.models.applications import AccountApplicationRelationship
 
 
 def check_account_exists_then_return(
@@ -24,19 +23,11 @@ def check_account_exists_then_return(
         account = (
             db.session.query(Account).filter(Account.id == account_id).one()
         )
-        application_id_rows = (
-            db.session.query(AccountApplicationRelationship)
-            .filter(AccountApplicationRelationship.account_id == account_id)
-            .all()
-        )
 
         if as_json:
             return {
                 "account_id": account.id,
                 "email_address": account.email,
-                "applications": [
-                    row.application_id for row in application_id_rows
-                ],
             }
         else:
             return account

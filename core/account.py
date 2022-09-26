@@ -8,7 +8,6 @@ from core.data_operations.account_data import check_account_exists_then_return
 from core.data_operations.account_data import get_data_by_email
 from db import db
 from db.models.account import Account
-from db.models.applications import AccountApplicationRelationship
 from flask import request
 
 
@@ -75,28 +74,3 @@ def post_account_by_email() -> Tuple[dict, int]:
                 return "Integrity Error", 500
         else:
             return "An account with that email already exists", 409
-
-
-def register_app():
-
-    email_address = request.json.get("email_address")
-    account_id = request.json.get("account_id")
-    app_id = request.json["application_id"]
-
-    if not account_id and email_address:
-        account = get_data_by_email(email_address, as_json=True)
-        account_id = account["account_id"]
-
-    try:
-        new_app_account_row = AccountApplicationRelationship(
-            account_id=account_id, application_id=app_id
-        )
-
-        db.session.add(new_app_account_row)
-        db.session.commit()
-
-        return check_account_exists_then_return(account_id)
-
-    except Exception as e:
-        db.rollback()
-        return {"code": 500, "message": str(e)}

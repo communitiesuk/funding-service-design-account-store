@@ -55,34 +55,6 @@ paths:
         409:
           description: "This email address has already been used to create an account"
 
-
-  /accounts/register-application:
-    post:
-      summary: "Post a new email, creating an new account with a unique account id in the account store."
-      description: "Given an email, we create a corresponding account object in the account store."
-      operationId: core.account.register_app
-      requestBody:
-        description: Application registration parameters
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/applicationReg'
-            example:
-              email_address: 'a@example.com'
-              application_id: "jeg8e9goi8-egg5e-sdfdf"
-
-      responses:
-        201:
-          description: "If the resource is successfully created then the created resource is returned."
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/account'
-        409:
-          description: "This email address has already been used to create an account"
-
-
 components:
   schemas:
     accountCreate:
@@ -115,18 +87,3 @@ components:
           type: string
           description: The id of the application - should be the same as the id in the application store.
           example: "FEASFDFGDFG-45009029-sDFG3SDF"
-
-    applicationReg:
-      type: object
-      properties:
-        account_id:
-          type: string
-          description: The unique id for the given account.
-        email_address:
-          type: string
-          description: An email address.
-          example: "test@cool.com"
-        application_id:
-          type: string
-          description: The application id to be registered.
-          example: 'fdghdfghd-45g5eger-w4fdsfs'

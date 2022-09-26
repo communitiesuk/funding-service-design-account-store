@@ -80,22 +80,3 @@ class TestAccounts:
         )
 
         assert response.status_code == 404
-
-    def test_registed_application_is_saved(self, flask_test_client):
-
-        post_email_and_return_data(flask_test_client, "test@delete_me.org")
-
-        url = "/accounts/register-application"
-
-        params = {"email_address": "test@delete_me.org", "application_id": "5"}
-
-        response = flask_test_client.post(url, json=params)
-
-        response = get_and_return_data(
-            flask_test_client, email_address="test@delete_me.org"
-        )
-
-        response_dict = response.json
-
-        assert response_dict["email_address"] == "test@delete_me.org"
-        assert response_dict["applications"] == ["5"]
