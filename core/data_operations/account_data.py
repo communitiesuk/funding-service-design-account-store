@@ -35,7 +35,7 @@ def check_account_exists_then_return(
         return NoContent, 404
 
 
-def get_data_by_email(email: str, as_json: bool = True) -> Tuple[dict, int]:
+def get_account_data_by_email(email: str, as_json: bool = True) -> Tuple[dict, int]:
     """get_data_by_email Allows you to fetch account by its email.
 
     Args:
