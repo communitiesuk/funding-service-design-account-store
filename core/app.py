@@ -3,12 +3,13 @@ Constructs the flask app using the typical create_app function.
 """
 import connexion
 from config import Config
+from db import db
+from db import migrate
 from flask import Flask
-from fsd_utils.logging import logging
-
+from fsd_utils.healthchecks.checkers import DbChecker
+from fsd_utils.healthchecks.checkers import FlaskRunningChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
-from fsd_utils.healthchecks.checkers import DbChecker, FlaskRunningChecker
-from db import db, migrate
+from fsd_utils.logging import logging
 
 
 def create_app() -> Flask:
@@ -26,7 +27,6 @@ def create_app() -> Flask:
 
     # Initialise logging
     logging.init_app(flask_app)
-
 
     # Bind SQLAlchemy ORM to Flask app
     db.init_app(flask_app)

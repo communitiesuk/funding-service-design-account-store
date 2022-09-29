@@ -4,8 +4,8 @@ Contains the functions directly used by the openapi spec.
 from typing import Tuple
 
 import sqlalchemy
-from core.data_operations.account_data import check_exists_then_get
-from core.data_operations.account_data import get_data_by_email
+from core.data_operations.account_data import check_account_exists_then_return
+from core.data_operations.account_data import get_account_data_by_email
 from db import db
 from db.models.account import Account
 from flask import request
@@ -28,11 +28,11 @@ def get_account(
     """
 
     if account_id:
-        return check_exists_then_get(account_id)
+        return check_account_exists_then_return(account_id)
     elif email_address:
-        return get_data_by_email(email_address)
+        return get_account_data_by_email(email_address)
     else:
-        raise TypeError("Get account needs atleast 1 argument.")
+        raise TypeError("GET account needs at least 1 argument.")
 
 
 def post_account_by_email() -> Tuple[dict, int]:

@@ -2,7 +2,7 @@ openapi: "3.0.0"
 
 info:
   description: Account store API for DLUHC Funding Service Design
-  version: "0.1.0"
+  version: "0.1.1"
   title: Funding Service Design - Account store
 paths:
   /accounts:
