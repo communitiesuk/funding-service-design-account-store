@@ -1,7 +1,7 @@
 class TestHealthcheck:
     def testHealthcheckRoute(self, flask_test_client):
         expected_dict = {
-            "checks": [{"check_running": "OK"}, {"check_db": "OK"}]
+            "checks": [{"check_flask_running": "OK"}, {"check_db": "OK"}]
         }
 
         response = flask_test_client.get("/healthcheck")
