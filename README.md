@@ -45,6 +45,15 @@ From the top-level directory enter the command to install pip and the dependenci
 ### Install pre-commit hooks
     pre-commit install
 
+### Updating dependencies
+requirements-dev.txt and requirements.txt are updated using [pip-tools pip-compile](https://github.com/jazzband/pip-tools)
+To update requirements please manually add the dependencies in the .in files (not the requirements.txt files)
+Then run (in the following order):
+
+    pip-compile requirements.in
+
+    pip-compile requirements-dev.in
+    
 ## How to use
 Enter the virtual environment as described above, then:
 

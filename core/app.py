@@ -6,6 +6,7 @@ from config import Config
 from db import db
 from db import migrate
 from flask import Flask
+from fsd_utils import init_sentry
 from fsd_utils.healthchecks.checkers import DbChecker
 from fsd_utils.healthchecks.checkers import FlaskRunningChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
@@ -13,6 +14,7 @@ from fsd_utils.logging import logging
 
 
 def create_app() -> Flask:
+    init_sentry()
     connexion_options = {"swagger_url": "/"}
     connexion_app = connexion.FlaskApp(
         __name__,

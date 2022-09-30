@@ -10,8 +10,12 @@ attrs==21.4.0
     # via jsonschema
 babel==2.10.3
     # via flask-babel
+blinker==1.5
+    # via sentry-sdk
 certifi==2022.6.15
-    # via requests
+    # via
+    #   requests
+    #   sentry-sdk
 cffi==1.15.1
     # via cryptography
 chardet==4.0.0
@@ -38,6 +42,7 @@ flask==2.1.1
     #   flask-migrate
     #   flask-sqlalchemy
     #   funding-service-design-utils
+    #   sentry-sdk
 flask-babel==2.0.0
     # via funding-service-design-utils
 flask-migrate==3.1.0
@@ -46,7 +51,7 @@ flask-sqlalchemy==2.5.1
     # via
     #   -r requirements.in
     #   flask-migrate
-funding-service-design-utils==1.0.0
+funding-service-design-utils==1.0.1
     # via -r requirements.in
 gunicorn==20.1.0
     # via funding-service-design-utils
@@ -124,6 +129,8 @@ ruamel-yaml-clib==0.2.6
     # via ruamel-yaml
 semver==2.13.0
     # via prance
+sentry-sdk[flask]==1.9.9
+    # via funding-service-design-utils
 shortuuid==1.0.8
     # via -r requirements.in
 six==1.16.0
@@ -140,8 +147,10 @@ sqlalchemy-utils==0.38.2
     # via -r requirements.in
 swagger-ui-bundle==0.0.9
     # via -r requirements.in
-urllib3==1.26.9
-    # via requests
+urllib3==1.26.12
+    # via
+    #   requests
+    #   sentry-sdk
 werkzeug==2.1.2
     # via
     #   connexion
