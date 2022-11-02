@@ -106,6 +106,10 @@ gitdb==4.0.9
     # via gitpython
 gitpython==3.1.27
     # via bandit
+greenlet==2.0.0
+    # via
+    #   -r requirements.txt
+    #   sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
@@ -318,7 +322,7 @@ sniffio==1.2.0
     # via trio
 sortedcontainers==2.4.0
     # via trio
-sqlalchemy==1.4.39
+sqlalchemy==1.4.42
     # via
     #   -r requirements.txt
     #   alembic
