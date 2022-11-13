@@ -51,4 +51,7 @@ app = create_app()
 
 @app.cli.command("update-account-roles")
 def update_account_roles_cli():
-    update_account_roles()
+    roles, status = update_account_roles()
+    for email, role in roles.items():
+        print("--------------\nROLES UPDATED\n--------------")
+        print(email[0:4] + "****" + email[-6:] + " - " + role)
