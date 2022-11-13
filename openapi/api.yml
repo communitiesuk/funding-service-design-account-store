@@ -7,6 +7,8 @@ info:
 paths:
   /accounts:
     get:
+      tags:
+        - accounts
       summary: "Return the account data for the given email address or account id."
       description: "Given an account id or email address, return the json associated with the account, or 404 if none are found."
       operationId: core.account.get_account
@@ -54,14 +56,145 @@ paths:
                 $ref: '#/components/schemas/account'
         409:
           description: "This email address has already been used to create an account"
+  /accounts/update-roles:
+    put:
+      tags:
+        - accounts
+      summary: Bulk update role changes to multiple accounts
+      description: Update roles on an array of accounts
+      operationId: core.account.update_account_roles
+      requestBody:
+        description: Account role updater parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/accountRolesUpdate'
+            example:
+              admin_secret: 'a-secret-key'
+              roles: {
+                       a@example.com: "ASSESSOR"
+              }
+      responses:
+        201:
+          description: SUCCESS - All requested account roles updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountRolesUpdateStatus'
+        401:
+          description: ERROR - Account roles could not be updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 401
+                status: 'error'
+                message: 'One or more roles or accounts could not be updated'
+      parameters:
+        - name: use_request_payload
+          in: query
+          description: "Set whether to use request payload or ASSESSMENT_PROCESS_ROLES env var for setting roles"
+          required: true
+          schema:
+            type: boolean
+            default: false
+  /accounts/{account_id}:
+    put:
+      tags:
+        - accounts
+      summary: Put changes to an account
+      description: Put changes to a specific account by account id
+      operationId: core.account.put_account
+      requestBody:
+        description: Account update parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/accountUpdate'
+            example:
+              role: 'ASSESSOR'
+      responses:
+        201:
+          description: SUCCESS - An account updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountStatus'
+        401:
+          description: ERROR - Account could not be updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 401
+                status: 'error'
+                message: 'Account corresponding to id could not be updated.'
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
 
 components:
   schemas:
     accountCreate:
       type: object
+      required:
+        - email_address
       properties:
         email_address:
           type: string
+        role:
+          type: string
+    accountUpdate:
+      type: object
+      required:
+        - role
+      properties:
+        role:
+          type: string
+    accountStatus:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique id for the given account.
+        email_address:
+          type: string
+          pattern: '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
+          description: An email address.
+          example: "test@cool.com"
+        role:
+          type: string
+          description: A role
+          example: "ASSESSOR"
+    accountRolesUpdateStatus:
+      type: object
+      properties:
+        roles:
+          type: object
+          description: The dictionary of updated account email/role pairs
+          example: '{"a@example.com":"LEAD_ASSESSOR"}'
+    accountRolesUpdate:
+      type: object
+      required:
+        - admin_secret
+        - roles
+      properties:
+        admin_secret:
+          type: string
+          description: Tha ADMIN_SECRET for the account store environment
+          example: "a-secret-key"
+        roles:
+          type: object
+          description: The dictionary of account email/role pairs
+          example: '{"a@example.com":"LEAD_ASSESSOR"}'
     account:
       type: object
       properties:
@@ -73,6 +206,10 @@ components:
           pattern: '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
           description: An email address.
           example: "test@cool.com"
+        role:
+          type: string
+          description: A role
+          example: "APPLICANT"
         applications:
           type: array
           description: A list of application ids.
@@ -87,3 +224,14 @@ components:
           type: string
           description: The id of the application - should be the same as the id in the application store.
           example: "FEASFDFGDFG-45009029-sDFG3SDF"
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+      required:
+        - code
+        - message

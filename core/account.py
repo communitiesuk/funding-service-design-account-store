@@ -6,9 +6,14 @@ from typing import Tuple
 import sqlalchemy
 from core.data_operations.account_data import check_account_exists_then_return
 from core.data_operations.account_data import get_account_data_by_email
+from core.data_operations.account_data import update_account
 from db import db
 from db.models.account import Account
+from db.models.account import Role
 from flask import request
+from flask import current_app
+from config import Config
+import json
 
 
 def get_account(
@@ -33,6 +38,102 @@ def get_account(
         return get_account_data_by_email(email_address)
     else:
         raise TypeError("GET account needs at least 1 argument.")
+
+
+def put_account(
+    account_id: str
+) -> Tuple[dict, int]:
+    """put_account Given an account id and an optional role,
+    if the account_id exists in the db the corresponding
+    entry in the db is updated with the corresponding role.
+
+    Args:
+        account_id (str, required): An account_id given as a string.
+    Json Args:
+        role (str, required): A role given as a string.
+        Defaults to None.
+
+    Returns:
+        dict, int
+    """
+    role = request.json.get("role")
+    if not role:
+        return {"error": "role is required"}, 401
+    else:
+        account = update_account(account_id, role)
+        return account
+
+
+def update_account_roles(use_request_payload=False) -> Tuple[dict, int]:
+    """
+    Bulk update account roles using either
+
+    Args:
+        use_request_payload (bool): use roles payload from request (default False)
+
+    If use_request_payload == True:
+        Given a request json object with a structure of
+         {
+             admin_secret: <admin_env_secret>
+             roles: { email: role,... }
+        }
+        and the admin_secret arg value matches the environment ADMIN_SECRET value,
+        then for each email key in the roles object:
+            if the email exists in the db
+            then update the corresponding entry in the db with the corresponding role.
+    Else if use_request_payload == False:
+        Given an ASSESSMENT_PROCESS_ROLES env var json object with the following format:
+        { email: role,...}
+        For each email key in the env var:
+            if the email exists in the db
+            then the corresponding entry in the db is updated with the corresponding role.
+
+    Returns:
+        dict, int
+    """
+    if use_request_payload:
+        admin_secret = request.json.get("admin_secret")
+        roles = request.json.get("roles")
+        if not roles or not admin_secret:
+            return {"error": "incorrectly formatted payload"}, 401
+        if not admin_secret == Config.ADMIN_SECRET:
+            return {"error": "incorrectly formatted payload"}, 401
+    else:
+        roles = json.loads(Config.ASSESSMENT_PROCESS_ROLES)
+
+    # First CHECK all accounts exist and roles are valid before updating anything
+    valid_accounts = {}
+    for email, role in roles.items():
+        account, code = get_account(email_address=email)
+        if code != 200:
+            current_app.logger.error(f"Account with email {email} does not exist")
+            return {"error": f"Account with email {email} does not exist"}, 401
+        try:
+            Role[role]
+        except KeyError:
+            current_app.logger.error(
+                f"Tried to set non-existent role "
+                f"'{role}' for account with email {email}"
+            )
+            return {
+                       "error": f"Tried to set non-existent role "
+                                f"'{role}' for account with email {email}"
+                   }, 401
+        valid_accounts.update({
+            account["account_id"]: role
+        })
+
+    # Then UPDATE all account roles if all valid
+    for account_id, role in valid_accounts.items():
+        updated_account, update_status = update_account(account_id, role)
+        if not update_status == 201:
+            current_app.logger.error(
+                f"Account with id {account_id} could not be updated"
+            )
+            return {"error": f"Account with id {account_id} could not be updated"}, 401
+    current_app.logger.info("Account roles updated")
+    # Finally, RETURN updated roles as confirmation
+    return roles, 201
 
 
 def post_account_by_email() -> Tuple[dict, int]:
@@ -65,6 +166,7 @@ def post_account_by_email() -> Tuple[dict, int]:
                 db.session.commit()
                 new_account_json = {
                     "account_id": new_account.id,
+                    "role": new_account.role.name,
                     "email_address": email_address,
                     "applications": [],
                 }
