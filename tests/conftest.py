@@ -6,7 +6,7 @@ import os
 import flask_migrate
 import pytest
 from config import Config
-from core.app import create_app
+from app import create_app
 
 
 class SqliteTestDB:

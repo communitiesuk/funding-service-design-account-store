@@ -1,82 +1,77 @@
 """
-Tests the GET and POST functionality of our api.
+Tests the roles update functionality of our api.
 """
-from tests.helpers import get_and_return_data
-from tests.helpers import post_email_and_return_data
 
 
-class TestAccounts:
-    def test_new_post(self, flask_test_client):
-        """test_new_post Creates a random email address and posts it
-         to the account store,then checks that the email address
-        exists in the account store.
+class TestRoles:
+    test_email = "person@example.com"
+    accounts_created = {test_email: "APPLICANT"}
 
-        GIVEN The flask test client
-        WHEN an email is submitted
-        THEN we expect that the email exists in the account store.
-
+    def test_create_account_returns_role(self, flask_test_client):
         """
-
-        status_code, response_data = post_email_and_return_data(
-            flask_test_client, "test@delete_me.org"
-        )
-
-        assert status_code == 201
-        assert "account_id" in response_data.keys()
-        assert "applications" in response_data.keys()
-        assert response_data["email_address"] == "test@delete_me.org"
-
-    def test_double_post_returns_409(self, flask_test_client):
-
-        params = {"email_address": "test2@delete_me.org"}
-
+        GIVEN The flask test client
+        WHEN we POST to the /accounts endpoint
+        WITH a json payload of
+            {
+                "email: "person@example.com"
+            }
+        THEN the account is created with the correct role
+        Args:
+            flask_test_client: the test client
+        """
+        params = {
+            "email_address": self.test_email
+        }
         url = "/accounts"
 
-        response1 = flask_test_client.post(url, json=params)
-        response2 = flask_test_client.post(url, json=params)
+        response = flask_test_client.post(url, json=params)
 
-        assert response1.status_code == 201
-        assert response2.status_code == 409
+        assert response.status_code == 201
+        assert response.json["email_address"] == self.test_email
+        assert response.json["role"] == "APPLICANT"
+        self.accounts_created.update({
+            self.test_email: response.json["account_id"]
+        })
 
-    def test_get_methods_work(self, flask_test_client):
+    def test_update_role(self, flask_test_client):
         """
-        GIVEN An instance of our API
-        WHEN Several get requests of
-         various VALID forms are made
-        THEN we except them all to yield a
-        200 status code back (they succeed).
+        GIVEN The flask test client
+        WHEN we PUT to the /accounts/{account_id} endpoint
+        WITH a json payload of {"role":"LEAD_ASSESSOR"}
+        THEN the account role is updated
+
         """
 
-        _, response_dict = post_email_and_return_data(
-            flask_test_client, email_address="test3@delete_me.org"
-        )
+        new_role = "ASSESSOR"
+        params = {
+            "role": new_role
+        }
+        url = "/accounts/" + self.accounts_created.get(self.test_email)
 
-        email = response_dict["email_address"]
-        account_id = response_dict["account_id"]
+        response = flask_test_client.put(url, json=params)
 
-        email_response_data = get_and_return_data(
-            flask_test_client, email_address=email
-        )
-        account_response_data = get_and_return_data(
-            flask_test_client, account_id=account_id
-        )
+        assert response.status_code == 201
+        assert "email_address" in response.json.keys()
+        assert "role" in response.json.keys()
+        assert response.json["email_address"] == self.test_email
+        assert response.json["role"] == new_role
 
-        email_dict = email_response_data.json
-        account_dict = account_response_data.json
 
-        assert email_response_data.json == account_response_data.json
-        assert email_dict["account_id"] == account_id
-        assert account_dict["email_address"] == email
-        assert (
-            account_dict["email_address"]
-            == email_dict["email_address"]
-            == "test3@delete_me.org"
-        )
+    def test_update_role_with_non_existant_role_fails(self, flask_test_client):
+        """
+        GIVEN The flask test client
+        WHEN we PUT to the /accounts/{account_id} endpoint
+        WITH a json payload of {"role":"BAD_ROLE"}
+        THEN the account role is updated
 
-    def test_get_to_non_existing_resource_returns_404(self, flask_test_client):
+        """
 
-        response = get_and_return_data(
-            flask_test_client, email_address="dfgdfjg@sdjlkjsf.org"
-        )
+        new_role = "BAD_ROLE"
+        params = {
+            "role": new_role
+        }
+        url = "/accounts/" + self.accounts_created.get(self.test_email)
 
-        assert response.status_code == 404
+        response = flask_test_client.put(url, json=params)
+
+        assert response.status_code == 401
