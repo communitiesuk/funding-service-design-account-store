@@ -62,7 +62,7 @@ paths:
         - accounts
       summary: Bulk update role changes to multiple accounts
       description: Update roles on an array of accounts
-      operationId: core.account.update_account_roles
+      operationId: core.account.put_updates_to_account_roles
       requestBody:
         description: Account role updater parameters
         required: true
@@ -91,14 +91,6 @@ paths:
                 code: 401
                 status: 'error'
                 message: 'One or more roles or accounts could not be updated'
-      parameters:
-        - name: use_request_payload
-          in: query
-          description: "Set whether to use request payload or ASSESSMENT_PROCESS_ROLES env var for setting roles"
-          required: true
-          schema:
-            type: boolean
-            default: false
   /accounts/{account_id}:
     put:
       tags:

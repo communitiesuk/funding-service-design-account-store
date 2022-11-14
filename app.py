@@ -54,6 +54,9 @@ app = create_app()
 def update_account_roles_cli():
     roles_from_environment = json.loads(Config.ASSESSMENT_PROCESS_ROLES)
     roles, status = update_account_roles(roles_from_environment)
-    for email, role in roles.items():
+    if len(roles) > 0:
         print("--------------\nROLES UPDATED\n--------------")
-        print(email[0:4] + "****" + email[-6:] + " - " + role)
+        for email, role in roles.items():
+            print(email[0:4] + "****" + email[-6:] + " - " + role)
+    else:
+        print("------------------\nNO ROLES TO UPDATE\n------------------")

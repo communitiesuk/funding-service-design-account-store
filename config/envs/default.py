@@ -15,7 +15,7 @@ class DefaultConfig(object):
     FLASK_ENV = environ.get("FLASK_ENV")
 
     ADMIN_SECRET = environ.get("ADMIN_SECRET")
-    ASSESSMENT_PROCESS_ROLES = environ.get("ASSESSMENT_PROCESS_ROLES", {})
+    ASSESSMENT_PROCESS_ROLES = environ.get("ASSESSMENT_PROCESS_ROLES", '{}')
 
     # Logging
     FSD_LOG_LEVEL = logging.WARNING
