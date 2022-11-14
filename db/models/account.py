@@ -8,6 +8,7 @@ import enum
 
 
 class Role(enum.Enum):
+    ADMIN = "Admin"
     LEAD_ASSESSOR = "Lead Assessor"
     ASSESSOR = "Assessor"
     COMMENTER = "Commenter"
