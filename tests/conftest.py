@@ -26,11 +26,8 @@ class SqliteTestDB:
 
 @pytest.fixture()
 def app():
-    with create_app().app_context() as app_context:
-        SqliteTestDB.create()
-        with app_context.app.test_client() as test_client:
-            yield test_client
-        SqliteTestDB.remove()
+    app = create_app()
+    return app
 
 
 @pytest.fixture(scope="function")
