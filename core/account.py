@@ -64,42 +64,42 @@ def put_account(
         return account
 
 
-def update_account_roles(use_request_payload=False) -> Tuple[dict, int]:
+def put_updates_to_account_roles() -> Tuple[dict, int]:
     """
     Bulk update account roles using either
 
-    Args:
-        use_request_payload (bool): use roles payload from request (default False)
-
-    If use_request_payload == True:
-        Given a request json object with a structure of
+    Given a request json object with a structure of
          {
-             admin_secret: <admin_env_secret>
              roles: { email: role,... }
         }
-        and the admin_secret arg value matches the environment ADMIN_SECRET value,
-        then for each email key in the roles object:
-            if the email exists in the db
-            then update the corresponding entry in the db with the corresponding role.
-    Else if use_request_payload == False:
-        Given an ASSESSMENT_PROCESS_ROLES env var json object with the following format:
-        { email: role,...}
-        For each email key in the env var:
-            if the email exists in the db
-            then the corresponding entry in the db is updated with the corresponding role.
+    then for each email key in the roles object:
+        if the email exists in the db
+        then update the corresponding entry in the db with the corresponding role.
 
     Returns:
         dict, int
     """
-    if use_request_payload:
-        admin_secret = request.json.get("admin_secret")
-        roles = request.json.get("roles")
-        if not roles or not admin_secret:
-            return {"error": "incorrectly formatted payload"}, 401
-        if not admin_secret == Config.ADMIN_SECRET:
-            return {"error": "incorrectly formatted payload"}, 401
-    else:
-        roles = json.loads(Config.ASSESSMENT_PROCESS_ROLES)
+    roles = request.json.get("roles")
+    if not roles:
+        return {"error": "incorrectly formatted payload"}, 401
+
+    return update_account_roles(roles)
+
+
+def update_account_roles(roles: dict) -> Tuple[dict, int]:
+    """
+    Bulk update account roles using either
+
+    Args:
+        roles (dict): { email: role,...}
+
+    For each email key in roles:
+        if the email exists in the db
+        then the corresponding entry in the db is updated with the corresponding role.
+
+    Returns:
+        dict, int
+    """
 
     # First CHECK all accounts exist and roles are valid before updating anything
     valid_accounts = {}
@@ -132,6 +132,7 @@ def update_account_roles(use_request_payload=False) -> Tuple[dict, int]:
             )
             return {"error": f"Account with id {account_id} could not be updated"}, 401
     current_app.logger.info("Account roles updated")
+
     # Finally, RETURN updated roles as confirmation
     return roles, 201
 

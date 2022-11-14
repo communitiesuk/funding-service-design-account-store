@@ -12,6 +12,7 @@ from fsd_utils.healthchecks.checkers import FlaskRunningChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
 from fsd_utils.logging import logging
 from core.account import update_account_roles
+import json
 
 
 def create_app() -> Flask:
@@ -51,7 +52,8 @@ app = create_app()
 
 @app.cli.command("update-account-roles")
 def update_account_roles_cli():
-    roles, status = update_account_roles()
+    roles_from_environment = json.loads(Config.ASSESSMENT_PROCESS_ROLES)
+    roles, status = update_account_roles(roles_from_environment)
     for email, role in roles.items():
         print("--------------\nROLES UPDATED\n--------------")
         print(email[0:4] + "****" + email[-6:] + " - " + role)

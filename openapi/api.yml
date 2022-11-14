@@ -71,7 +71,6 @@ paths:
             schema:
               $ref: '#/components/schemas/accountRolesUpdate'
             example:
-              admin_secret: 'a-secret-key'
               roles: {
                        a@example.com: "ASSESSOR"
               }
@@ -180,21 +179,20 @@ components:
         roles:
           type: object
           description: The dictionary of updated account email/role pairs
-          example: '{"a@example.com":"LEAD_ASSESSOR"}'
+          example:  {
+                       a@example.com: "ASSESSOR"
+              }
     accountRolesUpdate:
       type: object
       required:
-        - admin_secret
         - roles
       properties:
-        admin_secret:
-          type: string
-          description: Tha ADMIN_SECRET for the account store environment
-          example: "a-secret-key"
         roles:
           type: object
           description: The dictionary of account email/role pairs
-          example: '{"a@example.com":"LEAD_ASSESSOR"}'
+          example:  {
+                       a@example.com: "ASSESSOR"
+              }
     account:
       type: object
       properties:
