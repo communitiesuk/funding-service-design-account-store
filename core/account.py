@@ -105,19 +105,20 @@ def update_account_roles(roles: dict) -> Tuple[dict, int]:
     valid_accounts = {}
     for email, role in roles.items():
         account, code = get_account(email_address=email)
+        masked_email = email[0:4] + "****" + email[-6:]
         if code != 200:
-            current_app.logger.error(f"Account with email {email} does not exist")
-            return {"error": f"Account with email {email} does not exist"}, 401
+            current_app.logger.error(f"Account with email {masked_email} does not exist")
+            return {"error": f"Account with email {masked_email} does not exist"}, 401
         try:
             Role[role]
         except KeyError:
             current_app.logger.error(
                 f"Tried to set non-existent role "
-                f"'{role}' for account with email {email}"
+                f"'{role}' for account with email {masked_email}"
             )
             return {
                        "error": f"Tried to set non-existent role "
-                                f"'{role}' for account with email {email}"
+                                f"'{role}' for account with email {masked_email}"
                    }, 401
         valid_accounts.update({
             account["account_id"]: role
