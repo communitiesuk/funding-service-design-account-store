@@ -12,8 +12,6 @@ from db.models.account import Account
 from db.models.account import Role
 from flask import request
 from flask import current_app
-from config import Config
-import json
 
 
 def get_account(
@@ -43,7 +41,7 @@ def get_account(
 def put_account(
     account_id: str
 ) -> Tuple[dict, int]:
-    """put_account Given an account id and an optional role,
+    """put_account Given an account id and a role,
     if the account_id exists in the db the corresponding
     entry in the db is updated with the corresponding role.
 

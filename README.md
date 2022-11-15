@@ -90,3 +90,32 @@ the following while in your virtual enviroment:
 
 Once the above is done you will have autoformatting and pep8 compliance built
 into your workflow. You will be notified of any pep8 errors during commits.
+
+
+## Role Management
+
+As well as the [Api](openapi/api.yml) endpoints available on this store for 
+managing account roles, a cli command is also provided to enable role updates
+to be made without requiring a browser.
+
+Just add an escaped stringified JSON object to the environment variable ASSESSMENT_PROCESS_ROLES
+with a set of email/role key-value pairs that you want set.
+
+For example:
+
+    export ASSESMENT_PROCESS_ROLES='{\"a@example.com\":\"ASSESSOR\",\"b@example.com\":\"LEAD_ASSESSOR\"}'
+
+Then via the terminal or SSH run:
+
+    flask update-account-roles
+
+This will update the role for the required users. NOTE - the account for the email must already exist in the DB
+
+Acceptable role names are:
+
+    ADMIN
+    LEAD_ASSESSOR
+    ASSESSOR
+    COMMENTER
+    APPLICANT
+
