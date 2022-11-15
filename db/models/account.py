@@ -1,10 +1,8 @@
+import enum
 import uuid  # noqa
 
 from db import db
 from sqlalchemy_utils.types import UUIDType  # noqa
-
-
-import enum
 
 
 class Role(enum.Enum):
@@ -24,4 +22,10 @@ class Account(db.Model):
         primary_key=True,
     )
     email = db.Column("email", db.String(), nullable=False, primary_key=True)
-    role = db.Column("role", db.Enum(Role), nullable=False, default=Role.APPLICANT.name, server_default=Role.APPLICANT.name)
+    role = db.Column(
+        "role",
+        db.Enum(Role),
+        nullable=False,
+        default=Role.APPLICANT.name,
+        server_default=Role.APPLICANT.name,
+    )

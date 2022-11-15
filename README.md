@@ -53,7 +53,7 @@ Then run (in the following order):
     pip-compile requirements.in
 
     pip-compile requirements-dev.in
-    
+
 ## How to use
 Enter the virtual environment as described above, then:
 
@@ -94,7 +94,7 @@ into your workflow. You will be notified of any pep8 errors during commits.
 
 ## Role Management
 
-As well as the [Api](openapi/api.yml) endpoints available on this store for 
+As well as the [Api](openapi/api.yml) endpoints available on this store for
 managing account roles, a cli command is also provided to enable role updates
 to be made without requiring a browser.
 
@@ -118,4 +118,3 @@ Acceptable role names are:
     ASSESSOR
     COMMENTER
     APPLICANT
-

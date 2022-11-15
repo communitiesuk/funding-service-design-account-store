@@ -1,8 +1,11 @@
 """
 Constructs the flask app using the typical create_app function.
 """
+import json
+
 import connexion
 from config import Config
+from core.account import update_account_roles
 from db import db
 from db import migrate
 from flask import Flask
@@ -11,8 +14,6 @@ from fsd_utils.healthchecks.checkers import DbChecker
 from fsd_utils.healthchecks.checkers import FlaskRunningChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
 from fsd_utils.logging import logging
-from core.account import update_account_roles
-import json
 
 
 def create_app() -> Flask:
@@ -62,4 +63,7 @@ def update_account_roles_cli():
         else:
             print("------------------\nNO ROLES TO UPDATE\n------------------")
     else:
-        print("------------------\nERROR: ROLES UPDATE FAILED\n------------------")
+        print(
+            "------------------\nERROR: ROLES UPDATE"
+            " FAILED\n------------------"
+        )

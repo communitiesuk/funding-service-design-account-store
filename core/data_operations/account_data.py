@@ -61,13 +61,15 @@ def update_account(account_id: str, role: str) -> Tuple[dict, int]:
     account.role = Role[role.upper()]
     db.session.commit()
     return {
-            "account_id": account.id,
-            "email_address": account.email,
-            "role": account.role.name,
-        }, 201
+        "account_id": account.id,
+        "email_address": account.email,
+        "role": account.role.name,
+    }, 201
 
 
-def get_account_data_by_email(email: str, as_json: bool = True) -> Tuple[dict, int]:
+def get_account_data_by_email(
+    email: str, as_json: bool = True
+) -> Tuple[dict, int]:
     """get_data_by_email Allows you to fetch account by its email.
 
     Args:

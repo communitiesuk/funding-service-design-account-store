@@ -10,8 +10,8 @@ from core.data_operations.account_data import update_account
 from db import db
 from db.models.account import Account
 from db.models.account import Role
-from flask import request
 from flask import current_app
+from flask import request
 
 
 def get_account(
@@ -38,9 +38,7 @@ def get_account(
         raise TypeError("GET account needs at least 1 argument.")
 
 
-def put_account(
-    account_id: str
-) -> Tuple[dict, int]:
+def put_account(account_id: str) -> Tuple[dict, int]:
     """put_account Given an account id and a role,
     if the account_id exists in the db the corresponding
     entry in the db is updated with the corresponding role.
@@ -72,7 +70,8 @@ def put_updates_to_account_roles() -> Tuple[dict, int]:
         }
     then for each email key in the roles object:
         if the email exists in the db
-        then update the corresponding entry in the db with the corresponding role.
+        then update the corresponding entry in the db
+        with the corresponding role.
 
     Returns:
         dict, int
@@ -93,34 +92,39 @@ def update_account_roles(roles: dict) -> Tuple[dict, int]:
 
     For each email key in roles:
         if the email exists in the db
-        then the corresponding entry in the db is updated with the corresponding role.
+        then the corresponding entry in the db
+        is updated with the corresponding role.
 
     Returns:
         dict, int
     """
 
-    # First CHECK all accounts exist and roles are valid before updating anything
+    # First CHECK all accounts exist and roles are valid before updating
     valid_accounts = {}
     for email, role in roles.items():
         account, code = get_account(email_address=email)
         masked_email = email[0:4] + "****" + email[-6:]
         if code != 200:
-            current_app.logger.error(f"Account with email {masked_email} does not exist")
-            return {"error": f"Account with email {masked_email} does not exist"}, 401
+            current_app.logger.error(
+                f"Account with email {masked_email} does not exist"
+            )
+            return {
+                "error": f"Account with email {masked_email} does not exist"
+            }, 401
         try:
             Role[role]
         except KeyError:
             current_app.logger.error(
-                f"Tried to set non-existent role "
+                "Tried to set non-existent role "
                 f"'{role}' for account with email {masked_email}"
             )
             return {
-                       "error": f"Tried to set non-existent role "
-                                f"'{role}' for account with email {masked_email}"
-                   }, 401
-        valid_accounts.update({
-            account["account_id"]: role
-        })
+                "error": (
+                    "Tried to set non-existent role "
+                    f"'{role}' for account with email {masked_email}"
+                )
+            }, 401
+        valid_accounts.update({account["account_id"]: role})
 
     # Then UPDATE all account roles if all valid
     for account_id, role in valid_accounts.items():
@@ -129,7 +133,9 @@ def update_account_roles(roles: dict) -> Tuple[dict, int]:
             current_app.logger.error(
                 f"Account with id {account_id} could not be updated"
             )
-            return {"error": f"Account with id {account_id} could not be updated"}, 401
+            return {
+                "error": f"Account with id {account_id} could not be updated"
+            }, 401
     current_app.logger.info("Account roles updated")
 
     # Finally, RETURN updated roles as confirmation
