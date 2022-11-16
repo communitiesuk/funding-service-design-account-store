@@ -14,7 +14,6 @@ class DefaultConfig(object):
     FLASK_ROOT = str(Path(__file__).parent.parent.parent)
     FLASK_ENV = environ.get("FLASK_ENV")
 
-    ADMIN_SECRET = environ.get("ADMIN_SECRET")
     ASSESSMENT_PROCESS_ROLES = environ.get("ASSESSMENT_PROCESS_ROLES", "{}")
 
     # Logging
