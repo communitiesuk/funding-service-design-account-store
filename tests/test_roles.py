@@ -169,7 +169,7 @@ class TestRoles:
         assert response.status_code == 401
 
     def test_cli_bulk_update_roles_successfully_updates_roles(
-        self, mocker, app, flask_test_client
+        self, app, flask_test_client
     ):
         """
         GIVEN The flask app
@@ -180,12 +180,8 @@ class TestRoles:
 
         """
         runner = app.test_cli_runner()
-
-        mocker.patch(
-            "config.Config.ASSESSMENT_PROCESS_ROLES",
-            '{"person2@example.com":"ADMIN"}',
-        )
-        result = runner.invoke(update_account_roles_cli)
+        roles = '{"person2@example.com":"ADMIN"}'
+        result = runner.invoke(update_account_roles_cli, [roles])
         assert "ROLES UPDATED" in result.output
         assert "pers****le.com - ADMIN" in result.output
 
@@ -198,23 +194,21 @@ class TestRoles:
         assert get_response.json.get("role") == "ADMIN"
 
     def test_cli_bulk_update_roles_no_roles_message(
-        self, mocker, app, flask_test_client
+        self, app, flask_test_client
     ):
         """
         GIVEN The flask app
-        WHEN we run "flask update-account-roles"
-        WITH a Config.ASSESSMENT_PROCESS_ROLES var of {}
+        WHEN we run "flask update-account-roles '{}'"
         THEN a NO ROLES is shown
 
         """
         runner = app.test_cli_runner()
-
-        mocker.patch("config.Config.ASSESSMENT_PROCESS_ROLES", "{}")
-        result = runner.invoke(update_account_roles_cli)
+        roles = "{}"
+        result = runner.invoke(update_account_roles_cli, [roles])
         assert "NO ROLES TO UPDATE" in result.output
 
     def test_cli_bulk_update_roles_error_messages(
-        self, mocker, app, flask_test_client
+        self, app, flask_test_client
     ):
         """
         GIVEN The flask app
@@ -224,10 +218,6 @@ class TestRoles:
 
         """
         runner = app.test_cli_runner()
-
-        mocker.patch(
-            "config.Config.ASSESSMENT_PROCESS_ROLES",
-            '{"a@bad-email.com":"ASSESSOR"}',
-        )
-        result = runner.invoke(update_account_roles_cli)
+        roles = '{"a@bad-email.com":"ASSESSOR"}'
+        result = runner.invoke(update_account_roles_cli, [roles])
         assert "ERROR: ROLES UPDATE FAILED" in result.output

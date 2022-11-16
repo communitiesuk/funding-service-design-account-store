@@ -98,16 +98,17 @@ As well as the [Api](openapi/api.yml) endpoints available on this store for
 managing account roles, a cli command is also provided to enable role updates
 to be made without requiring a browser.
 
-Just add an escaped stringified JSON object to the environment variable ASSESSMENT_PROCESS_ROLES
-with a set of email/role key-value pairs that you want set.
+
+Via the terminal or SSH run:
+
+    flask update-account-roles ROLES
+
+... where ROLES is an escaped stringified JSON object with a set of email/role key-value pairs that you want set.
 
 For example:
 
-    export ASSESMENT_PROCESS_ROLES='{\"a@example.com\":\"ASSESSOR\",\"b@example.com\":\"LEAD_ASSESSOR\"}'
+    flask update-account-roles "{\"a@example.com\":\"ASSESSOR\",\"b@example.com\":\"LEAD_ASSESSOR\"}"
 
-Then via the terminal or SSH run:
-
-    flask update-account-roles
 
 This will update the role for the required users. NOTE - the account for the email must already exist in the DB
 

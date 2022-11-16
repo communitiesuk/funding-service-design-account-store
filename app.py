@@ -3,6 +3,7 @@ Constructs the flask app using the typical create_app function.
 """
 import json
 
+import click
 import connexion
 from config import Config
 from core.account import update_account_roles
@@ -52,8 +53,9 @@ app = create_app()
 
 
 @app.cli.command("update-account-roles")
-def update_account_roles_cli():
-    roles_from_environment = json.loads(Config.ASSESSMENT_PROCESS_ROLES)
+@click.argument("roles")
+def update_account_roles_cli(roles):
+    roles_from_environment = json.loads(roles)
     roles, status = update_account_roles(roles_from_environment)
     if status == 201:
         if len(roles) > 0:
