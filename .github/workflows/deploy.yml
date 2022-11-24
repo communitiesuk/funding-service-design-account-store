@@ -24,3 +24,4 @@ jobs:
       CF_SPACE: ${{secrets.CF_SPACE}}
       CF_USER: ${{secrets.CF_USER}}
       CF_PASSWORD: ${{secrets.CF_PASSWORD}}
+      E2E_PAT: ${{secrets.E2E_PAT}}
