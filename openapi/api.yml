@@ -7,6 +7,8 @@ info:
 paths:
   /accounts:
     get:
+      tags:
+        - accounts
       summary: "Return the account data for the given email address or account id."
       description: "Given an account id or email address, return the json associated with the account, or 404 if none are found."
       operationId: core.account.get_account
@@ -51,18 +53,67 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/account'
+                $ref: '#/components/schemas/accountCreated'
         409:
           description: "This email address has already been used to create an account"
+  /accounts/{account_id}:
+    put:
+      tags:
+        - accounts
+      summary: Put changes to an account
+      description: Put changes to a specific account by account id
+      operationId: core.account.put_account
+      requestBody:
+        description: Account update parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/accountUpdate'
+            example:
+              roles: ['ASSESSOR', 'COMMENTER']
+      responses:
+        201:
+          description: SUCCESS - An account updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountStatus'
+        401:
+          description: ERROR - Account could not be updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 401
+                status: 'error'
+                message: 'Account corresponding to id could not be updated.'
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
 
 components:
   schemas:
     accountCreate:
       type: object
+      required:
+        - email_address
       properties:
         email_address:
           type: string
-    account:
+    accountUpdate:
+      type: object
+      required:
+        - roles
+      properties:
+        roles:
+          type: array
+    accountStatus:
       type: object
       properties:
         id:
@@ -73,17 +124,44 @@ components:
           pattern: '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
           description: An email address.
           example: "test@cool.com"
-        applications:
+        roles:
           type: array
-          description: A list of application ids.
-          example: '[ { "id" : "fdghdfghd"}, {"id" : "fdfg-safg-4et"} ]'
-          items:
-            $ref: "#/components/schemas/application_item"
-
-    application_item:
+          description: An array of roles
+          example: ["ASSESSOR", "COMMENTER"]
+    accountCreated:
       type: object
       properties:
-        id:
+        account_id:
           type: string
-          description: The id of the application - should be the same as the id in the application store.
-          example: "FEASFDFGDFG-45009029-sDFG3SDF"
+          description: The unique id for the given account.
+        email_address:
+          type: string
+          pattern: '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
+          description: An email address.
+          example: "test@cool.com"
+    account:
+      type: object
+      properties:
+        account_id:
+          type: string
+          description: The unique id for the given account.
+        email_address:
+          type: string
+          pattern: '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
+          description: An email address.
+          example: "test@cool.com"
+        roles:
+          type: array
+          description: An array of roles
+          example: ["ASSESSOR", "COMMENTER"]
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+      required:
+        - code
+        - message

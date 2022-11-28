@@ -23,7 +23,6 @@ class TestAccounts:
 
         assert status_code == 201
         assert "account_id" in response_data.keys()
-        assert "applications" in response_data.keys()
         assert response_data["email_address"] == "test@delete_me.org"
 
     def test_double_post_returns_409(self, flask_test_client):

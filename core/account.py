@@ -6,6 +6,7 @@ from typing import Tuple
 import sqlalchemy
 from core.data_operations.account_data import check_account_exists_then_return
 from core.data_operations.account_data import get_account_data_by_email
+from core.data_operations.account_data import update_account
 from db import db
 from db.models.account import Account
 from flask import request
@@ -33,6 +34,28 @@ def get_account(
         return get_account_data_by_email(email_address)
     else:
         raise TypeError("GET account needs at least 1 argument.")
+
+
+def put_account(account_id: str) -> Tuple[dict, int]:
+    """put_account Given an account id and a role,
+    if the account_id exists in the db the corresponding
+    entry in the db is updated with the corresponding role.
+
+    Args:
+        account_id (str, required): An account_id given as a string.
+    Json Args:
+        roles (str, required): An array of roles given as a string.
+        Defaults to None.
+
+    Returns:
+        dict, int
+    """
+    roles = request.json.get("roles")
+    if not roles:
+        return {"error": "roles are required"}, 401
+    else:
+        account = update_account(account_id, roles)
+        return account
 
 
 def post_account_by_email() -> Tuple[dict, int]:
@@ -66,7 +89,6 @@ def post_account_by_email() -> Tuple[dict, int]:
                 new_account_json = {
                     "account_id": new_account.id,
                     "email_address": email_address,
-                    "applications": [],
                 }
                 return new_account_json, 201
             except sqlalchemy.IntegrityError:
