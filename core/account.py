@@ -45,16 +45,18 @@ def put_account(account_id: str) -> Tuple[dict, int]:
         account_id (str, required): An account_id given as a string.
     Json Args:
         roles (str, required): An array of roles given as a string.
+        full_name (str, optional): First and last name given as a string.
         Defaults to None.
 
     Returns:
         dict, int
     """
     roles = request.json.get("roles")
+    full_name = request.json.get("full_name")
     if not roles:
         return {"error": "roles are required"}, 401
     else:
-        account = update_account(account_id, roles)
+        account = update_account(account_id, roles, full_name)
         return account
 
 

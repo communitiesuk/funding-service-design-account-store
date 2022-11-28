@@ -40,12 +40,15 @@ def check_account_exists_then_return(
         return NoContent, 404
 
 
-def update_account(account_id: str, roles: List[str]) -> Tuple[dict, int]:
+def update_account(
+    account_id: str, roles: List[str], full_name: str = None
+) -> Tuple[dict, int]:
     """
     Updates an account rols
     Args:
         account_id (str): The account id
         roles (List[str]): A list of roles to set
+        full_name: The first and last name of the account holder
 
     Returns:
         A tuple with account status as json and a status code.
@@ -76,6 +79,9 @@ def update_account(account_id: str, roles: List[str]) -> Tuple[dict, int]:
         current_role.role = RoleType[role.upper()]
         current_roles.append(current_role)
 
+    if full_name:
+        account.full_name = full_name
+
     db.session.add_all(current_roles)
     db.session.commit()
 
@@ -84,6 +90,7 @@ def update_account(account_id: str, roles: List[str]) -> Tuple[dict, int]:
     return {
         "account_id": account.id,
         "email_address": account.email,
+        "full_name": account.full_name,
         "roles": account.serialize["roles"],
     }, 201
 

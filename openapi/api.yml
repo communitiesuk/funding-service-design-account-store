@@ -111,6 +111,8 @@ components:
       required:
         - roles
       properties:
+        full_name:
+          type: string
         roles:
           type: array
     accountStatus:
@@ -124,6 +126,10 @@ components:
           pattern: '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
           description: An email address.
           example: "test@cool.com"
+        full_name:
+          type: string
+          description: A full name.
+          example: "Jane Doe"
         roles:
           type: array
           description: An array of roles
@@ -150,6 +156,10 @@ components:
           pattern: '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
           description: An email address.
           example: "test@cool.com"
+        full_name:
+          type: string
+          description: A full name.
+          example: "Jane Doe"
         roles:
           type: array
           description: An array of roles
