@@ -32,6 +32,7 @@ def check_account_exists_then_return(
             return {
                 "account_id": account.id,
                 "email_address": account.email,
+                "full_name": account.full_name,
                 "roles": account.serialize["roles"],
             }, 200
         else:
