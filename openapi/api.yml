@@ -72,6 +72,7 @@ paths:
               $ref: '#/components/schemas/accountUpdate'
             example:
               roles: ['ASSESSOR', 'COMMENTER']
+              full_name: "Jane Doe"
       responses:
         201:
           description: SUCCESS - An account updated
