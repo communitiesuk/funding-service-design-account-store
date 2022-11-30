@@ -8,12 +8,13 @@ on:
 
 jobs:
   test_and_deploy:
+    if: ${{ github.actor != 'dependabot[bot]' }}
     uses: communitiesuk/funding-design-service-workflows/.github/workflows/deploy.yml@fs-1972-add-uat-tests
     with:
       app_name: ${{ github.event.repository.name }}
       api: true
       upgrade_db: true
-    if: ${{ github.actor != 'dependabot[bot]' }}
+      run_performance_tests: true
     secrets:
       CF_API: ${{secrets.CF_API}}
       CF_ORG: ${{secrets.CF_ORG}}
