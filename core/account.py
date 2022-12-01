@@ -52,7 +52,7 @@ def get_account(
         result = db.session.execute(stmnt)
         account = result.scalars().one()
         account_schema = AccountSchema()
-        return account_schema.dump(account), 201
+        return account_schema.dump(account), 200
     except sqlalchemy.exc.NoResultFound:
         return {"error": "No matching account found"}, 404
 
