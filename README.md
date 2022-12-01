@@ -53,7 +53,38 @@ Then run (in the following order):
     pip-compile requirements.in
 
     pip-compile requirements-dev.in
-    
+
+### Setting the environment config
+
+A number of Flask environment config setups exist, including default, development, dev, test, production and unit_test configurations.
+
+Depending on where you are running this you may need to set particular environment variables that are declared in these config files in [config/envs](config/envs) eg. host names etc. More generally though you can switch between these environment configs using the `FLASK_ENV` environment variable. This has been set in the `.flaskenv` to `FLASK_ENV=development` so you shouldn't need to set that if running locally, but you will need to set that elsewhere to ensure it uses the correct config file for the environment you want it to run in.
+
+### Creating the database
+This application requires a postgres database.
+
+If running on a local development machine, first ensure you have PostgreSQL server running with a superuser 'postgres'.
+
+You can then either manually create a database called `fsd_account_store_dev` or use the provided invoke script which can be run from the root directory with
+
+    invoke bootstrap_dev_db
+
+Once you have created the database you need to set the `DATABASE_URL` environment variable so the application knows where to find it.
+
+This url has been set in the `.flaskenv` file in the root as
+
+    DATABASE_URL==postgresql://postgres:postgres@127.0.0.1:5432/fsd_account_store_dev
+
+...so if you are running locally on a development machine and you have used the `invoke bootstrap_dev_db` script above to create the database, it should just connect automatically.
+
+If running elsewhere you will need to set the DATABASE_URL env var to the correct url eg. with `export DATABASE_URL=<your-database-url>`
+
+NOTE: during testing with pytest a separate database is created for unit tests to run against. This is then deleted after the tests have run.
+
+Once you have the database running and have the flask application configured to connect to it, you then need to run the database migrations to create the required tables etc. Simply run:
+
+    flask db upgrade
+
 ## How to use
 Enter the virtual environment as described above, then:
 
@@ -72,12 +103,27 @@ Place brief descriptions of Pipelines here
 
 # Testing
 
-Unit & Accessibility Testing
-To run all tests including aXe accessibility tests (using Chrome driver for Selenium) in a development environment run:
+## Unit & Accessibility Testing
 
-'
-pytest
-'
+1. Ensure you have a local postgres instance setup and running with a user `postgres` created.
+2. Ensure that you have set a DATABASE_URL environment variable.
+3. Activate your virtual env: `source .venv/bin/activate`
+4. Install `requirements-dev.txt`
+5. Run pytest
+
+NB : pytest will create a database with a unique name to use just for unit tests. Changes to this db from tests does not persist.
+
+## Transactional tests
+These rely on the module `pytest-flask-sqlalchemy` which has good docs on its github page: https://github.com/jeancochrane/pytest-flask-sqlalchemy
+
+The main parts of this framework are invoked in `conftest.py` with the following fixture definitions:
+- `enable_transactional_tests` - This makes all tests use transactions, so we don't need to turn it on for each test individually
+- `_db` - this makes the framework use our `db` variable from `db.db`, overriding anywhere it is used during the tests.
+
+To make the tests work with a test postgres db in the github pipelines, we pass the following 2 inputs to the shared workflow:
+
+      postgres_unit_testing: true
+      db_name: fsd_account_store_test
 
 ## Extras
 
