@@ -309,7 +309,6 @@ six==1.16.0
     # via
     #   -r requirements.txt
     #   prance
-    #   sqlalchemy-utils
     #   tenacity
     #   virtualenv
 smmap==5.0.0
@@ -324,7 +323,7 @@ sqlalchemy==1.4.39
     #   alembic
     #   flask-sqlalchemy
     #   sqlalchemy-utils
-sqlalchemy-utils==0.38.2
+sqlalchemy-utils==0.38.3
     # via -r requirements.txt
 stevedore==3.5.0
     # via bandit

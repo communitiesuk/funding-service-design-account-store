@@ -20,7 +20,7 @@ shortuuid==1.0.8
 SQLAlchemy
 Flask-SQLAlchemy
 Flask-Migrate
-sqlalchemy_utils
+sqlalchemy_utils>=0.38.3
 psycopg2
 
 #-----------------------------------
