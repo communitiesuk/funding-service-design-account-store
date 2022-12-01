@@ -22,6 +22,9 @@ Flask-SQLAlchemy
 Flask-Migrate
 sqlalchemy_utils
 psycopg2
+alembic-utils
+marshmallow-sqlalchemy
+flask-marshmallow
 
 #-----------------------------------
 #   Connexion APIs
