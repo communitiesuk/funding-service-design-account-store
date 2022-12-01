@@ -19,6 +19,7 @@ jobs:
       users: 2
       spawn-rate: 2
       run_performance_tests: true
+      run_e2e_tests: true
     secrets:
       CF_API: ${{secrets.CF_API}}
       CF_ORG: ${{secrets.CF_ORG}}
