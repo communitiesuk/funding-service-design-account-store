@@ -13,17 +13,11 @@ class Account(db.Model):
         unique=True,
         primary_key=True,
     )
-    email = db.Column("email", db.String(), nullable=False, primary_key=True)
+    email = db.Column("email", db.String(), nullable=False, unique=True)
     full_name = db.Column("full_name", db.String(), nullable=True)
+    azure_ad_subject_id = db.Column(
+        "azure_ad_subject_id", db.String(), nullable=True, unique=True
+    )
     roles = db.relationship(
         "Role", lazy="select", backref=db.backref("account", lazy="joined")
     )
-
-    @property
-    def serialize(self):
-        return {
-            "id": self.id,
-            "email": self.email,
-            "full_name": self.full_name,
-            "roles": [role.role.name for role in self.roles],
-        }
