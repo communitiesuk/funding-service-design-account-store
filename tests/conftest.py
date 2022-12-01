@@ -1,32 +1,39 @@
 """
 Contains test configuration.
 """
-import os
-
-import flask_migrate
 import pytest
 from app import create_app
 from config import Config
+from db import db
+from flask_migrate import upgrade
+from sqlalchemy_utils.functions import create_database
+from sqlalchemy_utils.functions import database_exists
+from sqlalchemy_utils.functions import drop_database
 
 
-class SqliteTestDB:
-    @classmethod
-    def remove(cls):
-        flask_root = Config.FLASK_ROOT
-        db_file_name = Config.SQLITE_DB_NAME
-        db_file_path = os.path.join(flask_root, db_file_name)
-        if os.path.exists(db_file_path):
-            os.remove(db_file_path)
+def prep_db(reuse_db=False):
+    """Provide the transactional fixtures with access to the database via a
+    Flask-SQLAlchemy database connection."""
+    no_db = not database_exists(Config.SQLALCHEMY_DATABASE_URI)
+    refresh_db = not reuse_db
 
-    @classmethod
-    def create(cls):
-        cls.remove()
-        flask_migrate.upgrade()
+    if no_db:
+
+        create_database(Config.SQLALCHEMY_DATABASE_URI)
+
+    elif refresh_db:
+
+        drop_database(Config.SQLALCHEMY_DATABASE_URI)
+        create_database(Config.SQLALCHEMY_DATABASE_URI)
+
+    upgrade()
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def app():
     app = create_app()
+    with app.app_context():
+        prep_db()
     return app
 
 
@@ -39,7 +46,20 @@ def flask_test_client():
     """
 
     with create_app().app_context() as app_context:
-        SqliteTestDB.create()
         with app_context.app.test_client() as test_client:
             yield test_client
-        SqliteTestDB.remove()
+
+
+@pytest.fixture(scope="session")
+def _db(app):
+    """
+    Provide the transactional fixtures with access
+    to the database via a Flask-SQLAlchemy
+    database connection.
+    """
+    return db
+
+
+@pytest.fixture(autouse=True)
+def enable_transactional_tests(db_session):
+    pass
