@@ -329,6 +329,8 @@ six==1.16.0
     #   -r requirements.txt
     #   flask-marshmallow
     #   prance
+    #   tenacity
+    #   virtualenv
 smmap==5.0.0
     # via gitdb
 sqlalchemy==1.4.44
