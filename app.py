@@ -4,6 +4,7 @@ Constructs the flask app using the typical create_app function.
 import connexion
 from config import Config
 from db import db
+from db import ma
 from db import migrate
 from flask import Flask
 from fsd_utils import init_sentry
@@ -36,6 +37,8 @@ def create_app() -> Flask:
     migrate.init_app(
         flask_app, db, directory="db/migrations", render_as_batch=True
     )
+    # Bind Marshmallow schema to Flask app
+    ma.init_app(flask_app)
 
     # Add healthchecks to flask_app
     health = Healthcheck(flask_app)
