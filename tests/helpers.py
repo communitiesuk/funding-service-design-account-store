@@ -46,8 +46,6 @@ def expected_data_within_response(
         f"Expected {str(expected_status_code)} response status code but got"
         f" {str(response.status_code)}"
     )
-
-    print(exclude_regex_paths)
     response_data = loads(response.data)
     diff = DeepDiff(
         expected_data,
