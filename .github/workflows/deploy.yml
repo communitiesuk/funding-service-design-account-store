@@ -17,7 +17,7 @@ jobs:
       deploy_to_dev: false
       users: 2
       spawn-rate: 2
-      run-time: 11s
+      run-time: 10s
     if: ${{ github.actor != 'dependabot[bot]' }}
     secrets:
       CF_API: ${{secrets.CF_API}}
