@@ -1,24 +1,25 @@
 #-----------------------------------
 #   FSD Utils
 #-----------------------------------
-funding-service-design-utils>=1.0.7,<1.1.0
+funding-service-design-utils
 requests
 
 #-----------------------------------
 #   Flask Version
 #-----------------------------------
-Flask==2.1.1
+Flask
 
 #-----------------------------------
 #   API
 #-----------------------------------
-shortuuid==1.0.8
+shortuuid
 
 #-----------------------------------
 #   Database
 #-----------------------------------
 SQLAlchemy
-Flask-SQLAlchemy
+# 3 has been released but our testing framework isn't updated to use it yet.
+Flask-SQLAlchemy==2.5.1
 Flask-Migrate
 sqlalchemy_utils
 psycopg2
