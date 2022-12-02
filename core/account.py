@@ -4,73 +4,190 @@ Contains the functions directly used by the openapi spec.
 from typing import Tuple
 
 import sqlalchemy
-from core.data_operations.account_data import check_account_exists_then_return
-from core.data_operations.account_data import get_account_data_by_email
 from db import db
 from db.models.account import Account
+from db.models.role import Role
+from db.models.role import RoleType
+from db.schemas.account import AccountSchema
 from flask import request
+from sqlalchemy import delete
+from sqlalchemy import or_
+from sqlalchemy import select
 
 
 def get_account(
-    email_address: str = None, account_id: str = None
+    account_id: str = None,
+    email_address: str = None,
+    azure_ad_subject_id: str = None,
 ) -> Tuple[dict, int]:
-    """get_account Given an email or account id, the corresponding
-    entry in the db is returned.
+    """
+    Get a single account corresponding to the given unique parameters
+    and return account object schema and status code
+    :param account_id: (str) the id to search
+    :param email_address: (str) the email to search
+    :param azure_ad_subject_id: (str) the azure_ad_subject_id to search
+    :return:
+        Tuple of account object (or error) dict and status int
+    """
+    if not any([account_id, email_address, azure_ad_subject_id]):
+        return {
+            "error": (
+                "Bad request: please provide at least 1 query argument of "
+                "account_id, email_address or azure_ad_subject_id"
+            )
+        }, 400
+
+    stmnt = select(Account)
+
+    if account_id:
+        stmnt = stmnt.filter(Account.id == account_id)
+    if email_address:
+        stmnt = stmnt.filter(Account.email == email_address)
+    if azure_ad_subject_id:
+        stmnt = stmnt.filter(
+            Account.azure_ad_subject_id == azure_ad_subject_id
+        )
+
+    try:
+        result = db.session.execute(stmnt)
+        account = result.scalars().one()
+        account_schema = AccountSchema()
+        return account_schema.dump(account), 200
+    except sqlalchemy.exc.NoResultFound:
+        return {"error": "No matching account found"}, 404
+
+
+def put_account(account_id: str) -> Tuple[dict, int]:
+    """put_account Given an account id and a role,
+    if the account_id exists in the db the corresponding
+    entry in the db is updated with the corresponding role.
 
     Args:
-        email_address (str, optional): An email address given as a string.
-        Defaults to None.
-        account_id (_type_, optional): An account_id given as a string.
+        account_id (str, required): An account_id given as a string.
+    Json Args:
+        roles (str, required): An array of roles given as a string.
+        azure_ad_subject_id (str, required): Subject id of the Azure AD object.
+        email (str, optional): Preferred email of the account holder.
+        full_name (str, optional): First and last name given as a string.
         Defaults to None.
 
     Returns:
         dict, int
     """
+    # Validate request body
+    try:
+        roles = request.json["roles"]
+    except KeyError:
+        return {"error": "roles are required"}, 401
+    try:
+        azure_ad_subject_id = request.json["azure_ad_subject_id"]
+    except KeyError:
+        return {"error": "azure_ad_subject_id is required"}, 401
 
-    if account_id:
-        return check_account_exists_then_return(account_id)
-    elif email_address:
-        return get_account_data_by_email(email_address)
-    else:
-        raise TypeError("GET account needs at least 1 argument.")
+    full_name = request.json.get("full_name")
+    email = request.json.get("email_address")
+
+    # Check account exists
+    try:
+        account = (
+            db.session.query(Account)
+            .filter(
+                Account.id == account_id,
+                or_(
+                    Account.azure_ad_subject_id == azure_ad_subject_id,
+                    Account.azure_ad_subject_id.is_(None),
+                ),
+            )
+            .one()
+        )
+    except sqlalchemy.exc.NoResultFound:
+        return {
+            "error": "No account matching those details could be found"
+        }, 404
+    # Check all roles are valid before doing any database updates
+    for role in roles:
+        try:
+            RoleType[role.upper()]
+        except KeyError:
+            return {"error": f"Role '{role}' is not valid"}, 401
+    # Delete existing roles
+    stmnt = delete(Role).where(Role.account_id == account_id)
+    db.session.execute(stmnt)
+
+    if email:
+        try:
+            account.email = email
+            db.session.commit()
+        except sqlalchemy.exc.IntegrityError:
+            db.session.flush()
+            db.session.rollback()
+            return {
+                "error": (
+                    f"Email '{email}' cannot be updated - "
+                    "another account may already be using this email"
+                )
+            }, 401
+    if full_name:
+        account.full_name = full_name
+    if azure_ad_subject_id:
+        account.azure_ad_subject_id = azure_ad_subject_id
+
+    # Update current roles
+    current_roles = []
+    for role in roles:
+        current_role = Role()
+        current_role.account_id = account_id
+        current_role.role = role.upper()
+        current_roles.append(current_role)
+
+    db.session.add_all(current_roles)
+
+    db.session.commit()
+
+    get_account_stmnt = select(Account).filter(Account.id == account_id)
+
+    result = db.session.execute(get_account_stmnt)
+    account = result.scalars().one()
+    account_schema = AccountSchema()
+
+    return account_schema.dump(account), 201
 
 
-def post_account_by_email() -> Tuple[dict, int]:
-    """post_account_by_email Given an email address creates a new account in the
-    db.
+def post_account() -> Tuple[dict, int]:
+    """
+    Creates a new account in the db, given an email (required)
+    and optional azure_ad_subject_id.
 
     If an account with this email address already exists then a 409
-     is returned,
-    otherwise a 201 is returned.
+    is returned, otherwise a 201 is returned.
 
     Json Args:
-        email_address (str): An valid email given as a string.
+        email_address (str, required): An valid email given as a string.
+        azure_ad_subject_id (str, optional):
+            An Azure AD subject ID given as a string.
 
     Returns:
         Returns a dictionary(json) along with a status code.
     """
     email_address = request.json.get("email_address")
+    azure_ad_subject_id = request.json.get("azure_ad_subject_id")
     if not email_address:
         return {"error": "email_address is required"}, 400
-    else:
-        email_exists = bool(
-            db.session.query(Account)
-            .filter(Account.email == email_address)
-            .first()
+    try:
+        new_account = Account(
+            email=email_address, azure_ad_subject_id=azure_ad_subject_id
         )
-        if not email_exists:
-            try:
-                new_account = Account(email=email_address)
-                db.session.add(new_account)
-                db.session.commit()
-                new_account_json = {
-                    "account_id": new_account.id,
-                    "email_address": email_address,
-                    "applications": [],
-                }
-                return new_account_json, 201
-            except sqlalchemy.IntegrityError:
-                db.rollback()
-                return "Integrity Error", 500
-        else:
-            return "An account with that email already exists", 409
+        db.session.add(new_account)
+        db.session.commit()
+        new_account_json = {
+            "account_id": new_account.id,
+            "email_address": email_address,
+            "azure_ad_subject_id": azure_ad_subject_id,
+        }
+        return new_account_json, 201
+    except sqlalchemy.exc.IntegrityError:
+        db.session.rollback()
+        return (
+            "An account with that email or azure_ad_subject_id already exists",
+            409,
+        )

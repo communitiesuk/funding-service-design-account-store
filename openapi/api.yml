@@ -7,19 +7,27 @@ info:
 paths:
   /accounts:
     get:
-      summary: "Return the account data for the given email address or account id."
-      description: "Given an account id or email address, return the json associated with the account, or 404 if none are found."
+      tags:
+        - accounts
+      summary: "Return the account data for the given email address, account id, Azure AD subject id or a combination."
+      description: "Given an email address, account id, Azure AD subject id or a combination, return the json associated with the account, or 404 if none are found."
       operationId: core.account.get_account
       parameters:
         - name: email_address
           in: query
-          description: "The email is used for the account id lookup, if both account_id and email_address are given then the lookup will use the account_id instead."
+          description: "The email used for the account record lookup"
           required: false
           schema:
             type: string
         - name: account_id
           in: query
-          description: "The account id is to be looked up, if both account_id and email_address are given then the look up will use the account_id instead"
+          description: "The account id used for the account record lookup"
+          required: false
+          schema:
+            type: string
+        - name: azure_ad_subject_id
+          in: query
+          description: "The Azure AD subject id used for the account record lookup"
           required: false
           schema:
             type: string
@@ -35,7 +43,7 @@ paths:
     post:
       summary: "Post a new email, creating an new account with a unique account id in the account store."
       description: "Given an email, we create a corresponding account object in the account store."
-      operationId: core.account.post_account_by_email
+      operationId: core.account.post_account
       requestBody:
         description: Account creation parameters
         required: true
@@ -45,45 +53,156 @@ paths:
               $ref: '#/components/schemas/accountCreate'
             example:
               email_address: 'a@example.com'
+              azure_ad_subject_id: "fg4FtjR5he365ir5h4k34_43jk34HreK6fr6rtDe47"
       responses:
         201:
           description: "If the resource is successfully created then the created resource is returned."
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/account'
+                $ref: '#/components/schemas/accountCreated'
         409:
           description: "This email address has already been used to create an account"
+  /accounts/{account_id}:
+    put:
+      tags:
+        - accounts
+      summary: Put changes to an account
+      description: Put changes to a specific account by account id
+      operationId: core.account.put_account
+      requestBody:
+        description: Account update parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/accountUpdate'
+            example:
+              roles: ['ASSESSOR', 'COMMENTER']
+              full_name: "Jane Doe"
+              azure_ad_subject_id: "fg4FtjR5he365ir5h4k34_43jk34HreK6fr6rtDe47"
+      responses:
+        201:
+          description: SUCCESS - An account updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountStatus'
+        401:
+          description: ERROR - Account could not be updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 401
+                status: 'error'
+                message: 'Account corresponding to id could not be updated.'
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
 
 components:
   schemas:
     accountCreate:
       type: object
+      required:
+        - email_address
       properties:
         email_address:
           type: string
-    account:
+        azure_ad_subject_id:
+          type: string
+    accountUpdate:
+      type: object
+      required:
+        - roles
+        - azure_ad_subject_id
+      properties:
+        full_name:
+          type: string
+        roles:
+          type: array
+        azure_ad_subject_id:
+          type: string
+        email_address:
+          type: string
+    accountStatus:
       type: object
       properties:
-        id:
+        account_id:
           type: string
           description: The unique id for the given account.
+          example: "9aee612a-7625-4e23-82fc-152614108509"
+        azure_ad_subject_id:
+          type: string
+          description: Account holder's Azure AD record subject ID.
+          example: "fg4FtjR5he365ir5h4k34_43jk34HreK6fr6rtDe47"
         email_address:
           type: string
           pattern: '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
           description: An email address.
-          example: "test@cool.com"
-        applications:
+          example: "a@example.com"
+        full_name:
+          type: string
+          description: A full name.
+          example: "Jane Doe"
+        roles:
           type: array
-          description: A list of application ids.
-          example: '[ { "id" : "fdghdfghd"}, {"id" : "fdfg-safg-4et"} ]'
-          items:
-            $ref: "#/components/schemas/application_item"
-
-    application_item:
+          description: An array of roles
+          example: ["ASSESSOR", "COMMENTER"]
+    accountCreated:
       type: object
       properties:
-        id:
+        account_id:
           type: string
-          description: The id of the application - should be the same as the id in the application store.
-          example: "FEASFDFGDFG-45009029-sDFG3SDF"
+          description: The unique id for the given account.
+          example: "9aee612a-7625-4e23-82fc-152614108509"
+        azure_ad_subject_id:
+          type: string
+          description: The Azure AD object's subject id if given.
+          example: "fg4FtjR5he365ir5h4k34_43jk34HreK6fr6rtDe47"
+        email_address:
+          type: string
+          pattern: '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
+          description: An email address.
+          example: "a@example.com"
+    account:
+      type: object
+      properties:
+        account_id:
+          type: string
+          description: The unique id for the given account.
+          example: "9aee612a-7625-4e23-82fc-152614108509"
+        azure_ad_subject_id:
+          type: string
+          description: Account holder's Azure AD record subject ID.
+          example: "fg4FtjR5he365ir5h4k34_43jk34HreK6fr6rtDe47"
+        email_address:
+          type: string
+          pattern: '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
+          description: An email address.
+          example: "a@example.com"
+        full_name:
+          type: string
+          description: A full name.
+          example: "Jane Doe"
+        roles:
+          type: array
+          description: An array of roles
+          example: ["ASSESSOR", "COMMENTER"]
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+      required:
+        - code
+        - message
