@@ -1,14 +1,14 @@
 import uuid  # noqa
 
 from db import db
-from sqlalchemy_utils.types import UUIDType  # noqa
+from sqlalchemy.dialects.postgresql import UUID
 
 
 class Account(db.Model):
 
     id = db.Column(
         "id",
-        UUIDType(binary=False),
+        UUID(as_uuid=True),
         default=uuid.uuid4,
         unique=True,
         primary_key=True,
