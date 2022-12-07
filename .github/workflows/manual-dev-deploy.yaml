@@ -28,4 +28,4 @@
             cf_space:    ${{secrets.CF_SPACE }}
             cf_username: ${{secrets.CF_USER}}
             cf_password: ${{secrets.CF_PASSWORD}}
-            command: push funding-service-design-account-store-dev
+            command: push funding-service-design-account-store-dev --var GITHUB_SHA="${{ github.sha }}"
