@@ -26,7 +26,7 @@ applications:
     SENTRY_DSN: https://db2ea0ad22a44f4db6e81fe74d85fa8f@o1432034.ingest.sentry.io/4503903103352832
     GITHUB_SHA: ((GITHUB_SHA))
   services:
-    - funding-service-design-account-store-db
+    - funding-service-design-account-store-test-db
     - logit-ssl-drain
   health-check-http-endpoint: /healthcheck
   health-check-type: http
