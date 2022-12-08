@@ -13,7 +13,7 @@
         - name: Set up Python
           uses: actions/setup-python@v2
           with:
-            python-version: 3.10.1
+            python-version: 3.10.x
         - name: create python env
           run: python -m venv .venv
         - name: install dependencies
@@ -28,4 +28,4 @@
             cf_space:    ${{secrets.CF_SPACE }}
             cf_username: ${{secrets.CF_USER}}
             cf_password: ${{secrets.CF_PASSWORD}}
-            command: push funding-service-design-account-store-dev
+            command: push funding-service-design-account-store-dev --var GITHUB_SHA="${{ github.sha }}"
