@@ -60,8 +60,6 @@ def get_account(
 def get_bulk_accounts(
     account_id: list,
 ) -> Dict:
-    print("😎😎😎😎😎😎😎😎")
-
     """
     Get multiple accounts corresponding to the given account ids
     and return account object schema and status code
@@ -82,10 +80,6 @@ def get_bulk_accounts(
     try:
         result = db.session.scalars(stmnt)
         account_schema = AccountSchema()
-        # accounts_metadatas = [
-        #     account_schema.dump(account_row) 
-        #     for account_row in result
-        # ]
 
         accounts_metadatas = { 
             str(account_row.id) : account_schema.dump(account_row) 
