@@ -188,11 +188,6 @@ class TestAccountsGet:
             flask_test_client, all_args_url, expected_response_data, 200
         )
 
-
-
-
-
-
     def test_get_bulk_by_account_ids(self, flask_test_client):
         """
         GIVEN an instance of our API
