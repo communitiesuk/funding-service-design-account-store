@@ -52,7 +52,7 @@ def get_account(
     try:
         result = db.session.execute(stmnt)
         account = result.scalars().one()
-        account_schema = AccountSchema()
+        account_schema = AccountSchema()    
         return account_schema.dump(account), 200
     except sqlalchemy.exc.NoResultFound:
         return {"error": "No matching account found"}, 404
@@ -77,15 +77,22 @@ def get_bulk_accounts(
         }, 400
 
     stmnt = select(Account)
-
-    # stmnt = stmnt.filter(Account.id == account_id)
     stmnt = stmnt.filter(Account.id.in_(account_id))
 
     try:
-        result = db.session.execute(stmnt).fetchall()
-        account = result.scalars().one()
+        result = db.session.scalars(stmnt)
         account_schema = AccountSchema()
-        return account_schema.dump(account), 200
+        # accounts_metadatas = [
+        #     account_schema.dump(account_row) 
+        #     for account_row in result
+        # ]
+
+        accounts_metadatas = { 
+            str(account_row.id) : account_schema.dump(account_row) 
+            for account_row in result    
+        }
+
+        return accounts_metadatas, 200
     except sqlalchemy.exc.NoResultFound:
         return {"error": "No matching account found"}, 404
 

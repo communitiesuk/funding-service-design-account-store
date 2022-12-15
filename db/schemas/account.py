@@ -11,4 +11,4 @@ class AccountSchema(ma.SQLAlchemySchema):
     email = fields.String(data_key="email_address")
     full_name = ma.auto_field()
     azure_ad_subject_id = ma.auto_field()
-    # roles = ma.Function(lambda obj: [role.role.name for role in obj.roles])
+    roles = ma.Function(lambda obj: [role.role.name for role in obj.roles])
