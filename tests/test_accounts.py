@@ -1,7 +1,6 @@
 """
 Tests the GET and POST functionality of our api.
 """
-import sys
 from tests.helpers import expected_data_within_response
 
 
