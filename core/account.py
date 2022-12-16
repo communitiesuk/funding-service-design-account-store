@@ -52,10 +52,11 @@ def get_account(
     try:
         result = db.session.execute(stmnt)
         account = result.scalars().one()
-        account_schema = AccountSchema()    
+        account_schema = AccountSchema()
         return account_schema.dump(account), 200
     except sqlalchemy.exc.NoResultFound:
         return {"error": "No matching account found"}, 404
+
 
 def get_bulk_accounts(
     account_id: list,
@@ -63,7 +64,7 @@ def get_bulk_accounts(
     """
     Get multiple accounts corresponding to the given account ids
     and return account object schema and status code
-    :param account_id: (str) the id to search
+    :param account_id: List of ids to search
     :return:
         Nested dict of account_id: {account object}
     """
@@ -89,11 +90,6 @@ def get_bulk_accounts(
         return accounts_metadatas, 200
     except sqlalchemy.exc.NoResultFound:
         return {"error": "No matching account found"}, 404
-
-
-
-
-
 
 
 def put_account(account_id: str) -> Tuple[dict, int]:
