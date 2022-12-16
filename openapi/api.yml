@@ -105,9 +105,64 @@ paths:
           schema:
             type: string
             format: path
-
+  /bulk-accounts:
+    get:
+      tags:
+        - accounts
+      summary: "Return the account data for the given account ids."
+      description: "Given an account ids return the json associated with the accounts, or 404 if none are found."
+      operationId: core.account.get_bulk_accounts
+      responses:
+        200:
+          description: The requested accounts exists, and the accounts' json payload is returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BulkAccount'
+        404:
+          description: "The requested accounts do not exist."
+      parameters:
+        - name: account_id
+          in: query
+          description: "The account id used for the account record lookup"
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+   
 components:
   schemas:
+    BulkAccount:
+      type: object
+      properties:
+        account_id:
+          type: object
+          properties:
+            account_id:
+              type: string
+              description: The unique id for the given account.
+              example: "9aee612a-7625-4e23-82fc-152614108509"
+            azure_ad_subject_id:
+              type: string
+              description: Account holder's Azure AD record subject ID.
+              example: "fg4FtjR5he365ir5h4k34_43jk34HreK6fr6rtDe47"
+            email_address:
+              type: string
+              pattern: '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
+              description: An email address.
+              example: "a@example.com"
+            full_name:
+              type: string
+              description: A full name.
+              example: "Jane Doe"
+            roles:
+              type: array
+              description: An array of roles
+              example: ["ASSESSOR", "COMMENTER"]
+
     accountCreate:
       type: object
       required:
@@ -195,7 +250,6 @@ components:
           type: array
           description: An array of roles
           example: ["ASSESSOR", "COMMENTER"]
-
     Error:
       type: object
       properties:

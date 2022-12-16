@@ -13,6 +13,7 @@ from flask import request
 from sqlalchemy import delete
 from sqlalchemy import or_
 from sqlalchemy import select
+from typing import Dict
 
 
 def get_account(
@@ -53,6 +54,40 @@ def get_account(
         account = result.scalars().one()
         account_schema = AccountSchema()
         return account_schema.dump(account), 200
+    except sqlalchemy.exc.NoResultFound:
+        return {"error": "No matching account found"}, 404
+
+
+def get_bulk_accounts(
+    account_id: list,
+) -> Dict:
+    """
+    Get multiple accounts corresponding to the given account ids
+    and return account object schema and status code
+    :param account_id: List of ids to search
+    :return:
+        Nested dict of account_id: {account object}
+    """
+    if not account_id:
+        return {
+            "error": (
+                "Bad request: please provide at least 1 account_id "
+            )
+        }, 400
+
+    stmnt = select(Account)
+    stmnt = stmnt.filter(Account.id.in_(account_id))
+
+    try:
+        result = db.session.scalars(stmnt)
+        account_schema = AccountSchema()
+
+        accounts_metadatas = { 
+            str(account_row.id) : account_schema.dump(account_row) 
+            for account_row in result    
+        }
+
+        return accounts_metadatas, 200
     except sqlalchemy.exc.NoResultFound:
         return {"error": "No matching account found"}, 404
 
