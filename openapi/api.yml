@@ -124,9 +124,9 @@ paths:
         404:
           description: "The requested accounts do not exist."
       parameters:
-        - name: account_ids
+        - name: account_id
           in: query
-          description: "The account ids used for the account record lookup"
+          description: "The account id used for the account record lookup"
           required: false
           schema:
             type: array
@@ -138,7 +138,7 @@ components:
     BulkAccount:
       type: object
       properties:
-        account_ids:
+        account_id:
           type: object
           properties:
             account_id:
