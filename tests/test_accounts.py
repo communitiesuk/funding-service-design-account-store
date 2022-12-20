@@ -196,7 +196,7 @@ class TestAccountsGet:
         THEN matching account records are returned with the correct params
         """
         account_ids = []
-        expected_response_data = []
+        expected_response_data = {}
 
         # Create a valid record
         records_to_create = [
@@ -222,7 +222,7 @@ class TestAccountsGet:
             assert response.status_code == 201
             account_ids.append(response.json["account_id"])
 
-            expected_response_data.append({
+            expected_response_data.update({
                 response.json["account_id"]: {
                     "account_id": response.json["account_id"],
                     "azure_ad_subject_id": response.json["azure_ad_subject_id"],
@@ -231,9 +231,9 @@ class TestAccountsGet:
                     "roles": []
                 }
             })
-        
+            
         # Check expected response with account_id query arg
-        account_id_arg = "account_ids="
+        account_id_arg = "account_id="
         account_id_arg_url = "/bulk-accounts?" + account_id_arg
 
         count = 0
@@ -241,7 +241,7 @@ class TestAccountsGet:
             if count < 1:
                 account_id_arg_url += id
                 count += 1
-            else: account_id_arg_url += "&account_ids=" + id
+            else: account_id_arg_url += "&account_id=" + id
 
         expected_data_within_response(
             flask_test_client, account_id_arg_url, expected_response_data, 200
