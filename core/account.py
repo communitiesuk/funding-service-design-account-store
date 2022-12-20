@@ -59,7 +59,7 @@ def get_account(
 
 
 def get_bulk_accounts(
-    account_id: list,
+    account_ids: list,
 ) -> Dict:
     """
     Get multiple accounts corresponding to the given account ids
@@ -68,26 +68,25 @@ def get_bulk_accounts(
     :return:
         Nested dict of account_id: {account object}
     """
-    if not account_id:
+    if not account_ids:
         return {
             "error": (
                 "Bad request: please provide at least 1 account_id "
             )
         }, 400
 
-    stmnt = select(Account)
-    stmnt = stmnt.filter(Account.id.in_(account_id))
-
+    accounts_metadatas = []
     try:
-        result = db.session.scalars(stmnt)
-        account_schema = AccountSchema()
+        for account_id in account_ids:
+            stmnt = select(Account).where(Account.id == account_id)
 
-        accounts_metadatas = { 
-            str(account_row.id) : account_schema.dump(account_row) 
-            for account_row in result    
-        }
+            result = db.session.scalar(stmnt)
+            account_schema = AccountSchema()
 
+            accounts_metadata = {str(result.id) : account_schema.dump(result)}
+            accounts_metadatas.append(accounts_metadata)
         return accounts_metadatas, 200
+
     except sqlalchemy.exc.NoResultFound:
         return {"error": "No matching account found"}, 404
 
