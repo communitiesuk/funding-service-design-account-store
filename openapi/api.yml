@@ -162,6 +162,10 @@ components:
               type: array
               description: An array of roles
               example: ["ASSESSOR", "COMMENTER"]
+            highest_role:
+              type: string
+              description: user's highest roles
+              example: "LEAD_ASSESSOR"
 
     accountCreate:
       type: object
