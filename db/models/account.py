@@ -2,6 +2,7 @@ import uuid  # noqa
 
 from db import db
 from sqlalchemy.dialects.postgresql import UUID
+from fsd_utils.authentication.utils import get_highest_role
 
 
 class Account(db.Model):
@@ -21,3 +22,7 @@ class Account(db.Model):
     roles = db.relationship(
         "Role", lazy="select", backref=db.backref("account", lazy="joined")
     )
+    
+    @property
+    def highest_role(self):
+        return get_highest_role([role.role.name for role in self.roles])

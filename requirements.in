@@ -1,7 +1,7 @@
 #-----------------------------------
 #   FSD Utils
 #-----------------------------------
-funding-service-design-utils
+funding-service-design-utils==1.0.15
 requests
 
 #-----------------------------------
@@ -26,6 +26,7 @@ psycopg2
 alembic-utils
 marshmallow-sqlalchemy
 flask-marshmallow
+marshmallow_enum
 
 #-----------------------------------
 #   Connexion APIs
