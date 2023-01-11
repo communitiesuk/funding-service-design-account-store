@@ -19,7 +19,7 @@ shortuuid
 #-----------------------------------
 SQLAlchemy
 # 3 has been released but our testing framework isn't updated to use it yet.
-Flask-SQLAlchemy==2.5.1
+Flask-SQLAlchemy==3.0.2
 Flask-Migrate
 sqlalchemy_utils>=0.38.3
 psycopg2
