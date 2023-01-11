@@ -64,6 +64,8 @@ flupy==1.2.0
     # via alembic-utils
 funding-service-design-utils==1.0.18
     # via -r requirements.in
+greenlet==2.0.1
+    # via sqlalchemy
 gunicorn==20.1.0
     # via funding-service-design-utils
 idna==3.4
@@ -162,8 +164,6 @@ rich==12.6.0
     # via funding-service-design-utils
 ruamel-yaml==0.17.21
     # via prance
-ruamel-yaml-clib==0.2.7
-    # via ruamel-yaml
 semver==2.13.0
     # via prance
 sentry-sdk[flask]==1.11.1
@@ -174,7 +174,7 @@ six==1.16.0
     # via
     #   flask-marshmallow
     #   prance
-sqlalchemy==1.4.44
+sqlalchemy==1.4.46
     # via
     #   -r requirements.in
     #   alembic
