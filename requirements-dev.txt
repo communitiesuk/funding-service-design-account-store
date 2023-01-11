@@ -79,8 +79,6 @@ deepdiff==6.2.1
     # via -r requirements-dev.in
 distlib==0.3.6
     # via virtualenv
-exceptiongroup==1.0.4
-    # via pytest
 filelock==3.8.0
     # via virtualenv
 flask==2.2.2
@@ -117,6 +115,8 @@ gitdb==4.0.10
     # via gitpython
 gitpython==3.1.29
     # via bandit
+greenlet==2.0.1
+    # via sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
@@ -231,7 +231,7 @@ pluggy==1.0.0
     # via pytest
 prance==0.22.11.4.0
     # via -r requirements.txt
-pre-commit==2.20.0
+pre-commit==2.21.0
     # via -r requirements-dev.in
 psycopg2==2.9.5
     # via -r requirements.txt
@@ -310,9 +310,7 @@ ruamel-yaml==0.17.21
     #   -r requirements.txt
     #   prance
 ruamel-yaml-clib==0.2.7
-    # via
-    #   -r requirements.txt
-    #   ruamel-yaml
+    # via -r requirements.txt
 semver==2.13.0
     # via
     #   -r requirements.txt
@@ -345,14 +343,6 @@ stevedore==4.1.1
     # via bandit
 swagger-ui-bundle==0.0.9
     # via -r requirements.txt
-toml==0.10.2
-    # via pre-commit
-tomli==2.0.1
-    # via
-    #   black
-    #   build
-    #   pep517
-    #   pytest
 typing-extensions==4.4.0
     # via
     #   -r requirements.txt
