@@ -1,9 +1,11 @@
 name: Tag-zip release
 on:
+  workflow_dispatch:
   push:
     tags:
       - v[0-9]+.[0-9]+.[0-9]+
       - v[0-9]+.[0-9]+.[0-9]+-prerelease
+
 
     paths-ignore:
       - '**/README.md'
@@ -11,6 +13,6 @@ on:
 jobs:
   tag-to-release:
     if: ${{ github.actor != 'dependabot[bot]' }}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/tag-to-release.yml@main
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/tag-to-release.yml@fs-2172-branch
     with:
       build_static_assets: false
