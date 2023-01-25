@@ -13,6 +13,6 @@ on:
 jobs:
   tag-to-release:
     if: ${{ github.actor != 'dependabot[bot]' }}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/tag-to-release.yml@fs-2172-branch
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/tag-to-release.yml@fs-2172-combine-workflows
     with:
       build_static_assets: false
