@@ -174,7 +174,7 @@ six==1.16.0
     # via
     #   flask-marshmallow
     #   prance
-sqlalchemy==1.4.44
+sqlalchemy==2.0.4
     # via
     #   -r requirements.in
     #   alembic
@@ -191,6 +191,7 @@ typing-extensions==4.4.0
     #   alembic-utils
     #   flupy
     #   jsonschema-spec
+    #   sqlalchemy
 urllib3==1.26.13
     # via
     #   requests
