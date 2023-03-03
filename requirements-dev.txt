@@ -116,7 +116,9 @@ gitdb==4.0.10
 gitpython==3.1.29
     # via bandit
 greenlet==2.0.2
-    # via sqlalchemy
+    # via
+    #   -r requirements.txt
+    #   sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
@@ -309,8 +311,6 @@ ruamel-yaml==0.17.21
     # via
     #   -r requirements.txt
     #   prance
-ruamel-yaml-clib==0.2.7
-    # via -r requirements.txt
 semver==2.13.0
     # via
     #   -r requirements.txt
@@ -356,7 +356,7 @@ urllib3==1.26.13
     #   sentry-sdk
 virtualenv==20.17.0
     # via pre-commit
-werkzeug==2.2.2
+werkzeug==2.2.3
     # via
     #   -r requirements.txt
     #   connexion
