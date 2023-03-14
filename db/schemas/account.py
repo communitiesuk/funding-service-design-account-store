@@ -14,5 +14,3 @@ class AccountSchema(ma.SQLAlchemySchema):
     azure_ad_subject_id = ma.auto_field()
     roles = ma.Function(lambda obj: [role.role.name for role in obj.roles])
     highest_role = ma.Function(lambda obj: obj.highest_role)
-
-    # test
