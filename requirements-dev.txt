@@ -100,7 +100,7 @@ flask-marshmallow==0.14.0
     # via -r requirements.txt
 flask-migrate==4.0.0
     # via -r requirements.txt
-flask-sqlalchemy==3.0.3
+flask-sqlalchemy==2.5.1
     # via
     #   -r requirements.txt
     #   flask-migrate

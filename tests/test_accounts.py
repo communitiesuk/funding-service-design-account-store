@@ -196,7 +196,6 @@ class TestAccountsGet:
             account_id=<valid_account_id>
         THEN matching account records are returned with the correct params
         """
-        account_ids = []
 
         # Create a valid record
         records_to_create = [
