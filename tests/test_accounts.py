@@ -1,8 +1,9 @@
 """
 Tests the GET and POST functionality of our api.
 """
-from tests.helpers import expected_data_within_response
 from fsd_utils.authentication.utils import get_highest_role
+from tests.helpers import expected_data_within_response
+
 
 class TestAccountsPost:
     def test_create_account_with_email(self, flask_test_client):
@@ -153,7 +154,7 @@ class TestAccountsGet:
             "full_name": None,
             "azure_ad_subject_id": azure_ad_subject_id,
             "roles": [],
-            "highest_role": get_highest_role([])
+            "highest_role": get_highest_role([]),
         }
 
         # Check expected response with email query arg
@@ -200,14 +201,13 @@ class TestAccountsGet:
         # Create a valid record
         records_to_create = [
             {
-            "email" : "person1@example.com",
-            "azure_ad_subject_id" : "abc_123",
+                "email": "person1@example.com",
+                "azure_ad_subject_id": "abc_123",
             },
             {
-            "email" : "person2@example.com",
-            "azure_ad_subject_id" : "abc_234",
-
-            }
+                "email": "person2@example.com",
+                "azure_ad_subject_id": "abc_234",
+            },
         ]
 
         for record in records_to_create:
@@ -221,7 +221,6 @@ class TestAccountsGet:
             assert response.status_code == 201
             assert response.json["email_address"] == record["email"]
             assert response.json["account_id"]
-            
 
     def test_get_by_mismatched_unique_columns_fails(self, flask_test_client):
         """
@@ -315,7 +314,7 @@ class TestAccountsPut:
             "full_name": new_full_name,
             "azure_ad_subject_id": new_azure_ad_subject_id,
             "roles": new_roles,
-            "highest_role": get_highest_role(new_roles)
+            "highest_role": get_highest_role(new_roles),
         }
 
         expected_data_within_response(
@@ -406,7 +405,7 @@ class TestAccountsPut:
             "full_name": None,
             "azure_ad_subject_id": azure_ad_subject_id,
             "roles": new_roles,
-            "highest_role": get_highest_role(new_roles)
+            "highest_role": get_highest_role(new_roles),
         }
 
         expected_data_within_response(
