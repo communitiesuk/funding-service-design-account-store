@@ -16,8 +16,6 @@ jobs:
       postgres_unit_testing: true
       db_name: fsd_account_store_test
       deploy_to_dev: true
-      users: 2
-      spawn-rate: 2
       run_performance_tests: true
       run_e2e_tests: true
     secrets:
