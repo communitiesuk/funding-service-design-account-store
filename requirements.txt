@@ -8,7 +8,7 @@ alembic==1.8.1
     # via
     #   alembic-utils
     #   flask-migrate
-alembic-utils==0.7.8
+alembic-utils==0.8.1
     # via -r requirements.in
 attrs==22.1.0
     # via
