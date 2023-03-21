@@ -1,6 +1,5 @@
 from db import ma
 from db.models.account import Account
-from fsd_utils.authentication.utils import get_highest_role
 from marshmallow import fields
 
 
