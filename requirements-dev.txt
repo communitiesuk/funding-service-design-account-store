@@ -63,13 +63,6 @@ clickclick==20.10.2
     # via
     #   -r requirements.txt
     #   connexion
-colorama==0.4.6
-    # via
-    #   -r requirements.txt
-    #   bandit
-    #   build
-    #   click
-    #   pytest
 colored==1.4.4
     # via -r requirements-dev.in
 commonmark==0.9.1
@@ -78,7 +71,7 @@ commonmark==0.9.1
     #   rich
 connexion==2.14.1
     # via -r requirements.txt
-cryptography==38.0.4
+cryptography==39.0.1
     # via
     #   -r requirements.txt
     #   pyjwt
@@ -86,8 +79,6 @@ deepdiff==6.2.1
     # via -r requirements-dev.in
 distlib==0.3.6
     # via virtualenv
-exceptiongroup==1.1.1
-    # via pytest
 filelock==3.8.0
     # via virtualenv
 flask==2.2.2
@@ -320,10 +311,6 @@ ruamel-yaml==0.17.21
     # via
     #   -r requirements.txt
     #   prance
-ruamel-yaml-clib==0.2.7
-    # via
-    #   -r requirements.txt
-    #   ruamel-yaml
 semver==2.13.0
     # via
     #   -r requirements.txt
@@ -356,12 +343,6 @@ stevedore==4.1.1
     # via bandit
 swagger-ui-bundle==0.0.9
     # via -r requirements.txt
-tomli==2.0.1
-    # via
-    #   black
-    #   build
-    #   pep517
-    #   pytest
 typing-extensions==4.4.0
     # via
     #   -r requirements.txt
