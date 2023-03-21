@@ -1,6 +1,7 @@
 """
 Contains the functions directly used by the openapi spec.
 """
+from typing import Dict
 from typing import Tuple
 
 import sqlalchemy
@@ -13,7 +14,6 @@ from flask import request
 from sqlalchemy import delete
 from sqlalchemy import or_
 from sqlalchemy import select
-from typing import Dict
 
 
 def get_account(
@@ -70,9 +70,7 @@ def get_bulk_accounts(
     """
     if not account_id:
         return {
-            "error": (
-                "Bad request: please provide at least 1 account_id "
-            )
+            "error": "Bad request: please provide at least 1 account_id "
         }, 400
 
     stmnt = select(Account)
@@ -82,9 +80,9 @@ def get_bulk_accounts(
         result = db.session.scalars(stmnt)
         account_schema = AccountSchema()
 
-        accounts_metadatas = { 
-            str(account_row.id) : account_schema.dump(account_row) 
-            for account_row in result    
+        accounts_metadatas = {
+            str(account_row.id): account_schema.dump(account_row)
+            for account_row in result
         }
 
         return accounts_metadatas, 200
