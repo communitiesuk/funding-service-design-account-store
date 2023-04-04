@@ -6,7 +6,6 @@ from sqlalchemy.dialects.postgresql import UUID
 
 
 class Account(db.Model):
-
     id = db.Column(
         "id",
         UUID(as_uuid=True),

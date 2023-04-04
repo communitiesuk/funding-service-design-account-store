@@ -18,11 +18,9 @@ def prep_db(reuse_db=False):
     refresh_db = not reuse_db
 
     if no_db:
-
         create_database(Config.SQLALCHEMY_DATABASE_URI)
 
     elif refresh_db:
-
         drop_database(Config.SQLALCHEMY_DATABASE_URI)
         create_database(Config.SQLALCHEMY_DATABASE_URI)
 

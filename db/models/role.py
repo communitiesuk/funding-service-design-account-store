@@ -13,7 +13,6 @@ class RoleType(enum.Enum):
 
 
 class Role(db.Model):
-
     id = db.Column(
         "id",
         UUID(as_uuid=True),

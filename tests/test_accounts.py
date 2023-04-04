@@ -258,7 +258,6 @@ class TestAccountsGet:
         assert response.status_code == 404
 
     def test_get_to_non_existing_resource_returns_404(self, flask_test_client):
-
         email = "non_existant_email@example.com"
         url = "/accounts?email_address=" + email
 
@@ -268,7 +267,6 @@ class TestAccountsGet:
 
 
 class TestAccountsPut:
-
     test_email_1 = "person1@example.com"
     test_email_2 = "person2@example.com"
     accounts_created = {}
