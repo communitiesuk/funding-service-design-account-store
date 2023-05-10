@@ -45,9 +45,7 @@ def get_account(
     if email_address:
         stmnt = stmnt.filter(Account.email == email_address)
     if azure_ad_subject_id:
-        stmnt = stmnt.filter(
-            Account.azure_ad_subject_id == azure_ad_subject_id
-        )
+        stmnt = stmnt.filter(Account.azure_ad_subject_id == azure_ad_subject_id)
 
     try:
         result = db.session.execute(stmnt)
@@ -69,9 +67,7 @@ def get_bulk_accounts(
         Nested dict of account_id: {account object}
     """
     if not account_id:
-        return {
-            "error": "Bad request: please provide at least 1 account_id "
-        }, 400
+        return {"error": "Bad request: please provide at least 1 account_id "}, 400
 
     stmnt = select(Account)
     stmnt = stmnt.filter(Account.id.in_(account_id))
@@ -134,9 +130,7 @@ def put_account(account_id: str) -> Tuple[dict, int]:
             .one()
         )
     except sqlalchemy.exc.NoResultFound:
-        return {
-            "error": "No account matching those details could be found"
-        }, 404
+        return {"error": "No account matching those details could be found"}, 404
     # Check all roles are valid before doing any database updates
     for role in roles:
         try:

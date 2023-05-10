@@ -28,9 +28,7 @@ def upgrade():
             batch_op.f("uq_account_azure_ad_subject_id"),
             ["azure_ad_subject_id"],
         )
-        batch_op.create_unique_constraint(
-            batch_op.f("uq_account_email"), ["email"]
-        )
+        batch_op.create_unique_constraint(batch_op.f("uq_account_email"), ["email"])
         batch_op.create_unique_constraint(batch_op.f("uq_account_id"), ["id"])
 
     op.create_table(
@@ -62,9 +60,7 @@ def downgrade():
 
     with op.batch_alter_table("account", schema=None) as batch_op:
         batch_op.drop_constraint(batch_op.f("uq_account_id"), type_="unique")
-        batch_op.drop_constraint(
-            batch_op.f("uq_account_email"), type_="unique"
-        )
+        batch_op.drop_constraint(batch_op.f("uq_account_email"), type_="unique")
         batch_op.drop_constraint(
             batch_op.f("uq_account_azure_ad_subject_id"), type_="unique"
         )

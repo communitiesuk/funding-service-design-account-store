@@ -28,9 +28,7 @@ class TestAccountsPost:
         assert "azure_ad_subject_id" in response.json
         assert response.json["email_address"] == email
 
-    def test_create_account_with_existing_account_email_fails(
-        self, flask_test_client
-    ):
+    def test_create_account_with_existing_account_email_fails(self, flask_test_client):
         """
         GIVEN The flask test client
         WHEN we POST twice to the /accounts endpoint with a json payload of
@@ -53,9 +51,7 @@ class TestAccountsPost:
 
         assert second_response.status_code == 409
 
-    def test_create_account_with_email_and_azure_ad_subject_id(
-        self, flask_test_client
-    ):
+    def test_create_account_with_email_and_azure_ad_subject_id(self, flask_test_client):
         """
         GIVEN The flask test client
         WHEN we POST to the /accounts endpoint with a json payload of
@@ -273,9 +269,7 @@ class TestAccountsPut:
     test_email_2 = "person2@example.com"
     accounts_created = {}
 
-    def test_update_full_name_role_and_azure_ad_subject_id(
-        self, flask_test_client
-    ):
+    def test_update_full_name_role_and_azure_ad_subject_id(self, flask_test_client):
         """
         GIVEN The flask test client
         WHEN we PUT to the /accounts/{account_id} endpoint
