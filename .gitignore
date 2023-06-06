@@ -129,6 +129,5 @@ dmypy.json
 
 sqlite.db
 
-.vscode/
 .idea
 .DS_Store
