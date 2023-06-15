@@ -8,7 +8,6 @@ pytest
 pytest-env
 pytest-flask
 pytest-mock
-pip-tools
+pip-tools>=6.13.0
 asserts
-pytest-flask-sqlalchemy
 colored
