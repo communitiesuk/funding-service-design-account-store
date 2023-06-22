@@ -1,15 +1,8 @@
-import enum
 import uuid  # noqa
 
 from db import db
 from db.models.account import Account
 from sqlalchemy.dialects.postgresql import UUID
-
-
-class RoleType(enum.Enum):
-    LEAD_ASSESSOR = "Lead Assessor"
-    ASSESSOR = "Assessor"
-    COMMENTER = "Commenter"
 
 
 class Role(db.Model):
@@ -27,6 +20,6 @@ class Role(db.Model):
     )
     role = db.Column(
         "role",
-        db.Enum(RoleType),
+        db.String(),
         nullable=False,
     )

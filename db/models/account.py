@@ -25,4 +25,4 @@ class Account(db.Model):
 
     @property
     def highest_role(self):
-        return get_highest_role([role.role.name for role in self.roles])
+        return get_highest_role([role.role for role in self.roles])
