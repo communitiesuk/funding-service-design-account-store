@@ -162,10 +162,10 @@ components:
               type: array
               description: An array of roles
               example: ["ASSESSOR", "COMMENTER"]
-            highest_role:
-              type: string
-              description: user's highest roles
-              example: "LEAD_ASSESSOR"
+            highest_role_map:
+              type: object
+              description: A map of the highest role for each service
+              example: {"COF": "ASSESSOR", "NSTF": "COMMENTER"}
 
     accountCreate:
       type: object

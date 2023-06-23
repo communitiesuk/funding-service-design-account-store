@@ -12,4 +12,4 @@ class AccountSchema(ma.SQLAlchemySchema):
     full_name = ma.auto_field()
     azure_ad_subject_id = ma.auto_field()
     roles = ma.Function(lambda obj: [role.role for role in obj.roles])
-    highest_role = ma.Function(lambda obj: obj.highest_role)
+    highest_role_map = ma.Function(lambda obj: obj.highest_role_map)
