@@ -2,7 +2,6 @@
 Tests the GET and POST functionality of our api.
 """
 import pytest
-from fsd_utils.authentication.utils import get_highest_role
 from tests.conftest import test_user_1
 from tests.conftest import test_user_2
 from tests.conftest import test_user_to_update
@@ -245,7 +244,7 @@ class TestAccountsPut:
             "full_name": new_full_name,
             "azure_ad_subject_id": new_azure_ad_subject_id,
             "roles": ["COF_ASSESSOR"],
-            "highest_role": get_highest_role(new_roles),
+            "highest_role_map": {"COF": "ASSESSOR"},
         }
 
         expected_data_within_response(
