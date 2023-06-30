@@ -29,6 +29,8 @@ babel==2.11.0
     #   flask-babel
 bandit==1.7.4
     # via -r requirements-dev.in
+beautifulsoup4==4.12.2
+    # via -r requirements.txt
 black==22.12.0
     # via -r requirements-dev.in
 blinker==1.5
@@ -396,6 +398,10 @@ six==1.16.0
     #   thrift
 smmap==5.0.0
     # via gitdb
+soupsieve==2.4.1
+    # via
+    #   -r requirements.txt
+    #   beautifulsoup4
 sqlalchemy==1.4.44
     # via
     #   -r requirements.txt

@@ -18,6 +18,8 @@ attrs==22.1.0
     #   openapi-schema-validator
 babel==2.11.0
     # via flask-babel
+beautifulsoup4==4.12.2
+    # via -r requirements.in
 blinker==1.5
     # via sentry-sdk
 boto3==1.26.153
@@ -217,6 +219,8 @@ six==1.16.0
     #   python-consul
     #   python-dateutil
     #   thrift
+soupsieve==2.4.1
+    # via beautifulsoup4
 sqlalchemy==1.4.44
     # via
     #   -r requirements.in

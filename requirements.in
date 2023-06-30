@@ -38,3 +38,4 @@ prance
 
 # Extras
 invoke
+beautifulsoup4==4.12.2
