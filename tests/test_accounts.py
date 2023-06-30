@@ -2,7 +2,6 @@
 Tests the GET and POST functionality of our api.
 """
 import pytest
-from fsd_utils.authentication.utils import get_highest_role
 from tests.conftest import test_user_1
 from tests.conftest import test_user_2
 from tests.conftest import test_user_to_update
@@ -229,7 +228,7 @@ class TestAccountsPut:
     ):
 
         account_id = str(test_user_to_update["account_id"])
-        new_roles = ["ASSESSOR"]
+        new_roles = ["COF_ASSESSOR"]
         new_full_name = "Jane Doe"
         new_azure_ad_subject_id = "subject_id_x"
         params = {
@@ -244,8 +243,8 @@ class TestAccountsPut:
             "email_address": "seeded_user_x@example.com",
             "full_name": new_full_name,
             "azure_ad_subject_id": new_azure_ad_subject_id,
-            "roles": new_roles,
-            "highest_role": get_highest_role(new_roles),
+            "roles": ["COF_ASSESSOR"],
+            "highest_role_map": {"COF": "ASSESSOR"},
         }
 
         expected_data_within_response(
@@ -313,7 +312,7 @@ class TestAccountsPut:
         assert response.status_code == 201
 
         assert response.json["account_id"] == account_id
-        assert response.json["roles"] == new_roles
+        assert response.json["roles"] == ["COF_LEAD_ASSESSOR"]
 
     def test_update_role_with_non_existent_role_fails(
         self, flask_test_client, clear_test_data, seed_test_data

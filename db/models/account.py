@@ -1,7 +1,9 @@
 import uuid  # noqa
+from typing import Mapping
 
 from db import db
-from fsd_utils.authentication.utils import get_highest_role
+from flask import current_app
+from fsd_utils.authentication.utils import get_highest_role_map
 from sqlalchemy.dialects.postgresql import UUID
 
 
@@ -24,5 +26,8 @@ class Account(db.Model):
     )
 
     @property
-    def highest_role(self):
-        return get_highest_role([role.role.name for role in self.roles])
+    def highest_role_map(self) -> Mapping[str, str]:
+        roles_as_strings = [r.role for r in self.roles]
+        role_map = get_highest_role_map(roles_as_strings)
+        current_app.logger.debug(f"Role map for {self.id}: {role_map}")
+        return role_map
