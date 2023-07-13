@@ -153,7 +153,7 @@ pathable==0.4.3
     # via jsonschema-spec
 prance==0.22.11.4.0
     # via -r requirements.in
-psycopg2==2.9.5
+psycopg2-binary==2.9.6
     # via -r requirements.in
 pycparser==2.21
     # via cffi
