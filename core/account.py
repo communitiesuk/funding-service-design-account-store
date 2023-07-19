@@ -39,6 +39,7 @@ def get_account(
         }, 400
 
     stmnt = select(Account)
+    email_address = email_address.lower() if email_address else email_address
 
     if account_id:
         stmnt = stmnt.filter(Account.id == account_id)
@@ -137,7 +138,7 @@ def put_account(account_id: str) -> Tuple[dict, int]:
         return {"error": "azure_ad_subject_id is required"}, 401
 
     full_name = request.json.get("full_name")
-    email = request.json.get("email_address")
+    email = request.json.get("email_address", "").lower()
 
     # Check account exists
     try:
@@ -226,7 +227,7 @@ def post_account() -> Tuple[dict, int]:
     Returns:
         Returns a dictionary(json) along with a status code.
     """
-    email_address = request.json.get("email_address")
+    email_address = request.json.get("email_address", "").lower()
     azure_ad_subject_id = request.json.get("azure_ad_subject_id")
     if not email_address:
         return {"error": "email_address is required"}, 400
