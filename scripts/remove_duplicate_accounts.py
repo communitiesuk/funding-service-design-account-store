@@ -1,13 +1,30 @@
 #!/usr/bin/env python3
-"""Script to remove duplicated email accounts from the account store and update
-account ids in application store, assessment store with the new unique account id"""
+"""
+Script to remove duplicated email accounts from the account store and update
+account ids in application store, assessment store with the new unique account id
+
+------------------------ How to run the script -----------------------
+!!!!! Ensure you are pairing, when running this script on production !!!!!
+==============
+Pre-requisites
+=============
+set the below environmnetal vriables or provide it on lines 23-34
+"ACCOUNT_STORE_DB_URL"
+"APPLICATION_STORE_DB_URL"
+"ASSESSMENT_STORE_DB_URL"
+
+==============
+To Run
+=============
+python -m scripts.remove_duplicate_accounts
+"""
 import os
 from uuid import uuid4
 
 import psycopg2
 
 ACCOUNT_STORE_DB = os.getenv(
-    "DATABASE_URL",
+    "ACCOUNT_STORE_DB_URL",
     "postgresql://postgres:password@localhost:5432/account_store",
 )
 APPLICATION_STORE_DB = os.getenv(
