@@ -39,7 +39,8 @@ ASSESSMENT_STORE_DB = os.getenv(
 
 def find_duplicate_emails(connection_string):
     """
-    Returns data in the below format if duplicated emails are found in the db
+    Function searches for duplicated case insensitive email accounts and returns the dict
+    Returns the data in the below format, if duplicated emails are found in the db
 
     duplicate_emails_dict = {
         "test.example@google.com": [
@@ -135,7 +136,8 @@ def find_duplicate_emails(connection_string):
 
 def cascade_columns_data(duplicate_emails):
     """
-    Return data in the below format
+    Cascades the duplicated email account columns data and return the dict
+    Returns the data in the below format
 
     new_accounts_dict = {
         "test.example@google.com": {
@@ -175,7 +177,8 @@ def remove_and_update_duplicate_accounts(
     duplicate_emails, new_accounts_dict, account_store_db_string
 ):
     """
-    Return data in the below format
+    Remove the accounts & roles associated with duplicated email accounts and insert the unique email accounts.
+    Returns the data in the below format
 
     account_id_dict = {
         "test.example@google.com": {
@@ -275,6 +278,10 @@ def update_user_id_in_other_db(
     application_store_db_string,
     assessment_store_db_string,
 ):
+    """
+    Function updates the duplicated email account ids with the newly created
+    unique email account id in the application-store and assessment-store db.
+    """
     if account_id_dict:
         # update user ids in application store
         try:
