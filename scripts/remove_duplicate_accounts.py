@@ -8,16 +8,24 @@ account ids in application store, assessment store with the new unique account i
 ==============
 Pre-requisites
 =============
-set the below environmnetal vriables or provide it on lines 23-34
+1) Set the below environmnetal vriables or provide it on lines 23-34
 "ACCOUNT_STORE_DB_URL"
 "APPLICATION_STORE_DB_URL"
 "ASSESSMENT_STORE_DB_URL"
 
+2) To dump the `duplicate_emails` to csv file, make sure to install pandas
+>> pip install pandas
+
 ==============
 To Run
 =============
-python -m scripts.remove_duplicate_accounts
+# Dump `duplicate_emails` to csv file
+>> python -m scripts.remove_duplicate_accounts --write_csv True --csv_path /path/to/duplicate_accounts.csv
+
+# Remove & update the duplicated email accounts in account, application & assessment store
+>> python -m scripts.remove_duplicate_accounts --update_account_store True --update_other_stores True
 """
+import argparse
 import os
 from uuid import uuid4
 
@@ -383,22 +391,69 @@ def update_user_id_in_other_db(
             print("Error:", e)
 
 
+def dump_duplicate_emails_to_csv(duplicate_emails, csv_path=""):
+    # Dump `duplicate_emails` to csv file
+    import pandas as pd
+
+    dict_data = []
+    if not csv_path:
+        csv_path = "duplicate_emails.csv"
+
+    for data in duplicate_emails.values():
+        for item in data:
+            dict_data.append(item)
+    df = pd.DataFrame(data=dict_data)
+    print(f"duplicate_emails list is saved to {csv_path}")
+    df.to_csv(csv_path)
+
+
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--write_csv",
+        help=(
+            "Whether to write duplicated accounts data to CSV file. if yes, include"
+            " param --csv_path"
+        ),
+        required=False,
+        default=False,
+    )
+    parser.add_argument(
+        "--csv_path", help="Provide round id of a fund", required=False, default=""
+    )
+    parser.add_argument(
+        "--update_account_store",
+        help="Whether to remove & update duplicated accounts in accounts store.",
+        required=False,
+        default=False,
+    )
+    parser.add_argument(
+        "--update_other_stores",
+        help=(
+            "Whether to update account ids in application & assessment store with the"
+            " unique accounts."
+        ),
+        required=False,
+        default=False,
+    )
+    args = parser.parse_args()
+
+    # find the duplicated accounts
     duplicate_emails = find_duplicate_emails(ACCOUNT_STORE_DB)
 
-    # # Uncomment below lines to dump `duplicate_emails` to excel file
-    # import pandas as pd
-    # dict_data=[]
-    # for email, data in duplicate_emails.items():
-    #     for item in data:
-    #         dict_data.append(item)
-    # df = pd.DataFrame(data=dict_data)
-    # df.to_excel('dict1.xlsx')
+    # Dump `duplicate_emails` to csv file
+    if args.write_csv:
+        dump_duplicate_emails_to_csv(duplicate_emails, args.csv_path)
 
-    new_accounts_dict = cascade_columns_data(duplicate_emails)
-    account_id_dict = remove_and_update_duplicate_accounts(
-        duplicate_emails, new_accounts_dict, ACCOUNT_STORE_DB
-    )
-    update_user_id_in_other_db(
-        account_id_dict, APPLICATION_STORE_DB, ASSESSMENT_STORE_DB
-    )
+    # remove & update the account store
+    if args.update_account_store:
+        new_accounts_dict = cascade_columns_data(duplicate_emails)
+        account_id_dict = remove_and_update_duplicate_accounts(
+            duplicate_emails, new_accounts_dict, ACCOUNT_STORE_DB
+        )
+
+        # update account ids in application & assessment store
+        if args.update_other_stores:
+            update_user_id_in_other_db(
+                account_id_dict, APPLICATION_STORE_DB, ASSESSMENT_STORE_DB
+            )
