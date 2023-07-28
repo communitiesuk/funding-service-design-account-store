@@ -1,0 +1,41 @@
+# The manifest for the "account-store" service.
+# Read the full specification for the "Backend Service" type at:
+#  https://aws.github.io/copilot-cli/docs/manifest/backend-service/
+
+# Your service name will be used in naming your resources like log groups, ECS services, etc.
+name: fund-store
+type: Backend Service
+
+    name: api
+    type: Backend Service
+
+    image:
+      build: ./api/Dockerfile
+      port: 8080
+      healthcheck:
+        command: ["CMD-SHELL", "curl -f http://localhost:8080/healthcheck || exit 1"]
+        interval: 10s
+        retries: 2
+        timeout: 5s
+        start_period: 0s
+
+    network:
+      connect: true
+
+    cpu: 256
+    memory: 512
+    count: 2
+    exec: true
+
+    #env_file: ./api/.env
+    environments:
+      test:
+        deployment:
+          rolling: "recreate"
+        count: 1
+
+    #secrets:
+    variables:
+      # SENTRY_DSN: "https://8092c54bdc3a4b4ba124dea42b836504@o1432034.ingest.sentry.io/4503918903820288"
+      FLASK_ENV: ${COPILOT_ENVIRONMENT_NAME}
+      PORT: 8080
