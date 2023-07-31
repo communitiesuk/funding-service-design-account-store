@@ -142,6 +142,44 @@ def find_duplicate_emails(connection_string):
         return None
 
 
+def load_duplicate_emails_from_csv(csv_path):
+    import pandas as pd
+    import ast
+
+    df = pd.read_csv(csv_path)
+    duplicate_emails_dict = {}
+    for index, row in df.iterrows():
+        if row["email"].lower() in duplicate_emails_dict.keys():
+            duplicate_emails_dict[row["email"].lower()].append(
+                {
+                    "email": row["email"],
+                    "id": row["id"],
+                    "full_name": None
+                    if isinstance(row["full_name"], float)
+                    else row["full_name"],
+                    "azure_ad_subject_id": None
+                    if isinstance(row["azure_ad_subject_id"], float)
+                    else row["azure_ad_subject_id"],
+                    "roles": ast.literal_eval(row["roles"]),
+                }
+            )
+        else:
+            duplicate_emails_dict[row["email"].lower()] = [
+                {
+                    "email": row["email"],
+                    "id": row["id"],
+                    "full_name": None
+                    if isinstance(row["full_name"], float)
+                    else row["full_name"],
+                    "azure_ad_subject_id": ""
+                    if isinstance(row["azure_ad_subject_id"], float)
+                    else row["azure_ad_subject_id"],
+                    "roles": ast.literal_eval(row["roles"]),
+                }
+            ]
+    return duplicate_emails_dict
+
+
 def cascade_columns_data(duplicate_emails):
     """
     Cascades the duplicated email account columns data and return the dict
@@ -238,7 +276,7 @@ def remove_and_update_duplicate_accounts(
                     data["id"],
                     email,
                     data["full_name"],
-                    data["azure_ad_subject_id"],
+                    data["azure_ad_subject_id"] or None,
                 )
                 for email, data in new_accounts_dict.items()
             ]
