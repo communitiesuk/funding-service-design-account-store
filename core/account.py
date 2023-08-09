@@ -43,9 +43,9 @@ def get_account(
 
     if account_id:
         stmnt = stmnt.filter(Account.id == account_id)
-    if email_address:
+    elif email_address:
         stmnt = stmnt.filter(Account.email == email_address)
-    if azure_ad_subject_id:
+    elif azure_ad_subject_id:
         stmnt = stmnt.filter(Account.azure_ad_subject_id == azure_ad_subject_id)
 
     try:
