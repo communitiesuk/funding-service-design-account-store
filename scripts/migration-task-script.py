@@ -8,7 +8,13 @@ environment = sys.argv[1]
 
 try:
     command = subprocess.run(
-        args=["copilot", "task", "run", "--generate-cmd", f"pre-award/{environment}/fsd-account-store"],
+        args=[
+            "copilot",
+            "task",
+            "run",
+            "--generate-cmd",
+            f"pre-award/{environment}/fsd-account-store",
+        ],
         capture_output=True,
         check=True,
         text=True,
@@ -22,7 +28,10 @@ except subprocess.CalledProcessError as e:
 # Remove final line break and append arguments
 try:
     subprocess.run(
-        args=command_with_image_removed[:-1] + f" \\\n--follow \\\n--command '{command_to_run}'", shell=True, check=True
+        args=command_with_image_removed[:-1]
+        + f" \\\n--follow \\\n--command '{command_to_run}'",
+        shell=True,
+        check=True,
     )
 except subprocess.CalledProcessError as e:
     # Don't want to leak the command output here so just exit with the command's return code
