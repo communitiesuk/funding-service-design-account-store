@@ -93,7 +93,7 @@ jobs:
 
     - name: Inject replacement image into manifest
       run: |
-        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-account-store:${{ github.ref_name }}"'  copilot/fsd-account-store/manifest.yml
+        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-account-store:${{ github.ref_name == 'main' && 'latest' || github.ref_name }}"'  copilot/fsd-account-store/manifest.yml
 
     - name: Run database migrations
       run: scripts/migration-task-script.py ${{ inputs.environment || 'test' }}
