@@ -24,3 +24,10 @@ repos:
       - id: reorder-python-imports
         name: Reorder Python imports (src, tests)
         args: ["--application-directories", "src"]
+- repo: https://github.com/Yelp/detect-secrets
+  rev: v1.4.0
+  hooks:
+  -   id: detect-secrets
+      args: ['--disable-plugin', 'HexHighEntropyString',
+        '--disable-plugin', 'Base64HighEntropyString']
+      exclude: .env.development

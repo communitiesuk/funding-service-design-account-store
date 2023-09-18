@@ -85,9 +85,9 @@ Resources:
     Type: 'AWS::RDS::DBCluster'
     Properties:
       MasterUsername:
-        !Join [ "",  [ '{{resolve:secretsmanager:', !Ref fsdaccountstoreclusterAuroraSecret, ":SecretString:username}}" ]]
+        !Join [ "",  [ '{{resolve:secretsmanager:', !Ref fsdaccountstoreclusterAuroraSecret, ":SecretString:username}}" ]]  # pragma: allowlist secret
       MasterUserPassword:
-        !Join [ "",  [ '{{resolve:secretsmanager:', !Ref fsdaccountstoreclusterAuroraSecret, ":SecretString:password}}" ]]
+        !Join [ "",  [ '{{resolve:secretsmanager:', !Ref fsdaccountstoreclusterAuroraSecret, ":SecretString:password}}" ]]  # pragma: allowlist secret
       DatabaseName: !Ref fsdaccountstoreclusterDBName
       Engine: 'aurora-postgresql'
       EngineVersion: '14.4'
@@ -126,11 +126,11 @@ Outputs:
     Value:
       !Sub
       - "postgres://${USERNAME}:${PASSWORD}@${HOSTNAME}:${PORT}/${DBNAME}"
-      - USERNAME: !Join [ "",  [ '{{resolve:secretsmanager:', !Ref fsdaccountstoreclusterAuroraSecret, ":SecretString:username}}" ]]
-        PASSWORD: !Join [ "",  [ '{{resolve:secretsmanager:', !Ref fsdaccountstoreclusterAuroraSecret, ":SecretString:password}}" ]]
-        HOSTNAME: !Join [ "",  [ '{{resolve:secretsmanager:', !Ref fsdaccountstoreclusterAuroraSecret, ":SecretString:host}}" ]]
-        PORT: !Join [ "",  [ '{{resolve:secretsmanager:', !Ref fsdaccountstoreclusterAuroraSecret, ":SecretString:port}}" ]]
-        DBNAME: !Join [ "",  [ '{{resolve:secretsmanager:', !Ref fsdaccountstoreclusterAuroraSecret, ":SecretString:dbname}}" ]]
+      - USERNAME: !Join [ "",  [ '{{resolve:secretsmanager:', !Ref fsdaccountstoreclusterAuroraSecret, ":SecretString:username}}" ]]  # pragma: allowlist secret
+        PASSWORD: !Join [ "",  [ '{{resolve:secretsmanager:', !Ref fsdaccountstoreclusterAuroraSecret, ":SecretString:password}}" ]]  # pragma: allowlist secret
+        HOSTNAME: !Join [ "",  [ '{{resolve:secretsmanager:', !Ref fsdaccountstoreclusterAuroraSecret, ":SecretString:host}}" ]]  # pragma: allowlist secret
+        PORT: !Join [ "",  [ '{{resolve:secretsmanager:', !Ref fsdaccountstoreclusterAuroraSecret, ":SecretString:port}}" ]]  # pragma: allowlist secret
+        DBNAME: !Join [ "",  [ '{{resolve:secretsmanager:', !Ref fsdaccountstoreclusterAuroraSecret, ":SecretString:dbname}}" ]]  # pragma: allowlist secret
 
   fsdaccountstoreclusterSecret: # injected as FSDACCOUNTSTORECLUSTER_SECRET environment variable by Copilot.
     Description: "The JSON secret that holds the database username and password. Fields are 'host', 'port', 'dbname', 'username', 'password', 'dbClusterIdentifier' and 'engine'"
