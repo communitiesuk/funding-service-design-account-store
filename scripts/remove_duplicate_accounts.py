@@ -33,15 +33,15 @@ import psycopg2
 
 ACCOUNT_STORE_DB = os.getenv(
     "ACCOUNT_STORE_DB_URL",
-    "postgresql://postgres:password@localhost:5432/account_store",
+    "postgresql://postgres:password@localhost:5432/account_store",  # pragma: allowlist secret
 )
 APPLICATION_STORE_DB = os.getenv(
     "APPLICATION_STORE_DB_URL",
-    "postgresql://postgres:password@localhost:5432/application_store",
+    "postgresql://postgres:password@localhost:5432/application_store",  # pragma: allowlist secret
 )
 ASSESSMENT_STORE_DB = os.getenv(
     "ASSESSMENT_STORE_DB_URL",
-    "postgresql://postgres:password@localhost:5432/assessment_store",
+    "postgresql://postgres:password@localhost:5432/assessment_store",  # pragma: allowlist secret
 )
 
 

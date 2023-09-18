@@ -8,7 +8,7 @@ from fsd_utils import configclass
 @configclass
 class DevConfig(DefaultConfig):
     #  Application Config
-    SECRET_KEY = "dev"
+    SECRET_KEY = "dev"  # pragma: allowlist secret
     SESSION_COOKIE_NAME = "session_cookie"
 
     # Logging

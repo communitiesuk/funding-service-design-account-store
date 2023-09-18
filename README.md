@@ -71,8 +71,9 @@ You can then either manually create a database called `fsd_account_store_dev` or
 
 Once you have created the database you need to set the `DATABASE_URL` environment variable so the application knows where to find it.
 
-This url has been set in the `.flaskenv` file in the root as
+This url can be set in the `.flaskenv` file in the root as
 
+    # pragma: allowlist nextline secret
     DATABASE_URL==postgresql://postgres:postgres@127.0.0.1:5432/fsd_account_store_dev
 
 ...so if you are running locally on a development machine and you have used the `invoke bootstrap_dev_db` script above to create the database, it should just connect automatically.
