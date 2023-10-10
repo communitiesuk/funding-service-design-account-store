@@ -87,29 +87,6 @@ def get_bulk_accounts(
         return {"error": "No matching account found"}, 404
 
 
-# old roles, we should remove these once all old roles are removed in azure
-_DEPRECATED_ROLES = {"LEAD_ASSESSOR", "ASSESSOR", "COMMENTER"}
-
-_VALID_ROLES = {
-    # legacy roles, always cof since they were original fund
-    "ASSESSOR": "COF_ASSESSOR",
-    "LEAD_ASSESSOR": "COF_LEAD_ASSESSOR",
-    "COMMENTER": "COF_COMMENTER",
-    # cof specific roles
-    "COF_LEAD_ASSESSOR": "COF_LEAD_ASSESSOR",
-    "COF_ASSESSOR": "COF_ASSESSOR",
-    "COF_COMMENTER": "COF_COMMENTER",
-    "COF_SCOTLAND": "COF_SCOTLAND",
-    "COF_NORTHERNIRELAND": "COF_NORTHERNIRELAND",
-    "COF_WALES": "COF_WALES",
-    "COF_ENGLAND": "COF_ENGLAND",
-    # nstf specific roles
-    "NSTF_LEAD_ASSESSOR": "NSTF_LEAD_ASSESSOR",
-    "NSTF_ASSESSOR": "NSTF_ASSESSOR",
-    "NSTF_COMMENTER": "NSTF_COMMENTER",
-}
-
-
 def put_account(account_id: str) -> Tuple[dict, int]:
     """put_account Given an account id and a role,
     if the account_id exists in the db the corresponding
@@ -155,19 +132,7 @@ def put_account(account_id: str) -> Tuple[dict, int]:
         )
     except sqlalchemy.exc.NoResultFound:
         return {"error": "No account matching those details could be found"}, 404
-    # Check all roles are valid before doing any database updates
-    for role in roles:
-        try:
-            _VALID_ROLES[role.upper()]
-            if role.upper() in _DEPRECATED_ROLES:
-                # TODO: Remove this once all legacy groups are removed/changed in Azure AD
-                current_app.logger.warning(
-                    f"Role '{role}' is deprecated, please use"
-                    f" '{_VALID_ROLES[role.upper()]}' instead. This will need to be"
-                    " changed in Azure AD."
-                )
-        except KeyError:
-            return {"error": f"Role '{role}' is not valid"}, 401
+
     # Delete existing roles
     stmnt = delete(Role).where(Role.account_id == account_id)
     db.session.execute(stmnt)
@@ -195,7 +160,7 @@ def put_account(account_id: str) -> Tuple[dict, int]:
     for role in roles:
         current_role = Role()
         current_role.account_id = account_id
-        current_role.role = _VALID_ROLES[role.upper()]
+        current_role.role = role.upper()
         current_roles.append(current_role)
 
     db.session.add_all(current_roles)
