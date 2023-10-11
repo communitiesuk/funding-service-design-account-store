@@ -9,6 +9,7 @@ from db import db
 from db.models.account import Account
 from db.models.role import Role
 from db.schemas.account import AccountSchema
+from flask import current_app
 from flask import request
 from sqlalchemy import delete
 from sqlalchemy import or_
