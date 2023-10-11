@@ -2,6 +2,9 @@ FROM python:3.10-bullseye
 
 WORKDIR /app
 COPY requirements-dev.txt requirements-dev.txt
+# Install system-level dependencies
+RUN apt-get update && apt-get install -y libpq-dev
+
 RUN pip --no-cache-dir install --ignore-installed distlib -r requirements-dev.txt
 RUN pip install gunicorn
 COPY . .
