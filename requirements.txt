@@ -10,8 +10,6 @@ alembic==1.8.1
     #   flask-migrate
 alembic-utils==0.7.8
     # via -r requirements.in
-async-timeout==4.0.2
-    # via redis
 attrs==22.1.0
     # via
     #   jsonschema
@@ -86,6 +84,8 @@ flupy==1.2.0
     # via alembic-utils
 funding-service-design-utils==2.0.26
     # via -r requirements.in
+greenlet==3.0.0
+    # via sqlalchemy
 gunicorn==20.1.0
     # via funding-service-design-utils
 idna==3.4
@@ -201,8 +201,6 @@ rich==12.6.0
     # via funding-service-design-utils
 ruamel-yaml==0.17.21
     # via prance
-ruamel-yaml-clib==0.2.7
-    # via ruamel-yaml
 s3transfer==0.6.1
     # via boto3
 semver==2.13.0
@@ -241,7 +239,7 @@ typing-extensions==4.4.0
     #   alembic-utils
     #   flupy
     #   jsonschema-spec
-urllib3==1.26.13
+urllib3==1.26.17
     # via
     #   botocore
     #   requests
