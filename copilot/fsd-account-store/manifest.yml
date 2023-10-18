@@ -16,7 +16,7 @@ http:
 
 # Configuration for your containers and service.
 image:
-  # Docker build arguments. For additional overrides: https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/#image-build
+  # Docker build arguments. For additional overrides: https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/#image-location
   location: ghcr.io/communitiesuk/funding-service-design-account-store:latest
   # Port exposed through your container to route traffic to it.
   port: 8080
@@ -43,7 +43,7 @@ network:
 #
 # Pass environment variables as key value pairs.
 variables:
-  # SENTRY_DSN: "https://8092c54bdc3a4b4ba124dea42b836504@o1432034.ingest.sentry.io/4503918903820288"
+  SENTRY_DSN: "https://db2ea0ad22a44f4db6e81fe74d85fa8f@o1432034.ingest.sentry.io/4503903103352832"
   FLASK_ENV: ${COPILOT_ENVIRONMENT_NAME}
 
 # You can override any of the values defined above by environment.
