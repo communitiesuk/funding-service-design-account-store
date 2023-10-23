@@ -10,12 +10,10 @@ alembic==1.8.1
     #   flask-migrate
 alembic-utils==0.7.8
     # via -r requirements.in
-async-timeout==4.0.2
-    # via redis
-attrs==22.1.0
+attrs==23.1.0
     # via
     #   jsonschema
-    #   openapi-schema-validator
+    #   referencing
 babel==2.11.0
     # via flask-babel
 beautifulsoup4==4.12.2
@@ -86,12 +84,12 @@ flupy==1.2.0
     # via alembic-utils
 funding-service-design-utils==2.0.26
     # via -r requirements.in
+greenlet==3.0.0
+    # via sqlalchemy
 gunicorn==20.1.0
     # via funding-service-design-utils
 idna==3.4
     # via requests
-importlib-resources==5.10.0
-    # via openapi-spec-validator
 inflection==0.5.1
     # via connexion
 invoke==1.7.3
@@ -109,14 +107,17 @@ jmespath==1.0.1
     # via
     #   boto3
     #   botocore
-jsonschema==4.17.3
+jsonschema==4.19.1
     # via
     #   connexion
-    #   jsonschema-spec
     #   openapi-schema-validator
     #   openapi-spec-validator
-jsonschema-spec==0.1.2
+jsonschema-path==0.3.1
     # via openapi-spec-validator
+jsonschema-specifications==2023.7.1
+    # via
+    #   jsonschema
+    #   openapi-schema-validator
 lazy-object-proxy==1.8.0
     # via openapi-spec-validator
 mako==1.2.4
@@ -136,9 +137,9 @@ marshmallow-enum==1.5.1
     # via -r requirements.in
 marshmallow-sqlalchemy==0.28.1
     # via -r requirements.in
-openapi-schema-validator==0.3.4
+openapi-schema-validator==0.6.2
     # via openapi-spec-validator
-openapi-spec-validator==0.5.1
+openapi-spec-validator==0.7.1
     # via -r requirements.in
 packaging==21.3
     # via
@@ -149,7 +150,7 @@ packaging==21.3
 parse==1.19.0
     # via alembic-utils
 pathable==0.4.3
-    # via jsonschema-spec
+    # via jsonschema-path
 prance==0.22.11.4.0
     # via -r requirements.in
 psycopg2==2.9.9
@@ -164,8 +165,6 @@ pyjwt[crypto]==2.6.0
     # via funding-service-design-utils
 pyparsing==3.0.9
     # via packaging
-pyrsistent==0.19.2
-    # via jsonschema
 python-consul==1.1.0
     # via flipper-client
 python-dateutil==2.8.2
@@ -184,25 +183,34 @@ pyyaml==6.0
     #   clickclick
     #   connexion
     #   funding-service-design-utils
-    #   jsonschema-spec
-    #   openapi-spec-validator
+    #   jsonschema-path
 redis==4.5.5
     # via
     #   flask-redis
     #   flipper-client
-requests==2.28.1
+referencing==0.30.2
+    # via
+    #   jsonschema
+    #   jsonschema-path
+    #   jsonschema-specifications
+requests==2.31.0
     # via
     #   -r requirements.in
     #   connexion
     #   funding-service-design-utils
+    #   jsonschema-path
     #   prance
     #   python-consul
+rfc3339-validator==0.1.4
+    # via openapi-schema-validator
 rich==12.6.0
     # via funding-service-design-utils
+rpds-py==0.10.6
+    # via
+    #   jsonschema
+    #   referencing
 ruamel-yaml==0.17.21
     # via prance
-ruamel-yaml-clib==0.2.7
-    # via ruamel-yaml
 s3transfer==0.6.1
     # via boto3
 semver==2.13.0
@@ -217,6 +225,7 @@ six==1.16.0
     #   prance
     #   python-consul
     #   python-dateutil
+    #   rfc3339-validator
     #   thrift
 soupsieve==2.4.1
     # via beautifulsoup4
@@ -240,7 +249,6 @@ typing-extensions==4.4.0
     # via
     #   alembic-utils
     #   flupy
-    #   jsonschema-spec
 urllib3==1.26.13
     # via
     #   botocore
