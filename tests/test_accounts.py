@@ -166,7 +166,6 @@ class TestAccountsGet:
         expected_status_code,
         expected_user_result,
     ):
-
         url = "/accounts?"
         for key in url_params_map.keys():
             url += f"{key}={url_params_map[key]}&"
@@ -218,7 +217,6 @@ class TestAccountsGet:
 
 
 class TestAccountsPut:
-
     test_email_1 = "person1@example.com"
     test_email_2 = "person2@example.com"
     accounts_created = {}
@@ -226,7 +224,6 @@ class TestAccountsPut:
     def test_update_full_name_role_and_azure_ad_subject_id(
         self, flask_test_client, clear_test_data, seed_test_data
     ):
-
         account_id = str(test_user_to_update["account_id"])
         new_roles = ["COF_ASSESSOR"]
         new_full_name = "Jane Doe"
