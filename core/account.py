@@ -8,7 +8,6 @@ import sqlalchemy
 from db import db
 from db.models.account import Account
 from db.models.role import Role
-from db.models.role import RoleType
 from db.schemas.account import AccountSchema
 from flask import request
 from sqlalchemy import delete
@@ -39,6 +38,7 @@ def get_account(
         }, 400
 
     stmnt = select(Account)
+    email_address = email_address.lower() if email_address else email_address
 
     if account_id:
         stmnt = stmnt.filter(Account.id == account_id)
@@ -114,7 +114,7 @@ def put_account(account_id: str) -> Tuple[dict, int]:
         return {"error": "azure_ad_subject_id is required"}, 401
 
     full_name = request.json.get("full_name")
-    email = request.json.get("email_address")
+    email = request.json.get("email_address", "").lower()
 
     # Check account exists
     try:
@@ -131,12 +131,7 @@ def put_account(account_id: str) -> Tuple[dict, int]:
         )
     except sqlalchemy.exc.NoResultFound:
         return {"error": "No account matching those details could be found"}, 404
-    # Check all roles are valid before doing any database updates
-    for role in roles:
-        try:
-            RoleType[role.upper()]
-        except KeyError:
-            return {"error": f"Role '{role}' is not valid"}, 401
+
     # Delete existing roles
     stmnt = delete(Role).where(Role.account_id == account_id)
     db.session.execute(stmnt)
@@ -196,7 +191,7 @@ def post_account() -> Tuple[dict, int]:
     Returns:
         Returns a dictionary(json) along with a status code.
     """
-    email_address = request.json.get("email_address")
+    email_address = request.json.get("email_address", "").lower()
     azure_ad_subject_id = request.json.get("azure_ad_subject_id")
     if not email_address:
         return {"error": "email_address is required"}, 400
