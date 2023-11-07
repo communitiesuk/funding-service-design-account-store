@@ -113,6 +113,7 @@ jobs:
   # Can we realistically run E2E at this stage, or just plump for application on the grounds it checks account-store is operational?
   post_deploy_tests:
       needs: copilot_environments_deploy
+      if: inputs.environment == 'test' || inputs.environment == ''
       secrets:
         E2E_PAT: ${{secrets.E2E_PAT}}
       uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
