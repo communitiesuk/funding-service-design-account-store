@@ -116,7 +116,7 @@ jobs:
       if: inputs.environment == 'test' || inputs.environment == 'dev' || inputs.environment == ''
       secrets:
         E2E_PAT: ${{secrets.E2E_PAT}}
-      uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@BAU_support_post_deploy_envs #main
+      uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
       with:
         run_performance_tests: ${{ inputs.run_performance_tests }}
         run_e2e_tests: ${{ inputs.run_e2e_tests }}
