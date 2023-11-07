@@ -32,6 +32,7 @@ on:
       - 'requirements-dev.txt'
       - 'requirements.in'
       - 'requirements.txt'
+      - '.github/workflows/copilot_deploy.yml'
 
 jobs:
   paketo_build:
