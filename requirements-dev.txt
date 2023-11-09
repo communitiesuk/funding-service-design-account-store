@@ -4,12 +4,12 @@
 #
 #    pip-compile requirements-dev.in
 #
-alembic==1.8.1
+alembic==1.12.1
     # via
     #   -r requirements.txt
     #   alembic-utils
     #   flask-migrate
-alembic-utils==0.7.8
+alembic-utils==0.8.2
     # via -r requirements.txt
 asserts==0.12.0
     # via -r requirements-dev.in
@@ -17,12 +17,12 @@ async-timeout==4.0.2
     # via
     #   -r requirements.txt
     #   redis
-attrs==22.1.0
+attrs==23.1.0
     # via
     #   -r requirements.txt
     #   jsonschema
-    #   openapi-schema-validator
     #   pytest
+    #   referencing
 babel==2.11.0
     # via
     #   -r requirements.txt
@@ -30,7 +30,9 @@ babel==2.11.0
 bandit==1.7.4
     # via -r requirements-dev.in
 beautifulsoup4==4.12.2
-    # via -r requirements.txt
+    # via
+    #   -r requirements.txt
+    #   funding-service-design-utils
 black==22.12.0
     # via -r requirements-dev.in
 blinker==1.5
@@ -52,7 +54,7 @@ cachetools==5.3.1
     # via
     #   -r requirements.txt
     #   flipper-client
-certifi==2022.12.7
+certifi==2023.7.22
     # via
     #   -r requirements.txt
     #   requests
@@ -82,13 +84,6 @@ clickclick==20.10.2
     # via
     #   -r requirements.txt
     #   connexion
-colorama==0.4.6
-    # via
-    #   -r requirements.txt
-    #   bandit
-    #   build
-    #   click
-    #   pytest
 colored==1.4.4
     # via -r requirements-dev.in
 commonmark==0.9.1
@@ -97,7 +92,7 @@ commonmark==0.9.1
     #   rich
 connexion==2.14.1
     # via -r requirements.txt
-cryptography==38.0.4
+cryptography==41.0.4
     # via
     #   -r requirements.txt
     #   pyjwt
@@ -111,7 +106,7 @@ exceptiongroup==1.1.1
     # via pytest
 filelock==3.8.0
     # via virtualenv
-flask==2.2.2
+flask==2.2.5
     # via
     #   -r requirements.txt
     #   connexion
@@ -150,13 +145,13 @@ flupy==1.2.0
     # via
     #   -r requirements.txt
     #   alembic-utils
-funding-service-design-utils==2.0.8
+funding-service-design-utils==2.0.26
     # via -r requirements.txt
 gitdb==4.0.10
     # via gitpython
-gitpython==3.1.30
+gitpython==3.1.37
     # via bandit
-greenlet==2.0.2
+greenlet==3.0.1
     # via
     #   -r requirements.txt
     #   sqlalchemy
@@ -170,10 +165,6 @@ idna==3.4
     # via
     #   -r requirements.txt
     #   requests
-importlib-resources==5.10.0
-    # via
-    #   -r requirements.txt
-    #   openapi-spec-validator
 inflection==0.5.1
     # via
     #   -r requirements.txt
@@ -198,17 +189,21 @@ jmespath==1.0.1
     #   -r requirements.txt
     #   boto3
     #   botocore
-jsonschema==4.17.3
+jsonschema==4.19.2
     # via
     #   -r requirements.txt
     #   connexion
-    #   jsonschema-spec
     #   openapi-schema-validator
     #   openapi-spec-validator
-jsonschema-spec==0.1.2
+jsonschema-path==0.3.1
     # via
     #   -r requirements.txt
     #   openapi-spec-validator
+jsonschema-specifications==2023.7.1
+    # via
+    #   -r requirements.txt
+    #   jsonschema
+    #   openapi-schema-validator
 lazy-object-proxy==1.8.0
     # via
     #   -r requirements.txt
@@ -222,6 +217,7 @@ markupsafe==2.1.1
     #   -r requirements.txt
     #   jinja2
     #   mako
+    #   sentry-sdk
     #   werkzeug
 marshmallow==3.19.0
     # via
@@ -237,11 +233,11 @@ mypy-extensions==0.4.3
     # via black
 nodeenv==1.7.0
     # via pre-commit
-openapi-schema-validator==0.3.4
+openapi-schema-validator==0.6.2
     # via
     #   -r requirements.txt
     #   openapi-spec-validator
-openapi-spec-validator==0.5.1
+openapi-spec-validator==0.7.1
     # via -r requirements.txt
 ordered-set==4.1.0
     # via deepdiff
@@ -261,14 +257,14 @@ parse==1.19.0
 pathable==0.4.3
     # via
     #   -r requirements.txt
-    #   jsonschema-spec
+    #   jsonschema-path
 pathspec==0.10.2
     # via black
 pbr==5.11.0
     # via stevedore
 pep517==0.13.0
     # via build
-pip-tools==6.13.0
+pip-tools==7.3.0
     # via -r requirements-dev.in
 platformdirs==2.5.4
     # via
@@ -280,7 +276,7 @@ prance==0.22.11.4.0
     # via -r requirements.txt
 pre-commit==3.1.1
     # via -r requirements-dev.in
-psycopg2==2.9.5
+psycopg2==2.9.9
     # via -r requirements.txt
 pycparser==2.21
     # via
@@ -290,7 +286,7 @@ pyee==6.0.0
     # via
     #   -r requirements.txt
     #   flipper-client
-pygments==2.13.0
+pygments==2.15.0
     # via
     #   -r requirements.txt
     #   rich
@@ -298,14 +294,11 @@ pyjwt[crypto]==2.6.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
+    #   pyjwt
 pyparsing==3.0.9
     # via
     #   -r requirements.txt
     #   packaging
-pyrsistent==0.19.2
-    # via
-    #   -r requirements.txt
-    #   jsonschema
 pytest==7.2.0
     # via
     #   -r requirements-dev.in
@@ -347,25 +340,40 @@ pyyaml==6.0
     #   clickclick
     #   connexion
     #   funding-service-design-utils
-    #   jsonschema-spec
-    #   openapi-spec-validator
+    #   jsonschema-path
     #   pre-commit
 redis==4.5.5
     # via
     #   -r requirements.txt
     #   flask-redis
     #   flipper-client
-requests==2.28.1
+referencing==0.30.2
+    # via
+    #   -r requirements.txt
+    #   jsonschema
+    #   jsonschema-path
+    #   jsonschema-specifications
+requests==2.31.0
     # via
     #   -r requirements.txt
     #   connexion
     #   funding-service-design-utils
+    #   jsonschema-path
     #   prance
     #   python-consul
+rfc3339-validator==0.1.4
+    # via
+    #   -r requirements.txt
+    #   openapi-schema-validator
 rich==12.6.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
+rpds-py==0.12.0
+    # via
+    #   -r requirements.txt
+    #   jsonschema
+    #   referencing
 ruamel-yaml==0.17.21
     # via
     #   -r requirements.txt
@@ -382,10 +390,11 @@ semver==2.13.0
     # via
     #   -r requirements.txt
     #   prance
-sentry-sdk[flask]==1.11.1
+sentry-sdk[flask]==1.31.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
+    #   sentry-sdk
 shortuuid==1.0.11
     # via -r requirements.txt
 six==1.16.0
@@ -395,6 +404,7 @@ six==1.16.0
     #   prance
     #   python-consul
     #   python-dateutil
+    #   rfc3339-validator
     #   thrift
 smmap==5.0.0
     # via gitdb
@@ -427,14 +437,15 @@ tomli==2.0.1
     #   black
     #   build
     #   pep517
+    #   pip-tools
     #   pytest
 typing-extensions==4.4.0
     # via
     #   -r requirements.txt
+    #   alembic
     #   alembic-utils
     #   flupy
-    #   jsonschema-spec
-urllib3==1.26.13
+urllib3==1.26.18
     # via
     #   -r requirements.txt
     #   botocore
