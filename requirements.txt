@@ -54,7 +54,7 @@ connexion==2.14.1
     # via -r requirements.in
 cryptography==38.0.4
     # via pyjwt
-flask==2.2.2
+flask==2.2.5
     # via
     #   -r requirements.in
     #   connexion
