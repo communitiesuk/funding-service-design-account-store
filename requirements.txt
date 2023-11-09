@@ -86,6 +86,8 @@ flupy==1.2.0
     # via alembic-utils
 funding-service-design-utils==2.0.26
     # via -r requirements.in
+greenlet==3.0.1
+    # via sqlalchemy
 gunicorn==20.1.0
     # via funding-service-design-utils
 idna==3.4
@@ -161,7 +163,9 @@ pyee==6.0.0
 pygments==2.13.0
     # via rich
 pyjwt[crypto]==2.6.0
-    # via funding-service-design-utils
+    # via
+    #   funding-service-design-utils
+    #   pyjwt
 pyparsing==3.0.9
     # via packaging
 pyrsistent==0.19.2
@@ -190,7 +194,7 @@ redis==4.5.5
     # via
     #   flask-redis
     #   flipper-client
-requests==2.28.1
+requests==2.31.0
     # via
     #   -r requirements.in
     #   connexion
@@ -208,7 +212,9 @@ s3transfer==0.6.1
 semver==2.13.0
     # via prance
 sentry-sdk[flask]==1.31.0
-    # via funding-service-design-utils
+    # via
+    #   funding-service-design-utils
+    #   sentry-sdk
 shortuuid==1.0.11
     # via -r requirements.in
 six==1.16.0
