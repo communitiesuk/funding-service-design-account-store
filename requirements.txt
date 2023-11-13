@@ -69,7 +69,7 @@ flask-babel==2.0.0
     # via funding-service-design-utils
 flask-marshmallow==0.14.0
     # via -r requirements.in
-flask-migrate==4.0.0
+flask-migrate==4.0.5
     # via
     #   -r requirements.in
     #   funding-service-design-utils
