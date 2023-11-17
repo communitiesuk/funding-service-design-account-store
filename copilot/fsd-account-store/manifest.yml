@@ -43,13 +43,34 @@ network:
 #
 # Pass environment variables as key value pairs.
 variables:
-  # SENTRY_DSN: "https://8092c54bdc3a4b4ba124dea42b836504@o1432034.ingest.sentry.io/4503918903820288"
+  SENTRY_DSN: "https://db2ea0ad22a44f4db6e81fe74d85fa8f@o1432034.ingest.sentry.io/4503903103352832"
   FLASK_ENV: ${COPILOT_ENVIRONMENT_NAME}
 
 # You can override any of the values defined above by environment.
 environments:
-  # production:
-  #   count: 2
   test:
     deployment:
       rolling: 'recreate'
+  uat:
+    count:
+      range: 2-4
+      cooldown:
+        in: 60s
+        out: 30s
+      cpu_percentage:
+        value: 70
+      memory_percentage:
+        value: 80
+      requests: 30
+      response_time: 2s
+  production:
+    count:
+      range: 2-4
+      cooldown:
+        in: 60s
+        out: 30s
+      cpu_percentage:
+        value: 70
+      memory_percentage:
+        value: 80
+      requests: 30
