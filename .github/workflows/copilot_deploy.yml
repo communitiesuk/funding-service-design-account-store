@@ -191,7 +191,7 @@ jobs:
         yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-account-store:${{ github.ref_name == 'main' && 'latest' || needs.tag_version.outputs.version_to_tag }}"'  copilot/fsd-account-store/manifest.yml
 
     - name: Run database migrations
-      run: scripts/migration-task-script.py ${{ matrix.value }} fsd-account-store
+      run: scripts/migration-task-script.py dev fsd-account-store
 
     - name: Copilot dev deploy
       id: deploy_build
