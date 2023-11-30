@@ -199,27 +199,26 @@ jobs:
         copilot svc deploy --env dev --app pre-award
 
   post_dev_deploy_tests:
-      needs: dev_deploy
-      secrets:
-        FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
-        FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
-      uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
-      with:
-        run_performance_tests: ${{ inputs.run_performance_tests || false }}
-        run_e2e_tests: ${{ inputs.run_e2e_tests || true }}
-        environment: dev
+    needs: dev_deploy
+    secrets:
+      FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
+      FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
+    with:
+      run_performance_tests: ${{ inputs.run_performance_tests || true }}
+      run_e2e_tests: ${{ inputs.run_e2e_tests || false }}
+      environment: dev
 
   test_deploy:
     if: ${{ needs.copilot_environments_workflow_setup.outputs.post_matrix != '' && toJson(fromJson(needs.copilot_environments_workflow_setup.outputs.post_matrix)) != '[]' }}
     concurrency:
-      group: 'fsd-preaward-copilot-release-test'
+      group: 'fsd-preaward-copilot-test'
       cancel-in-progress: false
     permissions:
       id-token: write # This is required for requesting the JWT
       contents: read  # This is required for actions/checkout
     needs: [ tag_version, post_dev_deploy_tests, paketo_build, copilot_environments_workflow_setup ]
     runs-on: ubuntu-latest
-    continue-on-error: true
     environment: test
     steps:
     - name: Git clone the repository
@@ -267,20 +266,20 @@ jobs:
         copilot svc deploy --env test --app pre-award
 
   post_test_deploy_tests:
-      needs: test_deploy
-      secrets:
-        FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
-        FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
-      uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
-      with:
-        run_performance_tests: ${{ inputs.run_performance_tests || false }}
-        run_e2e_tests: ${{ inputs.run_e2e_tests || true }}
-        environment: test
+    needs: test_deploy
+    secrets:
+      FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
+      FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
+    with:
+      run_performance_tests: ${{ inputs.run_performance_tests || false }}
+      run_e2e_tests: ${{ inputs.run_e2e_tests || true }}
+      environment: test
 
   uat_deploy:
     if: ${{ needs.copilot_environments_workflow_setup.outputs.post_matrix != '' && toJson(fromJson(needs.copilot_environments_workflow_setup.outputs.post_matrix)) != '[]' }}
     concurrency:
-      group: 'fsd-preaward-copilot-release-uat'
+      group: 'fsd-preaward-copilot-uat'
       cancel-in-progress: false
     permissions:
       id-token: write # This is required for requesting the JWT
@@ -335,20 +334,20 @@ jobs:
         copilot svc deploy --env uat --app pre-award
 
   post_uat_deploy_tests:
-      needs: uat_deploy
-      secrets:
-        FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
-        FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
-      uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
-      with:
-        run_performance_tests: ${{ inputs.run_performance_tests || false }}
-        run_e2e_tests: ${{ inputs.run_e2e_tests || true }}
-        environment: uat
+    needs: uat_deploy
+    secrets:
+      FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
+      FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
+    with:
+      run_performance_tests: ${{ inputs.run_performance_tests || false }}
+      run_e2e_tests: ${{ inputs.run_e2e_tests || true }}
+      environment: uat
 
   production_deploy:
     if: ${{ needs.copilot_environments_workflow_setup.outputs.post_matrix != '' && toJson(fromJson(needs.copilot_environments_workflow_setup.outputs.post_matrix)) != '[]' }}
     concurrency:
-      group: 'fsd-preaward-copilot-release-production'
+      group: 'fsd-preaward-copilot-production'
       cancel-in-progress: false
     permissions:
       id-token: write # This is required for requesting the JWT
