@@ -27,7 +27,7 @@ babel==2.11.0
     # via
     #   -r requirements.txt
     #   flask-babel
-bandit==1.7.4
+bandit==1.7.5
     # via -r requirements-dev.in
 beautifulsoup4==4.12.2
     # via
@@ -124,7 +124,7 @@ flask-babel==2.0.0
     #   funding-service-design-utils
 flask-marshmallow==0.14.0
     # via -r requirements.txt
-flask-migrate==4.0.0
+flask-migrate==4.0.5
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
@@ -368,6 +368,7 @@ rfc3339-validator==0.1.4
 rich==12.6.0
     # via
     #   -r requirements.txt
+    #   bandit
     #   funding-service-design-utils
 rpds-py==0.12.0
     # via
