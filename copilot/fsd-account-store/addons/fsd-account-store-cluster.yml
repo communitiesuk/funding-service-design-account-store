@@ -108,6 +108,7 @@ Resources:
       DBClusterParameterGroupName: !Ref fsdaccountstoreclusterDBClusterParameterGroup
       DBSubnetGroupName: !Ref fsdaccountstoreclusterDBSubnetGroup
       Port: 5432
+      StorageEncrypted: true
       VpcSecurityGroupIds:
         - !Ref fsdaccountstoreclusterDBClusterSecurityGroup
       ServerlessV2ScalingConfiguration:
