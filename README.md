@@ -129,12 +129,6 @@ CONTAINER ID   IMAGE                       COMMAND                  CREATED     
 42633142c619   paketo-demofsd-app          "/cnb/process/web"       8 seconds ago    Up 7 seconds              0.0.0.0:8080->8080/tcp   peaceful_knuth
 ```
 
-# Pipelines
-
-Place brief descriptions of Pipelines here
-
-* Deploy to Gov PaaS - This is a simple pipeline to demonstrate capabilities.  Builds, tests and deploys a simple python application to the PaaS for evaluation in Dev and Test Only.
-
 # Testing
 
 ## Unit & Accessibility Testing
