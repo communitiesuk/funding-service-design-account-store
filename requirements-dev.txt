@@ -274,7 +274,7 @@ pluggy==1.0.0
     # via pytest
 prance==0.22.11.4.0
     # via -r requirements.txt
-pre-commit==3.1.1
+pre-commit==3.6.0
     # via -r requirements-dev.in
 psycopg2==2.9.9
     # via -r requirements.txt
