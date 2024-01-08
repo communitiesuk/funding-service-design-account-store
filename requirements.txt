@@ -237,7 +237,7 @@ six==1.16.0
     #   thrift
 soupsieve==2.4.1
     # via beautifulsoup4
-sqlalchemy==1.4.44
+sqlalchemy==1.4.51
     # via
     #   -r requirements.in
     #   alembic
