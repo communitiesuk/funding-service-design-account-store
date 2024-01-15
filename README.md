@@ -49,7 +49,7 @@ If running elsewhere you will need to set the DATABASE_URL env var to the correc
 
 NOTE: during testing with pytest a separate database is created for unit tests to run against. This is then deleted after the tests have run.
 
-Once you have the database running and have the flask application configured to connect to it, you then need to run the database migrations to create the required tables etc. 
+Once you have the database running and have the flask application configured to connect to it, you then need to run the database migrations to create the required tables etc.
 This is outlined in the Local database development README above.
 
 ## How to use
