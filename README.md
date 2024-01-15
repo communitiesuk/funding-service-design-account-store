@@ -5,26 +5,22 @@
 
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
-[![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)](https://funding-service-design-account-store-dev.london.cloudapps.digital/#/default/core.account.post_account_by_email)
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 ![Gunicorn](https://img.shields.io/badge/gunicorn-%298729.svg?style=for-the-badge&logo=gunicorn&logoColor=white)
 
-This repository is designed to handle the generating and providing of JSON payloads for accounts. It takes an email address and creates/returns a corresponding payload of account json
+This repository is designed to handle the generating and providing of JSON payloads for accounts.
 
 [Developer setup guide](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-setup.md)
 
 
 This service depends on:
 - A postgres database
-- funding-service-design-application-store
-- funding-service-design-assessment-store
+- No other microservices
 
 # IDE Setup
 [Python IDE Setup](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-ide-setup.md)
 
 # Data
-## Local DB Setup
-General instructions for local db development are available here: [Local database development](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-db-development.md)
-
 ### Setting the environment config
 
 A number of Flask environment config setups exist, including default, development, dev, test, production and unit_test configurations.
@@ -34,9 +30,9 @@ Depending on where you are running this you may need to set particular environme
 ### Creating the database
 This application requires a postgres database.
 
-If running on a local development machine, first ensure you have PostgreSQL server running with a superuser 'postgres'.
+General instructions for local db development are available here: [Local database development](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-db-development.md)
 
-You can then either manually create a database called `fsd_account_store_dev` or use the provided invoke script which can be run from the root directory with
+When creating the database you either manually create a database called `fsd_account_store_dev` or use the provided invoke script which can be run from the root directory with
 
     invoke bootstrap_dev_db
 
@@ -53,9 +49,8 @@ If running elsewhere you will need to set the DATABASE_URL env var to the correc
 
 NOTE: during testing with pytest a separate database is created for unit tests to run against. This is then deleted after the tests have run.
 
-Once you have the database running and have the flask application configured to connect to it, you then need to run the database migrations to create the required tables etc. Simply run:
-
-    flask db upgrade
+Once you have the database running and have the flask application configured to connect to it, you then need to run the database migrations to create the required tables etc. 
+This is outlined in the Local database development README above.
 
 ## How to use
 Enter the virtual environment as described above, then:
@@ -74,12 +69,6 @@ Paketo is used to build the docker image which gets deployed to our test and pro
 SENTRY_DSN
 GITHUB_SHA
 DATABASE_URL
-
-# Pipelines
-
-Place brief descriptions of Pipelines here
-
-* Deploy to Gov PaaS - This is a simple pipeline to demonstrate capabilities.  Builds, tests and deploys a simple python application to the PaaS for evaluation in Dev and Test Only.
 
 # Testing
 [Testing in Python repos](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-testing.md)
