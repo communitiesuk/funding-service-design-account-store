@@ -100,6 +100,6 @@ To make the tests work with a test postgres db in the github pipelines, we pass 
 Details on how our pipelines work and the release process is available [here](https://dluhcdigital.atlassian.net/wiki/spaces/FS/pages/73695505/How+do+we+deploy+our+code+to+prod)
 
 ## Copilot
-Copilot is used for infrastructure deployment. Instructions are available [here](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-copilot.md), with the following values for the notification store:
+Copilot is used for infrastructure deployment. Instructions are available [here](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-copilot.md), with the following values for the account store:
 - service-name: fsd-account-store
 - image-name: ghcr.io/communitiesuk/funding-service-design-account-store:latest
