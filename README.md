@@ -5,55 +5,22 @@
 
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
-[![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)](https://funding-service-design-account-store-dev.london.cloudapps.digital/#/default/core.account.post_account_by_email)
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 ![Gunicorn](https://img.shields.io/badge/gunicorn-%298729.svg?style=for-the-badge&logo=gunicorn&logoColor=white)
 
-Repo for the funding service design account store.
+This repository is designed to handle the generating and providing of JSON payloads for accounts.
 
-Built with Flask + Connexion.
+[Developer setup guide](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-setup.md)
 
-Takes a email address and creates/returns a corresponding payload of account json.
 
-## Prerequisites
-- python ^= 3.10
+This service depends on:
+- A postgres database
+- No other microservices
 
-# Getting started
+# IDE Setup
+[Python IDE Setup](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-ide-setup.md)
 
-## Installation
-
-Clone the repository
-
-### Create a Virtual environment
-
-    python3 -m venv .venv
-
-### Enter the virtual environment
-
-...either macOS using bash:
-
-    source .venv/bin/activate
-
-...or if on Windows using Command Prompt:
-
-    .venv\Scripts\activate.bat
-
-### Install dependencies
-From the top-level directory enter the command to install pip and the dependencies of the project
-
-    python3 -m pip install --upgrade pip && pip install -r requirements-dev.txt
-
-### Install pre-commit hooks
-    pre-commit install
-
-### Updating dependencies
-requirements-dev.txt and requirements.txt are updated using [pip-tools pip-compile](https://github.com/jazzband/pip-tools)
-To update requirements please manually add the dependencies in the .in files (not the requirements.txt files)
-Then run (in the following order):
-
-    pip-compile requirements.in
-
-    pip-compile requirements-dev.in
-
+# Data
 ### Setting the environment config
 
 A number of Flask environment config setups exist, including default, development, dev, test, production and unit_test configurations.
@@ -63,9 +30,9 @@ Depending on where you are running this you may need to set particular environme
 ### Creating the database
 This application requires a postgres database.
 
-If running on a local development machine, first ensure you have PostgreSQL server running with a superuser 'postgres'.
+General instructions for local db development are available here: [Local database development](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-db-development.md)
 
-You can then either manually create a database called `fsd_account_store_dev` or use the provided invoke script which can be run from the root directory with
+When creating the database you either manually create a database called `fsd_account_store_dev` or use the provided invoke script which can be run from the root directory with
 
     invoke bootstrap_dev_db
 
@@ -82,9 +49,8 @@ If running elsewhere you will need to set the DATABASE_URL env var to the correc
 
 NOTE: during testing with pytest a separate database is created for unit tests to run against. This is then deleted after the tests have run.
 
-Once you have the database running and have the flask application configured to connect to it, you then need to run the database migrations to create the required tables etc. Simply run:
-
-    flask db upgrade
+Once you have the database running and have the flask application configured to connect to it, you then need to run the database migrations to create the required tables etc.
+This is outlined in the Local database development README above.
 
 ## How to use
 Enter the virtual environment as described above, then:
@@ -96,40 +62,17 @@ You can run this api using a docker container. To build a image run the followin
 
     docker build -t fsd_account_store .
 
-### Build with Paketo
-
-[Pack](https://buildpacks.io/docs/tools/pack/cli/pack_build/)
-
-[Paketo buildpacks](https://paketo.io/)
-
-```pack build <name your image> --builder paketobuildpacks/builder:base```
-
-Example:
-
-```
-[~/work/repos/funding-service-design-account-store] pack build paketo-demofsd-app --builder paketobuildpacks/builder:base
-***
-Successfully built image paketo-demofsd-app
-```
-
-You can then use that image with docker to run a container
-
-```
-docker run -d -p 8080:8080 --env PORT=8080 --env FLASK_ENV=dev [envs] paketo-demofsd-app
-```
+## Paketo
+Paketo is used to build the docker image which gets deployed to our test and production environments. Details available [here](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-paketo.md)
 
 `envs` needs to include values for each of:
 SENTRY_DSN
 GITHUB_SHA
 DATABASE_URL
 
-```
-docker ps -a
-CONTAINER ID   IMAGE                       COMMAND                  CREATED          STATUS                    PORTS                    NAMES
-42633142c619   paketo-demofsd-app          "/cnb/process/web"       8 seconds ago    Up 7 seconds              0.0.0.0:8080->8080/tcp   peaceful_knuth
-```
-
 # Testing
+[Testing in Python repos](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-testing.md)
+
 
 ## Unit & Accessibility Testing
 
@@ -153,33 +96,10 @@ To make the tests work with a test postgres db in the github pipelines, we pass 
       postgres_unit_testing: true
       db_name: fsd_account_store_test
 
-## Extras
+# Builds and Deploys
+Details on how our pipelines work and the release process is available [here](https://dluhcdigital.atlassian.net/wiki/spaces/FS/pages/73695505/How+do+we+deploy+our+code+to+prod)
 
-This repo comes with a .pre-commit-config.yaml, if you wish to use this do
-the following while in your virtual enviroment:
-
-    pip install pre-commit black
-
-    pre-commit install
-
-Once the above is done you will have autoformatting and pep8 compliance built
-into your workflow. You will be notified of any pep8 errors during commits.
-
-## Copilot Initialisation
-
-Copilot is the deployment of the infrastructure configuration, which is all stored under the copilot folder. The manifest files have been pre-generated by running through various initialisation steps that create the manifest files by prompting a series of questions, but do not _deploy_ the infrastructure.
-
-For each AWS account, these commands will need to be run _once_ to initialise the environment:
-
-`copilot app init pre-award` - this links the pre-award app with the current service, and associates the next commands with the service. Essentially, this provides context for the service to run under
-
-```
-copilot init \
-    --name fsd-account-store \
-    --app pre-award \
-    --type 'Backend Service' \
-    --image 'ghcr.io/communitiesuk/funding-service-design-account-store:latest' \
-    --port 80
-```
-
-This will initalise this service, using the current created image
+## Copilot
+Copilot is used for infrastructure deployment. Instructions are available [here](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-copilot.md), with the following values for the account store:
+- service-name: fsd-account-store
+- image-name: ghcr.io/communitiesuk/funding-service-design-account-store:latest
