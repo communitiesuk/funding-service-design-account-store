@@ -15,7 +15,8 @@ This repository is designed to handle the generating and providing of JSON paylo
 
 This service depends on:
 - A postgres database
-- No other microservices
+- Application Store
+- Assessment Store
 
 # IDE Setup
 [Python IDE Setup](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-ide-setup.md)
