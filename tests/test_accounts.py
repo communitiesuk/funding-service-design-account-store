@@ -31,9 +31,7 @@ class TestAccountsPost:
         assert "azure_ad_subject_id" in response.json
         assert response.json["email_address"] == email
 
-    def test_create_account_with_existing_account_email_fails(
-        self, flask_test_client, clear_test_data
-    ):
+    def test_create_account_with_existing_account_email_fails(self, flask_test_client, clear_test_data):
         """
         GIVEN The flask test client
         WHEN we POST twice to the /accounts endpoint with a json payload of
@@ -56,9 +54,7 @@ class TestAccountsPost:
 
         assert second_response.status_code == 409
 
-    def test_create_account_with_email_and_azure_ad_subject_id(
-        self, flask_test_client, clear_test_data
-    ):
+    def test_create_account_with_email_and_azure_ad_subject_id(self, flask_test_client, clear_test_data):
         """
         GIVEN The flask test client
         WHEN we POST to the /accounts endpoint with a json payload of
@@ -87,9 +83,7 @@ class TestAccountsPost:
         assert response.json["email_address"] == email
         assert response.json["azure_ad_subject_id"] == azure_ad_subject_id
 
-    def test_create_account_with_existing_azure_subject_id_fails(
-        self, flask_test_client, clear_test_data
-    ):
+    def test_create_account_with_existing_azure_subject_id_fails(self, flask_test_client, clear_test_data):
         """
         GIVEN The flask test client
         WHEN we POST to the /accounts endpoint with a json payload of
@@ -174,9 +168,7 @@ class TestAccountsGet:
         assert response.json
         if expected_user_result:
             assert response.json["email_address"] == expected_user_result["email"]
-            assert response.json["account_id"] == str(
-                expected_user_result["account_id"]
-            )
+            assert response.json["account_id"] == str(expected_user_result["account_id"])
 
     @pytest.mark.parametrize(
         "account_ids, expected_status_code, expected_user_results",
@@ -221,9 +213,7 @@ class TestAccountsPut:
     test_email_2 = "person2@example.com"
     accounts_created = {}
 
-    def test_update_full_name_role_and_azure_ad_subject_id(
-        self, flask_test_client, clear_test_data, seed_test_data
-    ):
+    def test_update_full_name_role_and_azure_ad_subject_id(self, flask_test_client, clear_test_data, seed_test_data):
         account_id = str(test_user_to_update["account_id"])
         new_roles = ["COF_ASSESSOR"]
         new_full_name = "Jane Doe"
@@ -279,10 +269,7 @@ class TestAccountsPut:
         response = flask_test_client.put(url, json=params)
 
         assert response.status_code == 400
-        assert (
-            response.json.get("detail")
-            == "'azure_ad_subject_id' is a required property"
-        )
+        assert response.json.get("detail") == "'azure_ad_subject_id' is a required property"
 
     def test_update_role_only(self, flask_test_client, clear_test_data, seed_test_data):
         """
@@ -311,9 +298,7 @@ class TestAccountsPut:
         assert response.json["account_id"] == account_id
         assert response.json["roles"] == ["COF_COMMENTER"]
 
-    def test_update_role_with_non_existent_role_allows(
-        self, flask_test_client, clear_test_data, seed_test_data
-    ):
+    def test_update_role_with_non_existent_role_allows(self, flask_test_client, clear_test_data, seed_test_data):
         """
         GIVEN The flask test client
         WHEN we PUT to the /accounts/{account_id} endpoint

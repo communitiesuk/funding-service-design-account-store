@@ -32,20 +32,15 @@ def expected_data_within_response(
 
     """
     if method == "put":
-        response = test_client.put(
-            endpoint, data=data, json=json, follow_redirects=True
-        )
+        response = test_client.put(endpoint, data=data, json=json, follow_redirects=True)
     elif method == "post":
-        response = test_client.post(
-            endpoint, data=data, json=json, follow_redirects=True
-        )
+        response = test_client.post(endpoint, data=data, json=json, follow_redirects=True)
     else:
         response = test_client.get(endpoint, follow_redirects=True)
 
-    assert response.status_code == expected_status_code, (
-        f"Expected {str(expected_status_code)} response status code but got"
-        f" {str(response.status_code)}"
-    )
+    assert (
+        response.status_code == expected_status_code
+    ), f"Expected {str(expected_status_code)} response status code but got {str(response.status_code)}"
     response_data = loads(response.data)
     diff = DeepDiff(
         expected_data,
