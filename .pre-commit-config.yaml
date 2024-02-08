@@ -4,8 +4,6 @@ repos:
     hooks:
     - id: black
       language_version: python3
-      args:
-        - --experimental-string-processing
 -   repo: https://github.com/PyCQA/flake8
     rev: 7.0.0
     hooks:
