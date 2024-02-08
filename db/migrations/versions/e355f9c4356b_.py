@@ -5,6 +5,7 @@ Revises: 13d601bfaee1
 Create Date: 2022-12-02 09:25:41.244199
 
 """
+
 import sqlalchemy as sa
 import sqlalchemy_utils  # noqa
 from alembic import op

@@ -141,8 +141,9 @@ def find_duplicate_emails(connection_string):
 
 
 def load_duplicate_emails_from_csv(csv_path):
-    import pandas as pd
     import ast
+
+    import pandas as pd
 
     df = pd.read_csv(csv_path)
     duplicate_emails_dict = {}
