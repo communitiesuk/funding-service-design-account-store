@@ -85,16 +85,11 @@ DATABASE_URL
 NB : pytest will create a database with a unique name to use just for unit tests. Changes to this db from tests does not persist.
 
 ## Transactional tests
-These rely on the module `pytest-flask-sqlalchemy` which has good docs on its github page: https://github.com/jeancochrane/pytest-flask-sqlalchemy
 
-The main parts of this framework are invoked in `conftest.py` with the following fixture definitions:
-- `enable_transactional_tests` - This makes all tests use transactions, so we don't need to turn it on for each test individually
-- `_db` - this makes the framework use our `db` variable from `db.db`, overriding anywhere it is used during the tests.
+Test data is created on a per-test basis to prevent test pollution. To create test data for a test, request the `seed_test_data` fixture in your test. That fixture then provides access to the inserted records and will clean up after itself at the end of the test session.
 
-To make the tests work with a test postgres db in the github pipelines, we pass the following 2 inputs to the shared workflow:
+More details on the fixtures in utils: https://github.com/communitiesuk/funding-service-design-utils/blob/dcc64b0b253a1056ce99e8fe7ea8530406355c96/README.md#fixtures
 
-      postgres_unit_testing: true
-      db_name: fsd_account_store_test
 
 # Builds and Deploys
 Details on how our pipelines work and the release process is available [here](https://dluhcdigital.atlassian.net/wiki/spaces/FS/pages/73695505/How+do+we+deploy+our+code+to+prod)

@@ -76,10 +76,7 @@ def get_bulk_accounts(
         result = db.session.scalars(stmnt)
         account_schema = AccountSchema()
 
-        accounts_metadatas = {
-            str(account_row.id): account_schema.dump(account_row)
-            for account_row in result
-        }
+        accounts_metadatas = {str(account_row.id): account_schema.dump(account_row) for account_row in result}
 
         return accounts_metadatas, 200
     except sqlalchemy.exc.NoResultFound:
@@ -144,10 +141,7 @@ def put_account(account_id: str) -> Tuple[dict, int]:
             db.session.flush()
             db.session.rollback()
             return {
-                "error": (
-                    f"Email '{email}' cannot be updated - "
-                    "another account may already be using this email"
-                )
+                "error": f"Email '{email}' cannot be updated - another account may already be using this email"
             }, 401
     if full_name:
         account.full_name = full_name
@@ -196,9 +190,7 @@ def post_account() -> Tuple[dict, int]:
     if not email_address:
         return {"error": "email_address is required"}, 400
     try:
-        new_account = Account(
-            email=email_address, azure_ad_subject_id=azure_ad_subject_id
-        )
+        new_account = Account(email=email_address, azure_ad_subject_id=azure_ad_subject_id)
         db.session.add(new_account)
         db.session.commit()
         new_account_json = {
