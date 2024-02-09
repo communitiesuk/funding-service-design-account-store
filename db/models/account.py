@@ -1,10 +1,11 @@
 import uuid  # noqa
 from typing import Mapping
 
-from db import db
 from flask import current_app
 from fsd_utils.authentication.utils import get_highest_role_map
 from sqlalchemy.dialects.postgresql import UUID
+
+from db import db
 
 
 class Account(db.Model):

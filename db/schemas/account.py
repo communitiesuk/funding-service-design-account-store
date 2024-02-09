@@ -1,6 +1,7 @@
+from marshmallow import fields
+
 from db import ma
 from db.models.account import Account
-from marshmallow import fields
 
 
 class AccountSchema(ma.SQLAlchemySchema):

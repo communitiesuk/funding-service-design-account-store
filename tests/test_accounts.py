@@ -1,7 +1,9 @@
 """
 Tests the GET and POST functionality of our api.
 """
+
 import pytest
+
 from tests.conftest import test_user_1
 from tests.conftest import test_user_2
 from tests.conftest import test_user_to_update

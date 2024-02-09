@@ -11,3 +11,8 @@ line-length = 120
 [tool.flake8]
 max-line-length = 120
 count = true
+extend-ignore = ["E203", "E704"]
+
+[tool.isort]
+profile = "black"
+force_single_line = "true"
