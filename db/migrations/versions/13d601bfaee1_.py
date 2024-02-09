@@ -5,10 +5,10 @@ Revises:
 Create Date: 2022-07-20 12:59:17.168742
 
 """
+
 import sqlalchemy as sa
 import sqlalchemy_utils  # noqa
 from alembic import op
-
 
 # revision identifiers, used by Alembic.
 revision = "13d601bfaee1"

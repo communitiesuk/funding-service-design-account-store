@@ -1,18 +1,20 @@
 """
 Contains the functions directly used by the openapi spec.
 """
+
 from typing import Dict
 from typing import Tuple
 
 import sqlalchemy
-from db import db
-from db.models.account import Account
-from db.models.role import Role
-from db.schemas.account import AccountSchema
 from flask import request
 from sqlalchemy import delete
 from sqlalchemy import or_
 from sqlalchemy import select
+
+from db import db
+from db.models.account import Account
+from db.models.role import Role
+from db.schemas.account import AccountSchema
 
 
 def get_account(

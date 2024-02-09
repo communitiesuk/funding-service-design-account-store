@@ -141,8 +141,9 @@ def find_duplicate_emails(connection_string):
 
 
 def load_duplicate_emails_from_csv(csv_path):
-    import pandas as pd
     import ast
+
+    import pandas as pd
 
     df = pd.read_csv(csv_path)
     duplicate_emails_dict = {}
@@ -153,9 +154,9 @@ def load_duplicate_emails_from_csv(csv_path):
                     "email": row["email"],
                     "id": row["id"],
                     "full_name": None if isinstance(row["full_name"], float) else row["full_name"],
-                    "azure_ad_subject_id": None
-                    if isinstance(row["azure_ad_subject_id"], float)
-                    else row["azure_ad_subject_id"],
+                    "azure_ad_subject_id": (
+                        None if isinstance(row["azure_ad_subject_id"], float) else row["azure_ad_subject_id"]
+                    ),
                     "roles": ast.literal_eval(row["roles"]),
                 }
             )
@@ -165,9 +166,9 @@ def load_duplicate_emails_from_csv(csv_path):
                     "email": row["email"],
                     "id": row["id"],
                     "full_name": None if isinstance(row["full_name"], float) else row["full_name"],
-                    "azure_ad_subject_id": ""
-                    if isinstance(row["azure_ad_subject_id"], float)
-                    else row["azure_ad_subject_id"],
+                    "azure_ad_subject_id": (
+                        "" if isinstance(row["azure_ad_subject_id"], float) else row["azure_ad_subject_id"]
+                    ),
                     "roles": ast.literal_eval(row["roles"]),
                 }
             ]
