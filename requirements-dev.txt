@@ -260,8 +260,6 @@ pathable==0.4.3
     #   jsonschema-path
 pathspec==0.10.2
     # via black
-pbr==5.11.0
-    # via stevedore
 pep517==0.13.0
     # via build
 pip-tools==7.3.0
@@ -274,7 +272,7 @@ pluggy==1.0.0
     # via pytest
 prance==0.22.11.4.0
     # via -r requirements.txt
-pre-commit==3.1.1
+pre-commit==3.6.2
     # via -r requirements-dev.in
 psycopg2==2.9.9
     # via -r requirements.txt
@@ -409,8 +407,6 @@ six==1.16.0
     #   python-dateutil
     #   rfc3339-validator
     #   thrift
-smmap==5.0.0
-    # via gitdb
 soupsieve==2.4.1
     # via
     #   -r requirements.txt
