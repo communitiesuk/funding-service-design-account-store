@@ -409,7 +409,7 @@ soupsieve==2.4.1
     # via
     #   -r requirements.txt
     #   beautifulsoup4
-sqlalchemy==1.4.44
+sqlalchemy==1.4.52
     # via
     #   -r requirements.txt
     #   alembic
