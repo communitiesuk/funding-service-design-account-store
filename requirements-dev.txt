@@ -134,7 +134,7 @@ flask-redis==0.4.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-flask-sqlalchemy==3.0.3
+flask-sqlalchemy==3.1.1
     # via
     #   -r requirements.txt
     #   flask-migrate
@@ -409,7 +409,7 @@ soupsieve==2.4.1
     # via
     #   -r requirements.txt
     #   beautifulsoup4
-sqlalchemy==1.4.44
+sqlalchemy==2.0.24
     # via
     #   -r requirements.txt
     #   alembic
@@ -441,6 +441,7 @@ typing-extensions==4.4.0
     #   alembic
     #   alembic-utils
     #   flupy
+    #   sqlalchemy
 urllib3==1.26.18
     # via
     #   -r requirements.txt
