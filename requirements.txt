@@ -94,7 +94,7 @@ idna==3.4
     # via requests
 inflection==0.5.1
     # via connexion
-invoke==1.7.3
+invoke==2.2.0
     # via -r requirements.in
 itsdangerous==2.1.2
     # via
