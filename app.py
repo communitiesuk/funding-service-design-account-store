@@ -12,7 +12,6 @@ from fsd_utils.logging import logging
 
 from config import Config
 from db import db
-from db import ma
 from db import migrate
 
 
@@ -37,8 +36,6 @@ def create_app() -> Flask:
     db.init_app(flask_app)
     # Bind Flask-Migrate db utilities to Flask app
     migrate.init_app(flask_app, db, directory="db/migrations", render_as_batch=True)
-    # Bind Marshmallow schema to Flask app
-    ma.init_app(flask_app)
 
     # Add healthchecks to flask_app
     health = Healthcheck(flask_app)
