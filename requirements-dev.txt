@@ -27,8 +27,6 @@ babel==2.11.0
     # via
     #   -r requirements.txt
     #   flask-babel
-bandit==1.7.4
-    # via -r requirements-dev.in
 beautifulsoup4==4.12.2
     # via
     #   -r requirements.txt
@@ -151,10 +149,6 @@ flupy==1.2.0
     #   alembic-utils
 funding-service-design-utils==2.0.26
     # via -r requirements.txt
-gitdb==4.0.10
-    # via gitpython
-gitpython==3.1.41
-    # via bandit
 greenlet==3.0.1
     # via
     #   -r requirements.txt
@@ -266,8 +260,6 @@ pathable==0.4.3
     #   jsonschema-path
 pathspec==0.10.2
     # via black
-pbr==5.11.0
-    # via stevedore
 pep517==0.13.0
     # via build
 pip-tools==7.3.0
@@ -280,7 +272,7 @@ pluggy==1.0.0
     # via pytest
 prance==0.22.11.4.0
     # via -r requirements.txt
-pre-commit==3.1.1
+pre-commit==3.6.2
     # via -r requirements-dev.in
 psycopg2==2.9.9
     # via -r requirements.txt
@@ -304,7 +296,6 @@ pyjwt[crypto]==2.6.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-    #   pyjwt
 pyparsing==3.0.9
     # via
     #   -r requirements.txt
@@ -346,7 +337,6 @@ pytz==2022.6
 pyyaml==6.0
     # via
     #   -r requirements.txt
-    #   bandit
     #   clickclick
     #   connexion
     #   funding-service-design-utils
@@ -404,7 +394,6 @@ sentry-sdk[flask]==1.31.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-    #   sentry-sdk
 shortuuid==1.0.11
     # via -r requirements.txt
 six==1.16.0
@@ -416,8 +405,6 @@ six==1.16.0
     #   python-dateutil
     #   rfc3339-validator
     #   thrift
-smmap==5.0.0
-    # via gitdb
 soupsieve==2.4.1
     # via
     #   -r requirements.txt
@@ -434,8 +421,6 @@ sqlalchemy-utils==0.41.1
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-stevedore==4.1.1
-    # via bandit
 swagger-ui-bundle==0.0.9
     # via -r requirements.txt
 thrift==0.16.0

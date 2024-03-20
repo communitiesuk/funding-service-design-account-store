@@ -33,8 +33,11 @@ on:
     # Only automatically deploy when something in the app or tests folder has changed
     paths:
       - '!**/README.md'
+      - 'core/**'
       - 'config/**'
       - 'db/**'
+      - 'openapi/**'
+      - 'scripts/**'
       - 'tests/**'
       - 'requirements-dev.in'
       - 'requirements-dev.txt'
@@ -92,7 +95,7 @@ jobs:
   post_dev_deploy_tests:
     needs: dev_deploy
     concurrency:
-      group: 'fsd-preaward-test-dev'
+      group: 'fsd-preaward-dev'
       cancel-in-progress: false
     secrets:
       FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
@@ -103,6 +106,7 @@ jobs:
       run_e2e_tests_assessment: ${{ inputs.run_e2e_tests_assessment || false }}
       run_e2e_tests_application: ${{ inputs.run_e2e_tests_application || false }}
       environment: dev
+      app_name: account-store
 
   test_deploy:
     needs: [ dev_deploy, post_dev_deploy_tests, paketo_build, setup ]
@@ -118,8 +122,9 @@ jobs:
 
   post_test_deploy_tests:
     needs: test_deploy
+    if: ${{ always() && contains(fromJSON(needs.setup.outputs.jobs_to_run), 'test') && (! contains(needs.*.result, 'failure') ) && (! contains(needs.*.result, 'cancelled') )}}
     concurrency:
-      group: 'fsd-preaward-test-test'
+      group: 'fsd-preaward-test'
       cancel-in-progress: false
     secrets:
       FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
@@ -130,6 +135,7 @@ jobs:
       run_e2e_tests_assessment: ${{ inputs.run_e2e_tests_assessment || true }}
       run_e2e_tests_application: ${{ inputs.run_e2e_tests_application || true }}
       environment: test
+      app_name: account-store
 
   uat_deploy:
     needs: [ dev_deploy, post_dev_deploy_tests, test_deploy, post_test_deploy_tests, paketo_build, setup ]
@@ -145,8 +151,9 @@ jobs:
 
   post_uat_deploy_tests:
     needs: uat_deploy
+    if: ${{ always() && contains(fromJSON(needs.setup.outputs.jobs_to_run), 'uat') && (! contains(needs.*.result, 'failure') ) && (! contains(needs.*.result, 'cancelled') )}}
     concurrency:
-      group: 'fsd-preaward-test-uat'
+      group: 'fsd-preaward-uat'
       cancel-in-progress: false
     secrets:
       FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
@@ -157,6 +164,7 @@ jobs:
       run_e2e_tests_assessment: ${{ inputs.run_e2e_tests_assessment || true }}
       run_e2e_tests_application: ${{ inputs.run_e2e_tests_application || true }}
       environment: uat
+      app_name: account-store
 
   prod_deploy:
     needs: [ dev_deploy, post_dev_deploy_tests, test_deploy, post_test_deploy_tests, uat_deploy, post_uat_deploy_tests, paketo_build, setup ]
