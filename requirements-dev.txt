@@ -149,10 +149,6 @@ flupy==1.2.0
     #   alembic-utils
 funding-service-design-utils==2.0.26
     # via -r requirements.txt
-greenlet==3.0.1
-    # via
-    #   -r requirements.txt
-    #   sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
@@ -169,8 +165,8 @@ inflection==0.5.1
     #   connexion
 iniconfig==1.1.1
     # via pytest
-invoke==1.7.3
-    # via -r requirements.txt
+invoke==2.2.0
+    # via -r requirements-dev.in
 itsdangerous==2.1.2
     # via
     #   -r requirements.txt
@@ -296,6 +292,7 @@ pyjwt[crypto]==2.6.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
+    #   pyjwt
 pyparsing==3.0.9
     # via
     #   -r requirements.txt
@@ -394,6 +391,7 @@ sentry-sdk[flask]==1.31.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
+    #   sentry-sdk
 shortuuid==1.0.11
     # via -r requirements.txt
 six==1.16.0

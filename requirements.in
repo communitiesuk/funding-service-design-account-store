@@ -34,8 +34,3 @@ connexion
 swagger-ui-bundle
 openapi-spec-validator
 prance
-
-
-# Extras
-invoke
-beautifulsoup4==4.12.2

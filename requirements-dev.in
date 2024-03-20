@@ -11,3 +11,4 @@ pip-tools>=6.13.0
 asserts
 colored
 Flake8-pyproject
+invoke
