@@ -82,7 +82,7 @@ clickclick==20.10.2
     # via
     #   -r requirements.txt
     #   connexion
-colored==1.4.4
+colored==2.2.4
     # via -r requirements-dev.in
 commonmark==0.9.1
     # via
@@ -149,6 +149,8 @@ flupy==1.2.0
     #   alembic-utils
 funding-service-design-utils==2.0.26
     # via -r requirements.txt
+greenlet==3.0.3
+    # via sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
@@ -292,7 +294,6 @@ pyjwt[crypto]==2.6.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-    #   pyjwt
 pyparsing==3.0.9
     # via
     #   -r requirements.txt
@@ -391,7 +392,6 @@ sentry-sdk[flask]==1.31.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-    #   sentry-sdk
 shortuuid==1.0.11
     # via -r requirements.txt
 six==1.16.0
