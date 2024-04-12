@@ -310,7 +310,7 @@ pytest-env==0.8.1
     # via -r requirements-dev.in
 pytest-flask==1.2.0
     # via -r requirements-dev.in
-pytest-mock==3.10.0
+pytest-mock==3.14.0
     # via -r requirements-dev.in
 python-consul==1.1.0
     # via
