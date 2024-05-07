@@ -46,7 +46,7 @@ botocore==1.29.153
     #   -r requirements.txt
     #   boto3
     #   s3transfer
-build==0.9.0
+build==1.2.1
     # via pip-tools
 cachetools==5.3.1
     # via
@@ -260,9 +260,7 @@ pathable==0.4.3
     #   jsonschema-path
 pathspec==0.10.2
     # via black
-pep517==0.13.0
-    # via build
-pip-tools==7.3.0
+pip-tools==7.4.1
     # via -r requirements-dev.in
 platformdirs==2.5.4
     # via
@@ -300,6 +298,10 @@ pyparsing==3.0.9
     # via
     #   -r requirements.txt
     #   packaging
+pyproject-hooks==1.1.0
+    # via
+    #   build
+    #   pip-tools
 pytest==7.2.0
     # via
     #   -r requirements-dev.in
@@ -432,7 +434,6 @@ tomli==2.0.1
     #   black
     #   build
     #   flake8-pyproject
-    #   pep517
     #   pip-tools
     #   pytest
 typing-extensions==4.4.0
