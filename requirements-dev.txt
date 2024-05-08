@@ -21,7 +21,6 @@ attrs==23.1.0
     # via
     #   -r requirements.txt
     #   jsonschema
-    #   pytest
     #   referencing
 babel==2.11.0
     # via
@@ -266,7 +265,7 @@ platformdirs==2.5.4
     # via
     #   black
     #   virtualenv
-pluggy==1.0.0
+pluggy==1.5.0
     # via pytest
 prance==0.22.11.4.0
     # via -r requirements.txt
@@ -302,7 +301,7 @@ pyproject-hooks==1.1.0
     # via
     #   build
     #   pip-tools
-pytest==7.2.0
+pytest==8.2.0
     # via
     #   -r requirements-dev.in
     #   pytest-env
