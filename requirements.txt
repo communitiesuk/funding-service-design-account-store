@@ -65,7 +65,7 @@ flask==2.2.5
     #   sentry-sdk
 flask-babel==2.0.0
     # via funding-service-design-utils
-flask-marshmallow==0.14.0
+flask-marshmallow==1.2.1
     # via -r requirements.in
 flask-migrate==4.0.5
     # via
@@ -223,7 +223,6 @@ shortuuid==1.0.11
     # via -r requirements.in
 six==1.16.0
     # via
-    #   flask-marshmallow
     #   prance
     #   python-consul
     #   python-dateutil

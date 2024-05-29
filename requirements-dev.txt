@@ -123,7 +123,7 @@ flask-babel==2.0.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-flask-marshmallow==0.14.0
+flask-marshmallow==1.2.1
     # via -r requirements.txt
 flask-migrate==4.0.5
     # via
@@ -400,7 +400,6 @@ shortuuid==1.0.11
 six==1.16.0
     # via
     #   -r requirements.txt
-    #   flask-marshmallow
     #   prance
     #   python-consul
     #   python-dateutil
