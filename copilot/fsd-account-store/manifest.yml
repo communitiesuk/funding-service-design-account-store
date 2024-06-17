@@ -38,6 +38,8 @@ exec: true
 
 network:
   connect: true # Enable Service Connect for intra-environment traffic between services.
+  vpc:
+    placement: private
 
 # Optional fields for more advanced use-cases.
 #
