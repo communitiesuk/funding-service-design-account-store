@@ -82,7 +82,7 @@ flipper-client==1.3.2
     # via funding-service-design-utils
 flupy==1.2.0
     # via alembic-utils
-funding-service-design-utils==2.0.26
+funding-service-design-utils==2.0.52
     # via -r requirements.in
 greenlet==3.0.3
     # via sqlalchemy

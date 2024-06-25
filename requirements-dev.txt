@@ -146,7 +146,7 @@ flupy==1.2.0
     # via
     #   -r requirements.txt
     #   alembic-utils
-funding-service-design-utils==2.0.26
+funding-service-design-utils==2.0.52
     # via -r requirements.txt
 greenlet==3.0.3
     # via
