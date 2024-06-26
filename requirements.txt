@@ -133,7 +133,7 @@ marshmallow==3.19.0
     #   marshmallow-sqlalchemy
 marshmallow-enum==1.5.1
     # via -r requirements.in
-marshmallow-sqlalchemy==0.28.1
+marshmallow-sqlalchemy==1.0.0
     # via -r requirements.in
 openapi-schema-validator==0.6.2
     # via openapi-spec-validator
@@ -143,7 +143,6 @@ packaging==21.3
     # via
     #   connexion
     #   marshmallow
-    #   marshmallow-sqlalchemy
     #   prance
 parse==1.19.0
     # via alembic-utils

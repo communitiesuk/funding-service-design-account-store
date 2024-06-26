@@ -224,7 +224,7 @@ marshmallow==3.19.0
     #   marshmallow-sqlalchemy
 marshmallow-enum==1.5.1
     # via -r requirements.txt
-marshmallow-sqlalchemy==0.28.1
+marshmallow-sqlalchemy==1.0.0
     # via -r requirements.txt
 mccabe==0.7.0
     # via flake8
@@ -246,7 +246,6 @@ packaging==21.3
     #   build
     #   connexion
     #   marshmallow
-    #   marshmallow-sqlalchemy
     #   prance
     #   pytest
 parse==1.19.0
