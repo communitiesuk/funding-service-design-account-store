@@ -253,7 +253,7 @@ typing-extensions==4.4.0
     #   alembic-utils
     #   flupy
     #   sqlalchemy
-urllib3==1.26.18
+urllib3==1.26.19
     # via
     #   botocore
     #   requests
