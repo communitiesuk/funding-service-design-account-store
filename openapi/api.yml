@@ -105,6 +105,50 @@ paths:
           schema:
             type: string
             format: path
+  /accounts/fund/{fund_short_name}:
+    get:
+      tags:
+        - accounts
+      summary: Return the users assigned roles related to the fund
+      description: "Given a fund, return the users assigned with a role. Filterable by assessors, commenters and round"
+      operationId: core.account.get_accounts_for_fund
+      parameters:
+        - name: fund_short_name
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: include_assessors
+          in: query
+          description: "Results will include assessors"
+          required: false
+          schema:
+            type: string
+            default: "true"
+        - name: include_commenters
+          in: query
+          description: "Results will include commenters"
+          required: false
+          schema:
+            type: string
+            default: "true"
+        - name: round_short_name
+          in: query
+          description: "Results will include only roles for that round"
+          required: false
+          schema:
+            type: string
+            example: "R1"
+      responses:
+        200:
+          description: One or more account exist and are associated with the fund and round
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: '#/components/schemas/account'
+        404:
+          description: "No associated accounts found."
   /bulk-accounts:
     get:
       tags:

@@ -2,6 +2,8 @@
 Tests the GET and POST functionality of our api.
 """
 
+import uuid
+
 import pytest
 
 from tests.conftest import test_user_1
@@ -327,3 +329,103 @@ class TestAccountsPut:
         response = flask_test_client.put(url, json=params)
 
         assert response.status_code == 201
+
+
+class TestGetAccountsForFund:
+    @pytest.mark.user_config(
+        [
+            {
+                "email": "assessor@example.com",
+                "subject_id": "1",
+                "account_id": uuid.uuid4(),
+                "roles": ["COF_ASSESSOR_R1"],
+            },
+            {
+                "email": "commenter@example.com",
+                "subject_id": "2",
+                "account_id": uuid.uuid4(),
+                "roles": ["COF_COMMENTER_R1"],
+            },
+            {
+                "email": "otherround@example.com",
+                "subject_id": "3",
+                "account_id": uuid.uuid4(),
+                "roles": ["COF_COMMENTER_R2"],
+            },
+            {
+                "email": "otherfund@example.com",
+                "subject_id": "4",
+                "account_id": uuid.uuid4(),
+                "roles": ["HSRA_ASSESSOR_R1"],
+            },
+        ]
+    )
+    def test_successful_retrieval(self, flask_test_client, seed_test_data_fn):
+        response = flask_test_client.get("/accounts/fund/COF")
+        assert response.status_code == 200
+        assert len(response.json) == 3
+
+    @pytest.mark.user_config(
+        [
+            {
+                "email": "assessor@example.com",
+                "subject_id": "1",
+                "account_id": uuid.uuid4(),
+                "roles": ["COF_ASSESSOR_R1"],
+            },
+            {
+                "email": "commenter@example.com",
+                "subject_id": "2",
+                "account_id": uuid.uuid4(),
+                "roles": ["COF_COMMENTER_R1"],
+            },
+        ]
+    )
+    def test_assessors_only(self, flask_test_client, seed_test_data_fn):
+        response = flask_test_client.get("/accounts/fund/COF?include_assessors=true&include_commenters=false")
+        assert response.status_code == 200
+        assert len(response.json) == 1  # Only the assessor should be returned
+        assert all("ASSESSOR" in role for role in response.json[0]["roles"])
+
+    @pytest.mark.user_config(
+        [
+            {
+                "email": "assessor@example.com",
+                "subject_id": "1",
+                "account_id": uuid.uuid4(),
+                "roles": ["COF_ASSESSOR_R1"],
+            },
+            {
+                "email": "commenter@example.com",
+                "subject_id": "2",
+                "account_id": uuid.uuid4(),
+                "roles": ["COF_COMMENTER_R1"],
+            },
+        ]
+    )
+    def test_commenters_only(self, flask_test_client, seed_test_data_fn):
+        response = flask_test_client.get("/accounts/fund/COF?include_assessors=false&include_commenters=true")
+        assert response.status_code == 200
+        assert len(response.json) == 1  # Only the commenter should be returned
+        assert all("COMMENTER" in role for role in response.json[0]["roles"])
+
+    @pytest.mark.user_config([])  # No users configured
+    def test_no_matching_accounts(self, flask_test_client, seed_test_data_fn):
+        response = flask_test_client.get("/accounts/fund/unknownfund")
+        assert response.status_code == 404
+        assert response.json == {"error": "No matching accounts found"}
+
+    @pytest.mark.user_config(
+        [
+            {
+                "email": "both@example.com",
+                "subject_id": "3",
+                "account_id": uuid.uuid4(),
+                "roles": ["COF_ASSESSOR_R1", "COF_COMMENTER_R1"],
+            }
+        ]
+    )
+    def test_bad_request(self, flask_test_client, seed_test_data_fn):
+        response = flask_test_client.get("/accounts/fund/COF?include_assessors=false&include_commenters=false")
+        assert response.status_code == 400
+        assert response.json == {"error": "One of include_assessors or include_commenters must be true"}

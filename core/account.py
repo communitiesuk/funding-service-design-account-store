@@ -10,6 +10,7 @@ from flask import request
 from sqlalchemy import delete
 from sqlalchemy import or_
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 
 from db import db
 from db.models.account import Account
@@ -207,3 +208,33 @@ def post_account() -> Tuple[dict, int]:
             "An account with that email or azure_ad_subject_id already exists",
             409,
         )
+
+
+def get_accounts_for_fund(fund_short_name):
+    include_assessors = True if request.args.get("include_assessors", "true").lower() == "true" else False
+    include_commenters = True if request.args.get("include_commenters", "true").lower() == "true" else False
+    round_short_name = request.args.get("round_short_name")
+    if not include_assessors and not include_commenters:
+        return {"error": "One of include_assessors or include_commenters must be true"}, 400
+    query = (
+        db.session.query(Account)
+        .join(Role)  # Explicitly join the tables
+        .filter(Role.role.like(f"%{fund_short_name}%"))  # Filter based on the Role attribute
+        .options(selectinload(Account.roles))
+    )
+    if round_short_name:
+        query = query.filter(Role.role.like(f"%{round_short_name}%"))
+
+    if include_commenters and not include_assessors:
+        query = query.filter(Role.role.like("%COMMENTER%"))
+    elif include_assessors and not include_commenters:
+        query = query.filter(Role.role.like("%ASSESSOR%"))
+    else:
+        query = query.filter(or_(Role.role.like("%ASSESSOR%"), Role.role.like("%COMMENTER%")))
+
+    results = query.all()
+    if not results:
+        return {"error": "No matching accounts found"}, 404
+
+    account_schema = AccountSchema()
+    return account_schema.dump(results, many=True), 200
