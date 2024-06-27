@@ -80,3 +80,18 @@ def seed_test_data(request, app, clear_test_data, _db):
     for user in users_to_create:
         create_user_with_roles(user, _db)
     yield users_to_create
+
+
+@pytest.fixture(scope="function")
+def seed_test_data_fn(request, app, clear_test_data, _db):
+    marker = request.node.get_closest_marker("user_config")
+    if not marker:
+        users_to_create = [test_user_1, test_user_2, test_user_to_update]
+    else:
+        users_to_create = marker.args[0]
+    for user in users_to_create:
+        create_user_with_roles(user, _db)
+    yield users_to_create
+    Role.query.delete()
+    Account.query.delete()
+    _db.session.commit()
