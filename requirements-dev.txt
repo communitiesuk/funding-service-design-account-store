@@ -51,7 +51,7 @@ cachetools==5.3.1
     # via
     #   -r requirements.txt
     #   flipper-client
-certifi==2023.7.22
+certifi==2024.7.4
     # via
     #   -r requirements.txt
     #   requests
