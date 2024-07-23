@@ -7,4 +7,4 @@ class TestHealthcheck:
 
         response = flask_test_client.get("/healthcheck")
         assert response.status_code == 200, "Unexpected status code"
-        assert response.json == expected_dict, "Unexpected response body"
+        assert response.json() == expected_dict, "Unexpected response body"

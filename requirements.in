@@ -1,13 +1,13 @@
 #-----------------------------------
 #   FSD Utils
 #-----------------------------------
-funding-service-design-utils>=2.0.18,<2.1.0
+funding-service-design-utils==4.0.0
 requests
 
 #-----------------------------------
 #   Flask Version
 #-----------------------------------
-Flask
+Flask==3.0.3
 
 #-----------------------------------
 #   API
@@ -17,20 +17,20 @@ shortuuid
 #-----------------------------------
 #   Database
 #-----------------------------------
-SQLAlchemy
-Flask-SQLAlchemy>=3.0.3
-Flask-Migrate
-sqlalchemy_utils>=0.38.3
-psycopg2
-alembic-utils
-marshmallow-sqlalchemy
-flask-marshmallow
-marshmallow_enum
+SQLAlchemy[mypy]>=2.0.31
+Flask-SQLAlchemy==3.1.1
+Flask-Migrate==4.0.7
+sqlalchemy-utils==0.41.2
+psycopg2-binary==2.9.9
+alembic-utils==0.8.3
+marshmallow-sqlalchemy==1.0.0
+flask-marshmallow==1.2.1
+marshmallow-enum==1.5.1
 
 #-----------------------------------
 #   Connexion APIs
 #-----------------------------------
-connexion
-swagger-ui-bundle
+connexion[flask,swagger-ui,uvicorn]
+swagger-ui-bundle==1.1.0
 openapi-spec-validator
 prance
