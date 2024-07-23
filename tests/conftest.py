@@ -16,7 +16,7 @@ pytest_plugins = ["fsd_test_utils.fixtures.db_fixtures"]
 @pytest.fixture(scope="session")
 def app():
     app = create_app()
-    yield app
+    yield app.app
 
 
 @pytest.fixture(scope="function")
@@ -27,9 +27,8 @@ def flask_test_client():
     :return: A flask test client.
     """
 
-    with create_app().app_context() as app_context:
-        with app_context.app.test_client() as test_client:
-            yield test_client
+    with create_app().test_client() as test_client:
+        yield test_client
 
 
 test_user_1 = {

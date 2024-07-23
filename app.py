@@ -3,7 +3,7 @@ Constructs the flask app using the typical create_app function.
 """
 
 import connexion
-from flask import Flask
+from connexion import FlaskApp
 from fsd_utils import init_sentry
 from fsd_utils.healthchecks.checkers import DbChecker
 from fsd_utils.healthchecks.checkers import FlaskRunningChecker
@@ -15,13 +15,11 @@ from db import db
 from db import migrate
 
 
-def create_app() -> Flask:
+def create_app() -> FlaskApp:
     init_sentry()
-    connexion_options = {"swagger_url": "/"}
     connexion_app = connexion.FlaskApp(
         __name__,
         specification_dir=Config.FLASK_ROOT + "/openapi/",
-        options=connexion_options,
     )
     connexion_app.add_api(Config.FLASK_ROOT + "/openapi/api.yml")
 
@@ -42,7 +40,9 @@ def create_app() -> Flask:
     health.add_check(FlaskRunningChecker())
     health.add_check(DbChecker(db))
 
-    return flask_app
+    return connexion_app
 
 
 app = create_app()
+
+application = app.app

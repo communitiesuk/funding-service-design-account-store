@@ -31,9 +31,9 @@ class TestAccountsPost:
         response = flask_test_client.post(url, json=params)
 
         assert response.status_code == 201
-        assert "account_id" in response.json
-        assert "azure_ad_subject_id" in response.json
-        assert response.json["email_address"] == email
+        assert "account_id" in response.json()
+        assert "azure_ad_subject_id" in response.json()
+        assert response.json()["email_address"] == email
 
     def test_create_account_with_existing_account_email_fails(self, flask_test_client, clear_test_data):
         """
@@ -82,10 +82,10 @@ class TestAccountsPost:
         response = flask_test_client.post(url, json=params)
 
         assert response.status_code == 201
-        assert "account_id" in response.json
-        assert "azure_ad_subject_id" in response.json
-        assert response.json["email_address"] == email
-        assert response.json["azure_ad_subject_id"] == azure_ad_subject_id
+        assert "account_id" in response.json()
+        assert "azure_ad_subject_id" in response.json()
+        assert response.json()["email_address"] == email
+        assert response.json()["azure_ad_subject_id"] == azure_ad_subject_id
 
     def test_create_account_with_existing_azure_subject_id_fails(self, flask_test_client, clear_test_data):
         """
@@ -169,10 +169,10 @@ class TestAccountsGet:
             url += f"{key}={url_params_map[key]}&"
         response = flask_test_client.get(url)
         assert response.status_code == expected_status_code
-        assert response.json
+        assert response.json()
         if expected_user_result:
-            assert response.json["email_address"] == expected_user_result["email"]
-            assert response.json["account_id"] == str(expected_user_result["account_id"])
+            assert response.json()["email_address"] == expected_user_result["email"]
+            assert response.json()["account_id"] == str(expected_user_result["account_id"])
 
     @pytest.mark.parametrize(
         "account_ids, expected_status_code, expected_user_results",
@@ -204,10 +204,10 @@ class TestAccountsGet:
             url += f"account_id={id}&"
         response = flask_test_client.get(url)
         assert response.status_code == expected_status_code
-        assert response.json is not None
-        assert len(response.json) == len(expected_user_results)
+        assert response.json() is not None
+        assert len(response.json()) == len(expected_user_results)
         for expected_user in expected_user_results:
-            user_in_response = response.json.get(str(expected_user["account_id"]))
+            user_in_response = response.json().get(str(expected_user["account_id"]))
             assert user_in_response
             assert user_in_response["email_address"] == expected_user["email"]
 
@@ -273,7 +273,7 @@ class TestAccountsPut:
         response = flask_test_client.put(url, json=params)
 
         assert response.status_code == 400
-        assert response.json.get("detail") == "'azure_ad_subject_id' is a required property"
+        assert response.json().get("detail") == "'azure_ad_subject_id' is a required property"
 
     def test_update_role_only(self, flask_test_client, clear_test_data, seed_test_data):
         """
@@ -299,8 +299,8 @@ class TestAccountsPut:
         response = flask_test_client.put(url, json=params)
         assert response.status_code == 201
 
-        assert response.json["account_id"] == account_id
-        assert response.json["roles"] == ["COF_COMMENTER"]
+        assert response.json()["account_id"] == account_id
+        assert response.json()["roles"] == ["COF_COMMENTER"]
 
     def test_update_role_with_non_existent_role_allows(self, flask_test_client, clear_test_data, seed_test_data):
         """
@@ -363,7 +363,7 @@ class TestGetAccountsForFund:
     def test_successful_retrieval(self, flask_test_client, seed_test_data_fn):
         response = flask_test_client.get("/accounts/fund/COF")
         assert response.status_code == 200
-        assert len(response.json) == 3
+        assert len(response.json()) == 3
 
     @pytest.mark.user_config(
         [
@@ -384,8 +384,8 @@ class TestGetAccountsForFund:
     def test_assessors_only(self, flask_test_client, seed_test_data_fn):
         response = flask_test_client.get("/accounts/fund/COF?include_assessors=true&include_commenters=false")
         assert response.status_code == 200
-        assert len(response.json) == 1  # Only the assessor should be returned
-        assert all("ASSESSOR" in role for role in response.json[0]["roles"])
+        assert len(response.json()) == 1  # Only the assessor should be returned
+        assert all("ASSESSOR" in role for role in response.json()[0]["roles"])
 
     @pytest.mark.user_config(
         [
@@ -406,14 +406,14 @@ class TestGetAccountsForFund:
     def test_commenters_only(self, flask_test_client, seed_test_data_fn):
         response = flask_test_client.get("/accounts/fund/COF?include_assessors=false&include_commenters=true")
         assert response.status_code == 200
-        assert len(response.json) == 1  # Only the commenter should be returned
-        assert all("COMMENTER" in role for role in response.json[0]["roles"])
+        assert len(response.json()) == 1  # Only the commenter should be returned
+        assert all("COMMENTER" in role for role in response.json()[0]["roles"])
 
     @pytest.mark.user_config([])  # No users configured
     def test_no_matching_accounts(self, flask_test_client, seed_test_data_fn):
         response = flask_test_client.get("/accounts/fund/unknownfund")
         assert response.status_code == 404
-        assert response.json == {"error": "No matching accounts found"}
+        assert response.json() == {"error": "No matching accounts found"}
 
     @pytest.mark.user_config(
         [
@@ -428,4 +428,4 @@ class TestGetAccountsForFund:
     def test_bad_request(self, flask_test_client, seed_test_data_fn):
         response = flask_test_client.get("/accounts/fund/COF?include_assessors=false&include_commenters=false")
         assert response.status_code == 400
-        assert response.json == {"error": "One of include_assessors or include_commenters must be true"}
+        assert response.json() == {"error": "One of include_assessors or include_commenters must be true"}

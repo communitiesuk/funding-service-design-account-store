@@ -4,8 +4,9 @@ WORKDIR /app
 COPY requirements-dev.txt requirements-dev.txt
 RUN pip --no-cache-dir install --ignore-installed distlib -r requirements-dev.txt
 RUN pip install gunicorn
+RUN pip install uvicorn
 COPY . .
 
 EXPOSE 8080
 
-CMD bash -c "flask db upgrade && gunicorn -w 1 -b 0.0.0.0:8080 app:create_app()"
+CMD ["gunicorn", "--worker-class", "uvicorn.workers.UvicornWorker", "wsgi:app", "-b", "0.0.0.0:8080"]
