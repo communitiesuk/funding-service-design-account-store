@@ -2,14 +2,11 @@
 Contains the functions directly used by the openapi spec.
 """
 
-from typing import Dict
-from typing import Tuple
+from typing import Dict, Tuple
 
 import sqlalchemy
 from flask import request
-from sqlalchemy import delete
-from sqlalchemy import or_
-from sqlalchemy import select
+from sqlalchemy import delete, or_, select
 from sqlalchemy.orm import selectinload
 
 from db import db
