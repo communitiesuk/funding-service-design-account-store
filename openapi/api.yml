@@ -224,7 +224,6 @@ components:
       type: object
       required:
         - roles
-        - azure_ad_subject_id
       properties:
         full_name:
           type: string

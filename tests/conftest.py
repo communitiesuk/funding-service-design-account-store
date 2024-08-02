@@ -49,6 +49,12 @@ test_user_to_update = {
     "account_id": uuid4(),
     "roles": ["COMMENTER"],
 }
+test_user_2_to_update = {
+    "email": "seeded_user_y@example.com",
+    "subject_id": None,
+    "account_id": uuid4(),
+    "roles": ["COMMENTER"],
+}
 
 
 def create_user_with_roles(user_config, db):
@@ -73,7 +79,7 @@ def create_user_with_roles(user_config, db):
 def seed_test_data(request, app, clear_test_data, _db):
     marker = request.node.get_closest_marker("user_config")
     if not marker:
-        users_to_create = [test_user_1, test_user_2, test_user_to_update]
+        users_to_create = [test_user_1, test_user_2, test_user_to_update, test_user_2_to_update]
     else:
         users_to_create = marker.args[0]
     for user in users_to_create:
@@ -85,7 +91,7 @@ def seed_test_data(request, app, clear_test_data, _db):
 def seed_test_data_fn(request, app, clear_test_data, _db):
     marker = request.node.get_closest_marker("user_config")
     if not marker:
-        users_to_create = [test_user_1, test_user_2, test_user_to_update]
+        users_to_create = [test_user_1, test_user_2, test_user_to_update, test_user_2_to_update]
     else:
         users_to_create = marker.args[0]
     for user in users_to_create:
