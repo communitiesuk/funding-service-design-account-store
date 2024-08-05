@@ -6,12 +6,10 @@ import uuid
 
 import pytest
 
-from tests.conftest import (
-    test_user_1,
-    test_user_2,
-    test_user_2_to_update,
-    test_user_to_update,
-)
+from tests.conftest import test_user_1
+from tests.conftest import test_user_2
+from tests.conftest import test_user_2_to_update
+from tests.conftest import test_user_to_update
 from tests.helpers import expected_data_within_response
 
 
