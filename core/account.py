@@ -106,7 +106,7 @@ def put_account(account_id: str) -> Tuple[dict, int]:
     except KeyError:
         return {"error": "roles are required"}, 401
 
-    azure_ad_subject_id = request.json.get("azure_ad_subject_id", None)
+    azure_ad_subject_id = request.json.get("azure_ad_subject_id")
     full_name = request.json.get("full_name")
     email = request.json.get("email_address", "").lower()
 
@@ -116,7 +116,10 @@ def put_account(account_id: str) -> Tuple[dict, int]:
             db.session.query(Account)
             .filter(
                 Account.id == account_id,
-                Account.azure_ad_subject_id == azure_ad_subject_id,
+                or_(
+                    Account.azure_ad_subject_id == azure_ad_subject_id,
+                    Account.azure_ad_subject_id.is_(None),
+                ),
             )
             .one()
         )

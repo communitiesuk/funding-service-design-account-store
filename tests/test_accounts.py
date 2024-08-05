@@ -276,9 +276,39 @@ class TestAccountsPut:
         response = flask_test_client.put(url, json=params)
 
         assert response.status_code == 201
-
         assert response.json()["account_id"] == account_id
         assert response.json()["roles"] == ["LEAD_ASSESSOR"]
+
+    def test_update_user_without_azure_ad_subject_id_to_have_one(
+        self,
+        flask_test_client,
+        clear_test_data,
+        seed_test_data,
+    ):
+        """
+        GIVEN The flask test client
+        WHEN we PUT to the /accounts/{account_id} endpoint
+        WITH a json payload of
+            {
+                "roles":"LEAD_ASSESSOR",
+                "azure_ad_subject_id": "123-123-123",
+            }
+        THEN it updates user
+        """
+
+        account_id = str(test_user_2_to_update["account_id"])
+        new_roles = ["LEAD_ASSESSOR"]
+        params = {
+            "roles": new_roles,
+            "azure_ad_subject_id": "123-123-123",
+        }
+        url = "/accounts/" + account_id
+
+        response = flask_test_client.put(url, json=params)
+
+        assert response.status_code == 201
+        assert response.json()["account_id"] == account_id
+        assert response.json()["azure_ad_subject_id"] == "123-123-123"
 
     def test_update_role_only(self, flask_test_client, clear_test_data, seed_test_data):
         """
