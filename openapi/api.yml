@@ -146,7 +146,8 @@ paths:
             application/json:
               schema:
                 type: array
-                $ref: '#/components/schemas/account'
+                items:
+                  $ref: '#/components/schemas/account'
         404:
           description: "No associated accounts found."
   /bulk-accounts:
