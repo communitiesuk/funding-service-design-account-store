@@ -188,9 +188,7 @@ pyee==6.0.0
 pygments==2.18.0
     # via rich
 pyjwt[crypto]==2.8.0
-    # via
-    #   funding-service-design-utils
-    #   pyjwt
+    # via funding-service-design-utils
 python-consul==1.1.0
     # via flipper-client
 python-dateutil==2.9.0.post0
@@ -245,9 +243,7 @@ ruamel-yaml-clib==0.2.8
 s3transfer==0.10.2
     # via boto3
 sentry-sdk[flask]==2.10.0
-    # via
-    #   funding-service-design-utils
-    #   sentry-sdk
+    # via funding-service-design-utils
 shortuuid==1.0.13
     # via -r requirements.in
 six==1.16.0
@@ -270,7 +266,6 @@ sqlalchemy[mypy]==2.0.31
     #   alembic-utils
     #   flask-sqlalchemy
     #   marshmallow-sqlalchemy
-    #   sqlalchemy
     #   sqlalchemy-utils
 sqlalchemy-utils==0.41.2
     # via
@@ -304,9 +299,7 @@ urllib3==2.2.2
     #   requests
     #   sentry-sdk
 uvicorn[standard]==0.30.1
-    # via
-    #   connexion
-    #   uvicorn
+    # via connexion
 uvloop==0.19.0
     # via uvicorn
 watchfiles==0.22.0
