@@ -7,6 +7,7 @@ from typing import Tuple
 
 import sqlalchemy
 from flask import request
+from sqlalchemy import any_
 from sqlalchemy import delete
 from sqlalchemy import or_
 from sqlalchemy import select
@@ -238,3 +239,24 @@ def get_accounts_for_fund(fund_short_name):
 
     account_schema = AccountSchema()
     return account_schema.dump(results, many=True), 200
+
+
+def search_accounts(body):
+    email_domain = body.get("email_domain", None)
+    roles = body.get("roles", list())
+    partial_roles = body.get("partial_roles", list())
+
+    query = db.session.query(Account).join(Role).options(selectinload(Account.roles))
+
+    if email_domain:
+        query = query.filter(Account.email.ilike(f"%@{email_domain}"))
+
+    if roles:
+        query = query.filter(Role.role.like(any_(roles)))
+
+    elif partial_roles:
+        wildcard_partial_roles = ["%" + partial_role + "%" for partial_role in partial_roles]
+        query = query.filter(Role.role.like(any_(wildcard_partial_roles)))
+
+    account_schema = AccountSchema()
+    return account_schema.dump(query.order_by(Account.email).all(), many=True), 200

@@ -150,6 +150,26 @@ paths:
                   $ref: '#/components/schemas/account'
         404:
           description: "No associated accounts found."
+  /accounts/search:
+    post:
+      tags:
+        - accounts
+      summary: Search for accounts based on certain criteria
+      operationId: core.account.search_accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/search'
+      responses:
+        200:
+          description: One or more account exist and are associated with the fund and round
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/account'
   /bulk-accounts:
     get:
       tags:
@@ -211,6 +231,29 @@ components:
               type: object
               description: A map of the highest role for each service
               example: {"COF": "ASSESSOR", "NSTF": "COMMENTER"}
+    search:
+      type: object
+      nullable: true
+      additionalProperties: false
+      properties:
+        email_domain:
+          description: "Search by email domain"
+          example: "communities.gov.uk"
+          type: string
+        roles:
+          description: "Filter results to accounts that have ANY of these roles."
+          example: ['SECTION_151', 'COF_ASSESSOR_R1']
+          type: array
+          items:
+            type: string
+        partial_roles:
+          description: "Filter results to accounts that have roles partially matching ANY of these values."
+          example: ['ASSESSOR']
+          type: array
+          items:
+            type: string
+      not:
+        required: [roles, partial_roles]
 
     accountCreate:
       type: object
