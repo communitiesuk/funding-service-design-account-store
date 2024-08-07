@@ -160,7 +160,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/search'
+              $ref: '#/components/schemas/accountSearch'
       responses:
         200:
           description: One or more account exist and are associated with the fund and round
@@ -231,7 +231,7 @@ components:
               type: object
               description: A map of the highest role for each service
               example: {"COF": "ASSESSOR", "NSTF": "COMMENTER"}
-    search:
+    accountSearch:
       type: object
       nullable: true
       additionalProperties: false
