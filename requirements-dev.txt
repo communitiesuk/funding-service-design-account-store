@@ -165,6 +165,10 @@ flupy==1.2.0
     #   alembic-utils
 funding-service-design-utils==4.0.0
     # via -r requirements.txt
+greenlet==3.0.3
+    # via
+    #   -r requirements.txt
+    #   sqlalchemy
 gunicorn==22.0.0
     # via
     #   -r requirements.txt
@@ -256,7 +260,7 @@ marshmallow==3.21.3
     #   marshmallow-sqlalchemy
 marshmallow-enum==1.5.1
     # via -r requirements.txt
-marshmallow-sqlalchemy==1.0.0
+marshmallow-sqlalchemy==1.1.0
     # via -r requirements.txt
 mccabe==0.7.0
     # via flake8

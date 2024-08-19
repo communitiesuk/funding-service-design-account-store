@@ -99,6 +99,8 @@ flupy==1.2.0
     # via alembic-utils
 funding-service-design-utils==4.0.0
     # via -r requirements.in
+greenlet==3.0.3
+    # via sqlalchemy
 gunicorn==22.0.0
     # via funding-service-design-utils
 h11==0.14.0
@@ -158,7 +160,7 @@ marshmallow==3.21.3
     #   marshmallow-sqlalchemy
 marshmallow-enum==1.5.1
     # via -r requirements.in
-marshmallow-sqlalchemy==1.0.0
+marshmallow-sqlalchemy==1.1.0
     # via -r requirements.in
 mypy==1.10.1
     # via sqlalchemy
@@ -188,7 +190,9 @@ pyee==6.0.0
 pygments==2.18.0
     # via rich
 pyjwt[crypto]==2.8.0
-    # via funding-service-design-utils
+    # via
+    #   funding-service-design-utils
+    #   pyjwt
 python-consul==1.1.0
     # via flipper-client
 python-dateutil==2.9.0.post0
@@ -266,6 +270,7 @@ sqlalchemy[mypy]==2.0.31
     #   alembic-utils
     #   flask-sqlalchemy
     #   marshmallow-sqlalchemy
+    #   sqlalchemy
     #   sqlalchemy-utils
 sqlalchemy-utils==0.41.2
     # via
