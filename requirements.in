@@ -23,7 +23,7 @@ Flask-Migrate==4.0.7
 sqlalchemy-utils==0.41.2
 psycopg2-binary==2.9.9
 alembic-utils==0.8.3
-marshmallow-sqlalchemy==1.0.0
+marshmallow-sqlalchemy==1.1.0
 flask-marshmallow==1.2.1
 marshmallow-enum==1.5.1
 
