@@ -33,6 +33,7 @@ on:
     # Only automatically deploy when something in the app or tests folder has changed
     paths:
       - '!**/README.md'
+      - 'project.toml'
       - 'core/**'
       - 'config/**'
       - 'db/**'
