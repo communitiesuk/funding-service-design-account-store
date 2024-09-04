@@ -19,7 +19,7 @@ def app():
     yield app.app
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def flask_test_client():
     """
     Creates the test client we will be using to test the responses
