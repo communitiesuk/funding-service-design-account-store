@@ -36,11 +36,13 @@ blinker==1.8.2
     #   flask
     #   sentry-sdk
 boto3==1.34.145
-    # via funding-service-design-utils
+    # via flipper-client
 botocore==1.34.145
     # via
     #   boto3
     #   s3transfer
+cachetools==5.5.0
+    # via flipper-client
 certifi==2024.7.4
     # via
     #   httpcore
@@ -91,9 +93,11 @@ flask-sqlalchemy==3.1.1
     #   -r requirements.in
     #   flask-migrate
     #   funding-service-design-utils
+flipper-client==1.3.2
+    # via funding-service-design-utils
 flupy==1.2.0
     # via alembic-utils
-funding-service-design-utils @ git+https://github.com/communitiesuk/funding-service-design-utils.git@fs-4647-a
+funding-service-design-utils==4.0.0
     # via -r requirements.in
 gunicorn==22.0.0
     # via funding-service-design-utils
@@ -179,15 +183,19 @@ psycopg2-binary==2.9.9
     # via -r requirements.in
 pycparser==2.22
     # via cffi
+pyee==6.0.0
+    # via flipper-client
 pygments==2.18.0
     # via rich
 pyjwt[crypto]==2.8.0
     # via
     #   funding-service-design-utils
     #   pyjwt
+python-consul==1.1.0
+    # via flipper-client
 python-dateutil==2.9.0.post0
     # via botocore
-python-dotenv==1.0.1
+python-dotenv==0.20.0
     # via
     #   funding-service-design-utils
     #   uvicorn
@@ -206,7 +214,9 @@ pyyaml==6.0.1
     #   jsonschema-path
     #   uvicorn
 redis==4.6.0
-    # via flask-redis
+    # via
+    #   flask-redis
+    #   flipper-client
 referencing==0.35.1
     # via
     #   jsonschema
@@ -219,6 +229,7 @@ requests==2.32.3
     #   funding-service-design-utils
     #   jsonschema-path
     #   prance
+    #   python-consul
 rfc3339-validator==0.1.4
     # via openapi-schema-validator
 rich==12.6.0
@@ -234,16 +245,16 @@ ruamel-yaml-clib==0.2.8
 s3transfer==0.10.2
     # via boto3
 sentry-sdk[flask]==2.10.0
-    # via
-    #   funding-service-design-utils
-    #   sentry-sdk
+    # via funding-service-design-utils
 shortuuid==1.0.13
     # via -r requirements.in
 six==1.16.0
     # via
     #   prance
+    #   python-consul
     #   python-dateutil
     #   rfc3339-validator
+    #   thrift
 sniffio==1.3.1
     # via
     #   anyio
@@ -269,6 +280,8 @@ swagger-ui-bundle==1.1.0
     # via
     #   -r requirements.in
     #   connexion
+thrift==0.20.0
+    # via flipper-client
 tomli==2.0.1
     # via mypy
 typing-extensions==4.12.2
@@ -289,9 +302,7 @@ urllib3==2.2.2
     #   requests
     #   sentry-sdk
 uvicorn[standard]==0.30.1
-    # via
-    #   connexion
-    #   uvicorn
+    # via connexion
 uvloop==0.19.0
     # via uvicorn
 watchfiles==0.22.0

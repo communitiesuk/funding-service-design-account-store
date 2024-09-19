@@ -1,7 +1,7 @@
 #-----------------------------------
 #   FSD Utils
 #-----------------------------------
-git+https://github.com/communitiesuk/funding-service-design-utils.git@fs-4647-a
+funding-service-design-utils==4.0.0
 requests
 
 #-----------------------------------
