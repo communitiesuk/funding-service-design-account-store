@@ -41,7 +41,7 @@ botocore==1.34.145
     # via
     #   boto3
     #   s3transfer
-cachetools==5.4.0
+cachetools==5.5.0
     # via flipper-client
 certifi==2024.7.4
     # via
@@ -188,7 +188,9 @@ pyee==6.0.0
 pygments==2.18.0
     # via rich
 pyjwt[crypto]==2.8.0
-    # via funding-service-design-utils
+    # via
+    #   funding-service-design-utils
+    #   pyjwt
 python-consul==1.1.0
     # via flipper-client
 python-dateutil==2.9.0.post0
@@ -266,6 +268,7 @@ sqlalchemy[mypy]==2.0.31
     #   alembic-utils
     #   flask-sqlalchemy
     #   marshmallow-sqlalchemy
+    #   sqlalchemy
     #   sqlalchemy-utils
 sqlalchemy-utils==0.41.2
     # via
