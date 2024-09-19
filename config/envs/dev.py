@@ -10,8 +10,6 @@ from config.envs.default import DefaultConfig
 @configclass
 class DevConfig(DefaultConfig):
     #  Application Config
-    SECRET_KEY = "dev"  # pragma: allowlist secret
-    SESSION_COOKIE_NAME = "session_cookie"
 
     # Logging
     FSD_LOG_LEVEL = logging.INFO
