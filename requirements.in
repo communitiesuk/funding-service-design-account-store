@@ -1,7 +1,7 @@
 #-----------------------------------
 #   FSD Utils
 #-----------------------------------
-funding-service-design-utils>=5.0.8,<6.0.0
+funding-service-design-utils==5.1.*
 requests
 
 #-----------------------------------
@@ -26,6 +26,7 @@ alembic-utils==0.8.3
 marshmallow-sqlalchemy==1.0.0
 flask-marshmallow==1.2.1
 marshmallow-enum==1.5.1
+greenlet  # listed because Macs tend to drop it; SQLAlchemy wants it on Linux
 
 #-----------------------------------
 #   Connexion APIs

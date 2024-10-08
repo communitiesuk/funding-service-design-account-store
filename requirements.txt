@@ -93,8 +93,12 @@ flask-sqlalchemy==3.1.1
     #   funding-service-design-utils
 flupy==1.2.0
     # via alembic-utils
-funding-service-design-utils==5.0.8
+funding-service-design-utils==5.1.1
     # via -r requirements.in
+greenlet==3.1.1
+    # via
+    #   -r requirements.in
+    #   sqlalchemy
 gunicorn==22.0.0
     # via funding-service-design-utils
 h11==0.14.0
@@ -182,9 +186,7 @@ pycparser==2.22
 pygments==2.18.0
     # via rich
 pyjwt[crypto]==2.8.0
-    # via
-    #   funding-service-design-utils
-    #   pyjwt
+    # via funding-service-design-utils
 python-dateutil==2.9.0.post0
     # via botocore
 python-dotenv==1.0.1
@@ -255,7 +257,6 @@ sqlalchemy[mypy]==2.0.31
     #   alembic-utils
     #   flask-sqlalchemy
     #   marshmallow-sqlalchemy
-    #   sqlalchemy
     #   sqlalchemy-utils
 sqlalchemy-utils==0.41.2
     # via

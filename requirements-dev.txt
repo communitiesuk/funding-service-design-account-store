@@ -155,8 +155,12 @@ flupy==1.2.0
     # via
     #   -r requirements.txt
     #   alembic-utils
-funding-service-design-utils==5.0.8
+funding-service-design-utils==5.1.1
     # via -r requirements.txt
+greenlet==3.1.1
+    # via
+    #   -r requirements.txt
+    #   sqlalchemy
 gunicorn==22.0.0
     # via
     #   -r requirements.txt
