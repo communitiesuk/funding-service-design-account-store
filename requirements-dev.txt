@@ -158,9 +158,7 @@ flupy==1.2.0
 funding-service-design-utils==5.1.1
     # via -r requirements.txt
 greenlet==3.1.1
-    # via
-    #   -r requirements.txt
-    #   sqlalchemy
+    # via -r requirements.txt
 gunicorn==22.0.0
     # via
     #   -r requirements.txt
@@ -304,7 +302,7 @@ pluggy==1.5.0
     # via pytest
 prance==23.6.21.0
     # via -r requirements.txt
-pre-commit==3.7.1
+pre-commit==4.0.1
     # via -r requirements-dev.in
 psycopg2-binary==2.9.9
     # via -r requirements.txt
