@@ -109,6 +109,12 @@ deepdiff==7.0.1
     # via -r requirements-dev.in
 distlib==0.3.8
     # via virtualenv
+dnspython==2.7.0
+    # via
+    #   -r requirements.txt
+    #   email-validator
+email-validator==2.2.0
+    # via -r requirements.txt
 exceptiongroup==1.2.2
     # via
     #   -r requirements.txt
@@ -186,6 +192,7 @@ idna==3.7
     # via
     #   -r requirements.txt
     #   anyio
+    #   email-validator
     #   httpx
     #   requests
 inflection==0.5.1

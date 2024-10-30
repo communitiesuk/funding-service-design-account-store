@@ -63,6 +63,10 @@ connexion[flask,swagger-ui,uvicorn]==3.1.0
     # via -r requirements.in
 cryptography==42.0.8
     # via pyjwt
+dnspython==2.7.0
+    # via email-validator
+email-validator==2.2.0
+    # via -r requirements.in
 exceptiongroup==1.2.2
     # via anyio
 flask[async]==3.0.3
@@ -96,9 +100,7 @@ flupy==1.2.0
 funding-service-design-utils==5.1.1
     # via -r requirements.in
 greenlet==3.1.1
-    # via
-    #   -r requirements.in
-    #   sqlalchemy
+    # via -r requirements.in
 gunicorn==22.0.0
     # via funding-service-design-utils
 h11==0.14.0
@@ -114,6 +116,7 @@ httpx==0.27.0
 idna==3.7
     # via
     #   anyio
+    #   email-validator
     #   httpx
     #   requests
 inflection==0.5.1
@@ -186,7 +189,9 @@ pycparser==2.22
 pygments==2.18.0
     # via rich
 pyjwt[crypto]==2.8.0
-    # via funding-service-design-utils
+    # via
+    #   funding-service-design-utils
+    #   pyjwt
 python-dateutil==2.9.0.post0
     # via botocore
 python-dotenv==1.0.1
@@ -257,6 +262,7 @@ sqlalchemy[mypy]==2.0.31
     #   alembic-utils
     #   flask-sqlalchemy
     #   marshmallow-sqlalchemy
+    #   sqlalchemy
     #   sqlalchemy-utils
 sqlalchemy-utils==0.41.2
     # via

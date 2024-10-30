@@ -6,6 +6,7 @@ from typing import Dict
 from typing import Tuple
 
 import sqlalchemy
+from email_validator import validate_email
 from flask import request
 from sqlalchemy import any_
 from sqlalchemy import delete
@@ -145,7 +146,8 @@ def put_account(account_id: str) -> Tuple[dict, int]:
             db.session.flush()
             db.session.rollback()
             return {
-                "error": f"Email '{email}' cannot be updated - another account may already be using this email"
+                "error": "Email cannot be updated - another account may already be using this email",
+                "domain": parse_domain(email),
             }, 401
     if full_name:
         account.full_name = full_name
@@ -171,6 +173,14 @@ def put_account(account_id: str) -> Tuple[dict, int]:
     account_schema = AccountSchema()
 
     return account_schema.dump(account), 201
+
+
+def parse_domain(email: str):
+    try:
+        parsed = validate_email(email)
+        return parsed.domain
+    except Exception:
+        return None
 
 
 def post_account() -> Tuple[dict, int]:
