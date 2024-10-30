@@ -330,6 +330,24 @@ class TestAccountsPut:
 
         assert response.status_code == 201
 
+    def test_update_email_with_existing_email(self, flask_test_client, clear_test_data):
+        existing_email_address = "already_exists@example.com"
+        flask_test_client.post("/accounts", json={"email_address": existing_email_address})
+        created_response = flask_test_client.post("/accounts", json={"email_address": "new_account@example.com"})
+
+        account_id = created_response.json()["account_id"]
+
+        update_response = flask_test_client.put(
+            f"/accounts/{account_id}",
+            json={
+                "email_address": existing_email_address,
+                "roles": ["COF_COMMENTER"],
+                "azure_ad_subject_id": "subject_id_x",
+            },
+        )
+        assert update_response.status_code == 401
+        assert update_response.json()["domain"] == "example.com"
+
 
 class TestGetAccountsForFund:
     @pytest.mark.user_config(

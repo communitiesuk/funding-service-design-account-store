@@ -177,7 +177,7 @@ def put_account(account_id: str) -> Tuple[dict, int]:
 
 def parse_domain(email: str):
     try:
-        parsed = validate_email(email)
+        parsed = validate_email(email, check_deliverability=False)
         return parsed.domain
     except Exception:
         return None
