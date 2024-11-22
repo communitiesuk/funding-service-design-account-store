@@ -53,10 +53,7 @@ jobs:
       environment: ${{ inputs.environment }}
 
   pre_deploy_tests:
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/pre-deploy.yml@main
-    with:
-      # Note - no db-name, so defaults to postgres_db
-      postgres_unit_testing: true
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/pre-deploy.yml@fix/renovate-pyscss
 
   paketo_build:
     needs: [ setup ]
