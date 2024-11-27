@@ -47,7 +47,7 @@ dev = [
     "asserts==0.13.1",
     "black==24.4.2",
     "colored==2.2.4",
-    "debugpy==1.8.2",
+    "debugpy==1.8.9",
     "deepdiff==7.0.1",
     "flake8-pyproject==1.2.3",
     "invoke==2.2.0",
