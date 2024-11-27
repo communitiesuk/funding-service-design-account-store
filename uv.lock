@@ -41,7 +41,7 @@ wheels = [
 
 [[package]]
 name = "alembic-utils"
-version = "0.8.3"
+version = "0.8.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "alembic" },
@@ -50,7 +50,7 @@ dependencies = [
     { name = "sqlalchemy" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/44/36/cbfb7a38083bd98a8c78d6987dd68738132a086c9eefc303a056157929a4/alembic_utils-0.8.3.tar.gz", hash = "sha256:9bd8db3e618d81dad63711d7164e4abb15c035458f0d88ad6bfd58f44e4e717d", size = 21935 }
+sdist = { url = "https://files.pythonhosted.org/packages/06/7a/9fa4e2334bf6cf1a3632cafc2bba5ea86fd30d86209b78b5b1d7104a8996/alembic_utils-0.8.5.tar.gz", hash = "sha256:afc192a6e4e9ecc262452e5525a12be0b830de01bc63622d2014f92005fc66cf", size = 22033 }
 
 [[package]]
 name = "anyio"
@@ -615,7 +615,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "alembic-utils", specifier = "==0.8.3" },
+    { name = "alembic-utils", specifier = "==0.8.5" },
     { name = "connexion", extras = ["flask", "swagger-ui", "uvicorn"], specifier = "==3.1.0" },
     { name = "email-validator", specifier = "==2.2.0" },
     { name = "flask", specifier = "==3.0.3" },
