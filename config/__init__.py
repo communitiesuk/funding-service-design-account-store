@@ -1,4 +1,3 @@
-# flake8: noqa
 from os import environ
 
 FLASK_ENV = environ.get("FLASK_ENV")
