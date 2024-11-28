@@ -32,9 +32,13 @@ def expected_data_within_response(
 
     """
     if method == "put":
-        response = test_client.put(endpoint, data=data, json=json, follow_redirects=True)
+        response = test_client.put(
+            endpoint, data=data, json=json, follow_redirects=True
+        )
     elif method == "post":
-        response = test_client.post(endpoint, data=data, json=json, follow_redirects=True)
+        response = test_client.post(
+            endpoint, data=data, json=json, follow_redirects=True
+        )
     else:
         response = test_client.get(endpoint, follow_redirects=True)
 

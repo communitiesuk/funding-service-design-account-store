@@ -81,7 +81,10 @@ def get_bulk_accounts(
         result = db.session.scalars(stmnt)
         account_schema = AccountSchema()
 
-        accounts_metadatas = {str(account_row.id): account_schema.dump(account_row) for account_row in result}
+        accounts_metadatas = {
+            str(account_row.id): account_schema.dump(account_row)
+            for account_row in result
+        }
 
         return accounts_metadatas, 200
     except sqlalchemy.exc.NoResultFound:
@@ -204,7 +207,9 @@ def post_account() -> Tuple[dict, int]:
     if not email_address:
         return {"error": "email_address is required"}, 400
     try:
-        new_account = Account(email=email_address, azure_ad_subject_id=azure_ad_subject_id)
+        new_account = Account(
+            email=email_address, azure_ad_subject_id=azure_ad_subject_id
+        )
         db.session.add(new_account)
         db.session.commit()
         new_account_json = {
@@ -222,15 +227,27 @@ def post_account() -> Tuple[dict, int]:
 
 
 def get_accounts_for_fund(fund_short_name):
-    include_assessors = True if request.args.get("include_assessors", "true").lower() == "true" else False
-    include_commenters = True if request.args.get("include_commenters", "true").lower() == "true" else False
+    include_assessors = (
+        True
+        if request.args.get("include_assessors", "true").lower() == "true"
+        else False
+    )
+    include_commenters = (
+        True
+        if request.args.get("include_commenters", "true").lower() == "true"
+        else False
+    )
     round_short_name = request.args.get("round_short_name")
     if not include_assessors and not include_commenters:
-        return {"error": "One of include_assessors or include_commenters must be true"}, 400
+        return {
+            "error": "One of include_assessors or include_commenters must be true"
+        }, 400
     query = (
         db.session.query(Account)
         .join(Role)  # Explicitly join the tables
-        .filter(Role.role.like(f"%{fund_short_name}%"))  # Filter based on the Role attribute
+        .filter(
+            Role.role.like(f"%{fund_short_name}%")
+        )  # Filter based on the Role attribute
         .options(selectinload(Account.roles))
     )
     if round_short_name:
@@ -241,7 +258,9 @@ def get_accounts_for_fund(fund_short_name):
     elif include_assessors and not include_commenters:
         query = query.filter(Role.role.like("%ASSESSOR%"))
     else:
-        query = query.filter(or_(Role.role.like("%ASSESSOR%"), Role.role.like("%COMMENTER%")))
+        query = query.filter(
+            or_(Role.role.like("%ASSESSOR%"), Role.role.like("%COMMENTER%"))
+        )
 
     results = query.all()
     if not results:
@@ -265,7 +284,9 @@ def search_accounts(body):
         query = query.filter(Role.role.like(any_(roles)))
 
     elif partial_roles:
-        wildcard_partial_roles = ["%" + partial_role + "%" for partial_role in partial_roles]
+        wildcard_partial_roles = [
+            "%" + partial_role + "%" for partial_role in partial_roles
+        ]
         query = query.filter(Role.role.like(any_(wildcard_partial_roles)))
 
     account_schema = AccountSchema()

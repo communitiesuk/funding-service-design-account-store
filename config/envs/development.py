@@ -9,6 +9,5 @@ from config.envs.default import DefaultConfig as Config
 
 @configclass
 class DevelopmentConfig(Config):
-
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG

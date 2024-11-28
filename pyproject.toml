@@ -28,32 +28,19 @@ dependencies = [
     "swagger-ui-bundle==1.1.0",
 ]
 
-[tool.black]
-line-length = 120
-
-[tool.flake8]
-max-line-length = 120
-count = true
-extend-ignore = ["E203", "E704"]
-
-[tool.isort]
-profile = "black"
-force_single_line = "true"
-
 [tool.uv]
 
 [dependency-groups]
 dev = [
     "asserts==0.13.1",
-    "black==24.4.2",
     "colored==2.2.4",
     "debugpy==1.8.9",
     "deepdiff==7.0.1",
-    "flake8-pyproject==1.2.3",
     "invoke==2.2.0",
     "pre-commit==4.0.1",
     "pytest-env==1.1.5",
     "pytest-flask==1.3.0",
     "pytest-mock==3.14.0",
     "pytest==8.3.3",
+    "ruff==0.7.4",
 ]
