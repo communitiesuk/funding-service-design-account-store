@@ -24,7 +24,7 @@ dependencies = [
     "requests==2.32.3",
     "shortuuid==1.0.13",
     "sqlalchemy-utils==0.41.2",
-    "sqlalchemy[mypy]==2.0.31",
+    "sqlalchemy[mypy]==2.0.36",
     "swagger-ui-bundle==1.1.0",
 ]
 
