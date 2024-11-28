@@ -25,6 +25,7 @@ To Run
 # Remove & update the duplicated email accounts in account, application & assessment store
 >> python -m scripts.remove_duplicate_accounts --update_account_store True --update_other_stores True
 """
+
 import argparse
 import os
 from uuid import uuid4
@@ -127,7 +128,9 @@ def find_duplicate_emails(connection_string):
                 for item in data:
                     cursor.execute(query.format(account_id=item["id"]))
                     results = cursor.fetchall()
-                    item["roles"] = [{"id": role[0], "role": role[1]} for role in results]
+                    item["roles"] = [
+                        {"id": role[0], "role": role[1]} for role in results
+                    ]
 
         # Close the cursor and connection
         cursor.close()
@@ -153,9 +156,13 @@ def load_duplicate_emails_from_csv(csv_path):
                 {
                     "email": row["email"],
                     "id": row["id"],
-                    "full_name": None if isinstance(row["full_name"], float) else row["full_name"],
+                    "full_name": None
+                    if isinstance(row["full_name"], float)
+                    else row["full_name"],
                     "azure_ad_subject_id": (
-                        None if isinstance(row["azure_ad_subject_id"], float) else row["azure_ad_subject_id"]
+                        None
+                        if isinstance(row["azure_ad_subject_id"], float)
+                        else row["azure_ad_subject_id"]
                     ),
                     "roles": ast.literal_eval(row["roles"]),
                 }
@@ -165,9 +172,13 @@ def load_duplicate_emails_from_csv(csv_path):
                 {
                     "email": row["email"],
                     "id": row["id"],
-                    "full_name": None if isinstance(row["full_name"], float) else row["full_name"],
+                    "full_name": None
+                    if isinstance(row["full_name"], float)
+                    else row["full_name"],
                     "azure_ad_subject_id": (
-                        "" if isinstance(row["azure_ad_subject_id"], float) else row["azure_ad_subject_id"]
+                        ""
+                        if isinstance(row["azure_ad_subject_id"], float)
+                        else row["azure_ad_subject_id"]
                     ),
                     "roles": ast.literal_eval(row["roles"]),
                 }
@@ -196,7 +207,11 @@ def cascade_columns_data(duplicate_emails):
         roles = []
         for item in data:
             full_name = item["full_name"] if item["full_name"] else full_name
-            azure_ad_subject_id = item["azure_ad_subject_id"] if item["azure_ad_subject_id"] else azure_ad_subject_id
+            azure_ad_subject_id = (
+                item["azure_ad_subject_id"]
+                if item["azure_ad_subject_id"]
+                else azure_ad_subject_id
+            )
             for role in item["roles"]:
                 if role["role"] not in roles:
                     roles.append(role["role"])
@@ -210,7 +225,9 @@ def cascade_columns_data(duplicate_emails):
     return new_accounts_dict
 
 
-def remove_and_update_duplicate_accounts(duplicate_emails, new_accounts_dict, account_store_db_string):
+def remove_and_update_duplicate_accounts(
+    duplicate_emails, new_accounts_dict, account_store_db_string
+):
     """
     Remove the accounts & roles associated with duplicated email accounts and insert the unique email accounts.
     Returns the data in the below format
@@ -233,7 +250,10 @@ def remove_and_update_duplicate_accounts(duplicate_emails, new_accounts_dict, ac
             print("Removing the roles associated with duplicated email accounts...")
             delete_query = "DELETE FROM role WHERE id IN ({id_list})"
             data_to_delete_roles = [
-                f"'{role['id']}'" for value in duplicate_emails.values() for data in value for role in data["roles"]
+                f"'{role['id']}'"
+                for value in duplicate_emails.values()
+                for data in value
+                for role in data["roles"]
             ]
             cursor.execute(delete_query.format(id_list=",".join(data_to_delete_roles)))
             print(f"Successfully removed the roles ids {data_to_delete_roles}")
@@ -241,8 +261,14 @@ def remove_and_update_duplicate_accounts(duplicate_emails, new_accounts_dict, ac
             # SQL statement for bulk delete of account
             print("Removing the duplicated email accounts from accounts table....")
             delete_query = "DELETE FROM account WHERE id IN ({id_list})"
-            data_to_delete_accounts = [f"'{data['id']}'" for value in duplicate_emails.values() for data in value]
-            cursor.execute(delete_query.format(id_list=",".join(data_to_delete_accounts)))
+            data_to_delete_accounts = [
+                f"'{data['id']}'"
+                for value in duplicate_emails.values()
+                for data in value
+            ]
+            cursor.execute(
+                delete_query.format(id_list=",".join(data_to_delete_accounts))
+            )
             print(f"Successfully removed the account ids {data_to_delete_accounts}")
 
             # SQL statement for bulk INSERT of unique accounts
@@ -258,13 +284,17 @@ def remove_and_update_duplicate_accounts(duplicate_emails, new_accounts_dict, ac
                 for email, data in new_accounts_dict.items()
             ]
             cursor.executemany(insert_query, data_to_insert_in_account_table)
-            print(f"Successfully inserted the account ids {data_to_insert_in_account_table}")
+            print(
+                f"Successfully inserted the account ids {data_to_insert_in_account_table}"
+            )
 
             # SQL statement for bulk INSERT of roles for accounts
             print("Inserting the roles associated with the accounts in role table....")
             insert_query = "INSERT INTO role (id, account_id, role) VALUES (%s, %s, %s)"
             data_to_insert_in_role_table = [
-                (str(uuid4()), data["id"], role) for data in new_accounts_dict.values() for role in data["roles"]
+                (str(uuid4()), data["id"], role)
+                for data in new_accounts_dict.values()
+                for role in data["roles"]
             ]
             cursor.executemany(insert_query, data_to_insert_in_role_table)
             print(f"Successfully inserted the roles ids {data_to_insert_in_role_table}")
@@ -410,7 +440,9 @@ if __name__ == "__main__":
         required=False,
         default=False,
     )
-    parser.add_argument("--csv_path", help="Provide round id of a fund", required=False, default="")
+    parser.add_argument(
+        "--csv_path", help="Provide round id of a fund", required=False, default=""
+    )
     parser.add_argument(
         "--update_account_store",
         help="Whether to remove & update duplicated accounts in accounts store.",
@@ -435,8 +467,12 @@ if __name__ == "__main__":
     # remove & update the account store
     if args.update_account_store:
         new_accounts_dict = cascade_columns_data(duplicate_emails)
-        account_id_dict = remove_and_update_duplicate_accounts(duplicate_emails, new_accounts_dict, ACCOUNT_STORE_DB)
+        account_id_dict = remove_and_update_duplicate_accounts(
+            duplicate_emails, new_accounts_dict, ACCOUNT_STORE_DB
+        )
 
         # update account ids in application & assessment store
         if args.update_other_stores:
-            update_user_id_in_other_db(account_id_dict, APPLICATION_STORE_DB, ASSESSMENT_STORE_DB)
+            update_user_id_in_other_db(
+                account_id_dict, APPLICATION_STORE_DB, ASSESSMENT_STORE_DB
+            )

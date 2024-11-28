@@ -19,5 +19,7 @@ class DefaultConfig(object):
     FSD_LOG_LEVEL = logging.WARNING
 
     # Database
-    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL", "").replace("postgres://", "postgresql://")
+    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL", "").replace(
+        "postgres://", "postgresql://"
+    )
     SQLALCHEMY_TRACK_MODIFICATIONS = False

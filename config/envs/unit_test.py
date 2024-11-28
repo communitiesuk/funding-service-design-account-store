@@ -9,7 +9,6 @@ from config.envs.default import DefaultConfig as Config
 
 @configclass
 class UnitTestConfig(Config):
-
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
 

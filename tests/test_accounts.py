@@ -35,7 +35,9 @@ class TestAccountsPost:
         assert "azure_ad_subject_id" in response.json()
         assert response.json()["email_address"] == email
 
-    def test_create_account_with_existing_account_email_fails(self, flask_test_client, clear_test_data):
+    def test_create_account_with_existing_account_email_fails(
+        self, flask_test_client, clear_test_data
+    ):
         """
         GIVEN The flask test client
         WHEN we POST twice to the /accounts endpoint with a json payload of
@@ -58,7 +60,9 @@ class TestAccountsPost:
 
         assert second_response.status_code == 409
 
-    def test_create_account_with_email_and_azure_ad_subject_id(self, flask_test_client, clear_test_data):
+    def test_create_account_with_email_and_azure_ad_subject_id(
+        self, flask_test_client, clear_test_data
+    ):
         """
         GIVEN The flask test client
         WHEN we POST to the /accounts endpoint with a json payload of
@@ -87,7 +91,9 @@ class TestAccountsPost:
         assert response.json()["email_address"] == email
         assert response.json()["azure_ad_subject_id"] == azure_ad_subject_id
 
-    def test_create_account_with_existing_azure_subject_id_fails(self, flask_test_client, clear_test_data):
+    def test_create_account_with_existing_azure_subject_id_fails(
+        self, flask_test_client, clear_test_data
+    ):
         """
         GIVEN The flask test client
         WHEN we POST to the /accounts endpoint with a json payload of
@@ -172,7 +178,9 @@ class TestAccountsGet:
         assert response.json()
         if expected_user_result:
             assert response.json()["email_address"] == expected_user_result["email"]
-            assert response.json()["account_id"] == str(expected_user_result["account_id"])
+            assert response.json()["account_id"] == str(
+                expected_user_result["account_id"]
+            )
 
     @pytest.mark.parametrize(
         "account_ids, expected_status_code, expected_user_results",
@@ -217,7 +225,9 @@ class TestAccountsPut:
     test_email_2 = "person2@example.com"
     accounts_created = {}
 
-    def test_update_full_name_role_and_azure_ad_subject_id(self, flask_test_client, clear_test_data, seed_test_data):
+    def test_update_full_name_role_and_azure_ad_subject_id(
+        self, flask_test_client, clear_test_data, seed_test_data
+    ):
         account_id = str(test_user_to_update["account_id"])
         new_roles = ["COF_ASSESSOR"]
         new_full_name = "Jane Doe"
@@ -273,7 +283,10 @@ class TestAccountsPut:
         response = flask_test_client.put(url, json=params)
 
         assert response.status_code == 400
-        assert response.json().get("detail") == "'azure_ad_subject_id' is a required property"
+        assert (
+            response.json().get("detail")
+            == "'azure_ad_subject_id' is a required property"
+        )
 
     def test_update_role_only(self, flask_test_client, clear_test_data, seed_test_data):
         """
@@ -302,7 +315,9 @@ class TestAccountsPut:
         assert response.json()["account_id"] == account_id
         assert response.json()["roles"] == ["COF_COMMENTER"]
 
-    def test_update_role_with_non_existent_role_allows(self, flask_test_client, clear_test_data, seed_test_data):
+    def test_update_role_with_non_existent_role_allows(
+        self, flask_test_client, clear_test_data, seed_test_data
+    ):
         """
         GIVEN The flask test client
         WHEN we PUT to the /accounts/{account_id} endpoint
@@ -332,8 +347,12 @@ class TestAccountsPut:
 
     def test_update_email_with_existing_email(self, flask_test_client, clear_test_data):
         existing_email_address = "already_exists@example.com"
-        flask_test_client.post("/accounts", json={"email_address": existing_email_address})
-        created_response = flask_test_client.post("/accounts", json={"email_address": "new_account@example.com"})
+        flask_test_client.post(
+            "/accounts", json={"email_address": existing_email_address}
+        )
+        created_response = flask_test_client.post(
+            "/accounts", json={"email_address": "new_account@example.com"}
+        )
 
         account_id = created_response.json()["account_id"]
 
@@ -400,7 +419,9 @@ class TestGetAccountsForFund:
         ]
     )
     def test_assessors_only(self, flask_test_client, seed_test_data_fn):
-        response = flask_test_client.get("/accounts/fund/COF?include_assessors=true&include_commenters=false")
+        response = flask_test_client.get(
+            "/accounts/fund/COF?include_assessors=true&include_commenters=false"
+        )
         assert response.status_code == 200
         assert len(response.json()) == 1  # Only the assessor should be returned
         assert all("ASSESSOR" in role for role in response.json()[0]["roles"])
@@ -422,7 +443,9 @@ class TestGetAccountsForFund:
         ]
     )
     def test_commenters_only(self, flask_test_client, seed_test_data_fn):
-        response = flask_test_client.get("/accounts/fund/COF?include_assessors=false&include_commenters=true")
+        response = flask_test_client.get(
+            "/accounts/fund/COF?include_assessors=false&include_commenters=true"
+        )
         assert response.status_code == 200
         assert len(response.json()) == 1  # Only the commenter should be returned
         assert all("COMMENTER" in role for role in response.json()[0]["roles"])
@@ -444,9 +467,13 @@ class TestGetAccountsForFund:
         ]
     )
     def test_bad_request(self, flask_test_client, seed_test_data_fn):
-        response = flask_test_client.get("/accounts/fund/COF?include_assessors=false&include_commenters=false")
+        response = flask_test_client.get(
+            "/accounts/fund/COF?include_assessors=false&include_commenters=false"
+        )
         assert response.status_code == 400
-        assert response.json() == {"error": "One of include_assessors or include_commenters must be true"}
+        assert response.json() == {
+            "error": "One of include_assessors or include_commenters must be true"
+        }
 
 
 @pytest.mark.user_config(
@@ -478,7 +505,9 @@ class TestGetAccountsForFund:
     ]
 )
 class TestAccountSearch:
-    def test_search_all_accounts_no_json_body(self, flask_test_client, seed_test_data_fn):
+    def test_search_all_accounts_no_json_body(
+        self, flask_test_client, seed_test_data_fn
+    ):
         response = flask_test_client.post("/accounts/search")
 
         assert response.status_code == 200
@@ -486,7 +515,9 @@ class TestAccountSearch:
         accounts = response.json()
         assert len(accounts) == 4
 
-    def test_search_all_accounts_empty_json_body(self, flask_test_client, seed_test_data_fn):
+    def test_search_all_accounts_empty_json_body(
+        self, flask_test_client, seed_test_data_fn
+    ):
         response = flask_test_client.post("/accounts/search", json={})
 
         assert response.status_code == 200
@@ -494,8 +525,12 @@ class TestAccountSearch:
         accounts = response.json()
         assert len(accounts) == 4
 
-    def test_search_all_accounts_by_email_domain(self, flask_test_client, seed_test_data_fn):
-        response = flask_test_client.post("/accounts/search", json={"email_domain": "example.com"})
+    def test_search_all_accounts_by_email_domain(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post(
+            "/accounts/search", json={"email_domain": "example.com"}
+        )
 
         assert response.status_code == 200
 
@@ -504,7 +539,9 @@ class TestAccountSearch:
         assert accounts[0]["email_address"] == "assessor-1@example.com"
 
     def test_search_all_accounts_by_roles(self, flask_test_client, seed_test_data_fn):
-        response = flask_test_client.post("/accounts/search", json={"roles": ["SECTION_151"]})
+        response = flask_test_client.post(
+            "/accounts/search", json={"roles": ["SECTION_151"]}
+        )
 
         assert response.status_code == 200
 
@@ -512,8 +549,12 @@ class TestAccountSearch:
         assert len(accounts) == 1
         assert accounts[0]["email_address"] == "section-151@communities.gov.uk"
 
-    def test_search_all_accounts_by_multiple_roles(self, flask_test_client, seed_test_data_fn):
-        response = flask_test_client.post("/accounts/search", json={"roles": ["COF_ASSESSOR_R1", "COF_COMMENTER_R2"]})
+    def test_search_all_accounts_by_multiple_roles(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post(
+            "/accounts/search", json={"roles": ["COF_ASSESSOR_R1", "COF_COMMENTER_R2"]}
+        )
 
         assert response.status_code == 200
 
@@ -522,16 +563,24 @@ class TestAccountSearch:
         assert accounts[0]["email_address"] == "assessor-1@example.com"
         assert accounts[1]["email_address"] == "assessor-2@communities.gov.uk"
 
-    def test_search_all_accounts_by_roles_case_sensitive(self, flask_test_client, seed_test_data_fn):
-        response = flask_test_client.post("/accounts/search", json={"roles": ["section_151"]})
+    def test_search_all_accounts_by_roles_case_sensitive(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post(
+            "/accounts/search", json={"roles": ["section_151"]}
+        )
 
         assert response.status_code == 200
 
         accounts = response.json()
         assert len(accounts) == 0
 
-    def test_search_all_accounts_by_partial_roles(self, flask_test_client, seed_test_data_fn):
-        response = flask_test_client.post("/accounts/search", json={"partial_roles": ["COMMENTER"]})
+    def test_search_all_accounts_by_partial_roles(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post(
+            "/accounts/search", json={"partial_roles": ["COMMENTER"]}
+        )
 
         assert response.status_code == 200
 
@@ -540,16 +589,24 @@ class TestAccountSearch:
         assert accounts[0]["email_address"] == "assessor-2@communities.gov.uk"
         assert accounts[1]["email_address"] == "assessor-3@communities.gov.uk"
 
-    def test_search_all_accounts_by_partial_roles_case_sensitive(self, flask_test_client, seed_test_data_fn):
-        response = flask_test_client.post("/accounts/search", json={"roles": ["commenter"]})
+    def test_search_all_accounts_by_partial_roles_case_sensitive(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post(
+            "/accounts/search", json={"roles": ["commenter"]}
+        )
 
         assert response.status_code == 200
 
         accounts = response.json()
         assert len(accounts) == 0
 
-    def test_search_all_accounts_by_multiple_partial_roles(self, flask_test_client, seed_test_data_fn):
-        response = flask_test_client.post("/accounts/search", json={"partial_roles": ["R1", "COMMENTER"]})
+    def test_search_all_accounts_by_multiple_partial_roles(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post(
+            "/accounts/search", json={"partial_roles": ["R1", "COMMENTER"]}
+        )
 
         assert response.status_code == 200
 
@@ -559,12 +616,18 @@ class TestAccountSearch:
         assert accounts[1]["email_address"] == "assessor-2@communities.gov.uk"
         assert accounts[2]["email_address"] == "assessor-3@communities.gov.uk"
 
-    def test_search_all_accounts_additional_properties_blocked(self, flask_test_client, seed_test_data_fn):
+    def test_search_all_accounts_additional_properties_blocked(
+        self, flask_test_client, seed_test_data_fn
+    ):
         response = flask_test_client.post("/accounts/search", json={"blah": False})
 
         assert response.status_code == 400
 
-    def test_search_cannot_filter_on_roles_and_partial_roles_together(self, flask_test_client, seed_test_data_fn):
-        response = flask_test_client.post("/accounts/search", json={"roles": ["SECTION_151"], "partial_roles": ["R1"]})
+    def test_search_cannot_filter_on_roles_and_partial_roles_together(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post(
+            "/accounts/search", json={"roles": ["SECTION_151"], "partial_roles": ["R1"]}
+        )
 
         assert response.status_code == 400
