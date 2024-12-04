@@ -56,7 +56,7 @@ environments:
       spot: 1
   test:
     count:
-      spot: 2
+      spot: 1
   uat:
     count:
       range: 2-4
