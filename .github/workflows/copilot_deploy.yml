@@ -61,7 +61,6 @@ jobs:
     with:
       environment: dev
       app_name: account-store
-      db_name: fsd-account-store
       image_location: ${{ needs.paketo_build.outputs.image_location }}
 
   post_dev_deploy_tests:
@@ -92,7 +91,6 @@ jobs:
     with:
       environment: test
       app_name: account-store
-      db_name: fsd-account-store
       image_location: ${{ needs.paketo_build.outputs.image_location }}
 
   post_test_deploy_tests:
@@ -124,7 +122,6 @@ jobs:
     with:
       environment: uat
       app_name: account-store
-      db_name: fsd-account-store
       image_location: ${{ needs.paketo_build.outputs.image_location }}
 
   post_uat_deploy_tests:
@@ -156,5 +153,4 @@ jobs:
     with:
       environment: prod
       app_name: account-store
-      db_name: fsd-account-store
       image_location: ${{ needs.paketo_build.outputs.image_location }}
