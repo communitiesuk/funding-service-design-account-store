@@ -45,6 +45,8 @@ network:
 variables:
   SENTRY_DSN: "https://db2ea0ad22a44f4db6e81fe74d85fa8f@o1432034.ingest.sentry.io/4503903103352832"
   FLASK_ENV: ${COPILOT_ENVIRONMENT_NAME}
+  SENTRY_TRACES_SAMPLE_RATE: 1.0
+
 
 secrets:
   SECRET_KEY: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/SECRET_KEY
@@ -82,3 +84,5 @@ environments:
       requests: 30
     variables:
       FLASK_ENV: production
+      SENTRY_TRACES_SAMPLE_RATE: 0.02
+
