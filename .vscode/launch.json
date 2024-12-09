@@ -57,6 +57,16 @@
           ]
         },
         {
+          "name": "Invoke seed local account store",
+          "type": "python",
+          "request": "launch",
+          "module": "invoke",
+          "envFile": "${workspaceFolder}/.env.development",
+          "args": [
+            "seed_local_account_store",
+          ]
+        },
+        {
           "name": "Downgrade DB",
           "type": "python",
           "request": "launch",
