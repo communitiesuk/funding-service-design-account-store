@@ -35,7 +35,7 @@ dev = [
     "asserts==0.13.1",
     "colored==2.2.4",
     "debugpy==1.8.10",
-    "deepdiff==7.0.1",
+    "deepdiff==8.0.1",
     "invoke==2.2.0",
     "pre-commit==4.0.1",
     "pytest-env==1.1.5",
