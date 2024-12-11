@@ -85,4 +85,3 @@ environments:
     variables:
       FLASK_ENV: production
       SENTRY_TRACES_SAMPLE_RATE: 0.02
-
