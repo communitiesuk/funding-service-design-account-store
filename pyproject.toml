@@ -34,7 +34,7 @@ dependencies = [
 dev = [
     "asserts==0.13.1",
     "colored==2.2.4",
-    "debugpy==1.8.9",
+    "debugpy==1.8.10",
     "deepdiff==7.0.1",
     "invoke==2.2.0",
     "pre-commit==4.0.1",
